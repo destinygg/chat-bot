@@ -14,7 +14,7 @@ npm run start
 
 The bot is currently in a state of flux, APIs will break until a more solid foundation is arrived at. 
 Feel free to poke around, but contributions are going to be tough until the base systems are in place.
-The most help right now would actually be documenting and reverse engineering and old bot behavior that 
+The most help right now would actually be documenting and reverse engineering the old bot behavior that 
 isn't currently documented in the existing repos.
 
 
