@@ -1,0 +1,9 @@
+# Logs
+logs
+*.log
+config.json
+*.db
+# Dependency directories
+node_modules/
+
+.idea/

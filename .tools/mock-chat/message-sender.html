@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+</head>
+<body>
+
+<div id="app">
+    <button @click="disconnect" v-if="status === 'connected'">Disconnect</button>
+    <button @click="connect" v-if="status === 'disconnected'">Connect</button> {{ status }}
+    <br /><br />
+    <div v-if="status === 'connected'">
+        <form @submit.prevent="sendMessage" action="#">
+            <input v-model="message"><button type="submit">Send Message</button>
+        </form>
+        <ul id="logs">
+            <li v-for="log in logs" class="log">
+                {{ log.event }}: {{ log.data }}
+            </li>
+        </ul>
+    </div>
+</div>
+
+<script>
+  const app = new Vue({
+    el: "#app",
+    data: {
+      message: "",
+      logs: [],
+      status: "disconnected"
+    },
+    methods: {
+      connect() {
+        this.socket = new WebSocket("ws://localhost:8420");
+        this.socket.onopen = () => {
+          this.status = "connected";
+          this.logs.push({ event: "Connected to", data: 'ws://localhost:8420'});
+
+          this.socket.onmessage = ({data}) => {
+            this.logs.push({ event: "Recieved message", data });
+          };
+        };
+      },
+      disconnect() {
+        this.socket.close();
+        this.status = "disconnected";
+        this.logs = [];
+      },
+      sendMessage(e) {
+        this.socket.send(`MSG ${JSON.stringify({nick:'test-id-', message: this.message})}`);
+        this.logs.push({ event: "Sent message", data: this.message });
+        this.message = "";
+      }
+    }
+  });
+</script>
+</body>
+</html>

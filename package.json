@@ -1,0 +1,30 @@
+{
+  "name": "destinygg-chat-bot",
+  "version": "0.0.1",
+  "description": "Chat bot for destiny.gg chat",
+  "main": "index.js",
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha tests/**/*.test.js --exit --reporter spec",
+    "start": "node index.js | ./node_modules/bunyan/bin/bunyan"
+  },
+  "author": "linusred",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "bunyan": "^1.8.12",
+    "fast-levenshtein": "^2.0.6",
+    "lodash": "^4.17.11",
+    "moment": "^2.22.2",
+    "moment-timezone": "^0.5.21",
+    "protobufjs": "^6.8.8",
+    "sqlite3": "^4.0.2",
+    "ws": "^6.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^5.6.1",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "mocha": "^5.2.0",
+    "sinon": "^6.3.5"
+  }
+}
