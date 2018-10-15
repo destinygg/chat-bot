@@ -22,7 +22,7 @@ services.prepareAsyncServices()
   .then(() => {
     const commandHandler = new CommandHandler(services);
     const messageHandler = new MessageHandler({}, services);
-    const destinyBot = new DestinyChat('ws://localhost:8420', '', null);
+    const destinyBot = new DestinyChat(config.dggChat, services);
     destinyBot.connect();
     destinyBot.on('error', (error) => {
       logger.info('Chat Socket recieved error: ', error.message);
@@ -40,7 +40,9 @@ services.prepareAsyncServices()
     });
 
     destinyBot.on('message', (newMesasge) => {
-      messageHandler.handleIncomingMessage(newMesasge);
+      messageHandler.handleIncomingMessage(newMesasge).then((punishment) => {
+        logger.debug(punishment);
+      });
     });
 
     destinyBot.on('command', (commandObject) => {
