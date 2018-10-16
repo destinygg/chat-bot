@@ -1,8 +1,10 @@
 const DestinyChat = require('./lib/services/destinychat');
-const CommandHandler = require('./lib/commands/command-handler');
+const TwitchChat = require('./lib/services/twitch-chat');
+const CommandRouter = require('./lib/message-routing/command-router');
 const Services = require('./lib/services/service-index');
 const loadConfig = require('./lib/configuration/config-loader');
-const MessageHandler = require('./lib/messages/message-handler');
+const MessageRouter = require('./lib/message-routing/message-router');
+const ChatServiceRouter = require('./lib/message-routing/chat-service-router');
 const { registerCommandsFromFiles, registerCommandsFromDatabase } = require('./lib/configuration/configure-commands');
 
 
@@ -20,42 +22,24 @@ services.prepareAsyncServices()
     });
   })
   .then(() => {
-    const commandHandler = new CommandHandler(services);
-    const messageHandler = new MessageHandler({}, services);
-    const destinyBot = new DestinyChat(config.dggChat, services);
-    destinyBot.connect();
-    destinyBot.on('error', (error) => {
-      logger.info('Chat Socket recieved error: ', error.message);
-    });
+    const { chatToConnectTo } = config;
+    logger.info(`Configuring for ${chatToConnectTo} chat`);
+    const commandRouter = new CommandRouter(services);
+    const messageRouter = new MessageRouter({}, services);
+    let bot = null;
 
-    destinyBot.on('closed', (event) => {
-      logger.info('Chat socket closed. Attempting to reconnect in 5....');
-      setTimeout(() => {
-        destinyBot.connect();
-      }, 5000);
-    });
+    if (chatToConnectTo === 'twitch') {
+      bot = new TwitchChat(config.twitch, services);
+    } else if (chatToConnectTo === 'dgg') {
+      bot = new DestinyChat(config.dggChat, services);
+    } else {
+      logger.error('Config property: "chatToConnectTo" not set to one of "dgg" or "twitch"');
+      process.exit(1);
+    }
 
-    destinyBot.on('open', (event) => {
-      logger.info('Chat socket opened.');
-    });
-
-    destinyBot.on('message', (newMesasge) => {
-      messageHandler.handleIncomingMessage(newMesasge).then((punishment) => {
-        logger.debug(punishment);
-      });
-    });
-
-    destinyBot.on('command', (commandObject) => {
-      commandHandler.handleIncomingCommandMessage(commandObject)
-        .then((output) => {
-          if (output) {
-            return destinyBot.sendMessage(output);
-          }
-          return false;
-        }).catch((err) => {
-          logger.error('Got an error while parsing command: ', err);
-        });
-    });
+    const chatServiceRouter = new ChatServiceRouter(config.chatToConnectTo, bot,
+      messageRouter, commandRouter, logger);
+    chatServiceRouter.create();
   })
   .catch((err) => {
     logger.error('Problem starting up services, shutting down...');

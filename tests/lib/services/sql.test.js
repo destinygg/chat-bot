@@ -1,23 +1,6 @@
 const assert = require('assert');
 const Sql = require('../../../lib/services/sql');
-/*
-db.init();
-db.addCommand('!cool', 'bloop bloop').then(() => {
-  logger.info('added the stuff');
-}).catch((err) => {
-  logger.error(err);
-});
 
-db.addCommand('!neat', 'bloop bloop').then(() => {
-  logger.info('added the stuff');
-}).catch((err) => {
-  logger.error(err);
-});
-
-db.listCommands().then((thing) => {
-  logger.info(thing);
-}).catch();
-*/
 describe('SQLite Tests', () => {
   const config = {fileLocation: ':memory:'};
   beforeEach(function (done) {
