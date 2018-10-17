@@ -18,8 +18,17 @@ describe('Punishment tests ', () => {
     assert.deepStrictEqual(duration, 10);
   });
 
+
+  it('grows the mute punishment by the muteGrowthMultiplier', function() {
+    const punishmentCache = new PunishmentCache({baseMuteSeconds: 10, muteGrowthMultiplier: 2});
+
+    punishmentCache.getAndAddMuteDuration('skyrt');
+    const duration = punishmentCache.getAndAddMuteDuration('skyrt');
+    assert.deepStrictEqual(duration, 20);
+  });
+
   it('deletes data after the tombstone duration is passed', function() {
-    const punishmentCache = new PunishmentCache({baseMuteSeconds: 10, muteGrowthMultipler: 2,
+    const punishmentCache = new PunishmentCache({baseMuteSeconds: 10, muteGrowthMultiplier: 2,
       timeToLiveSeconds: 5, tomeStoneIntervalMilliseconds: 10000 });
 
     let duration= punishmentCache.getAndAddMuteDuration('skyrt');

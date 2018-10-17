@@ -38,7 +38,7 @@ services.prepareAsyncServices()
     }
 
     const chatServiceRouter = new ChatServiceRouter(config.chatToConnectTo, bot,
-      messageRouter, commandRouter, logger);
+      messageRouter, commandRouter, logger, services.punishmentStream);
     chatServiceRouter.create();
   })
   .catch((err) => {

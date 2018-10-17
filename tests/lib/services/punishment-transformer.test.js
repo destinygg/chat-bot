@@ -1,7 +1,7 @@
 const assert = require('assert');
 const sinon = require('sinon');
 
-const PunishmentTransformer = require('../../../lib/services/punishment-transformer');
+const PunishmentTransformer = require('../../../lib/services/punishment-read-write-stream');
 
 describe('Punishment tests ', () => {
 
