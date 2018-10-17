@@ -7,3 +7,4 @@ config.json
 node_modules/
 
 .idea/
+prod.config.json
