@@ -25,7 +25,7 @@ node index.js
 ```
 This will open up a very basic web socket server on localhost:8420. Set your dgg config url to ws://localhost:8420 and you should connect right up.
 
-If you open the html file in a browser, it servers as a tiny chat page with that server that you can use to test commands.
+If you open the html file within the same directory in a browser, it serves as a tiny chat page with connected to the tiny chat server that you can use to test commands.
 
 More to come once the bot is, you know, actually live and not in a constant state of rapid development.
 
