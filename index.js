@@ -49,5 +49,7 @@ services.prepareAsyncServices()
 
 
 process.on('uncaughtException', (err) => {
+  logger.error('Uncaught exception. Crashing.');
   logger.error(err);
+  process.exit(1);
 });
