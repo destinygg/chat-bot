@@ -46,3 +46,8 @@ services.prepareAsyncServices()
     logger.error(err);
     process.exit(1);
   });
+
+
+process.on('uncaughtException', (err) => {
+  logger.error(err);
+});
