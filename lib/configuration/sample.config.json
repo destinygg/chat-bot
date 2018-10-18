@@ -1,0 +1,34 @@
+{
+  "chatToConnectTo": "dgg",
+  "dggChat":{
+    "url": "ws://localhost:8420",
+    "cookieToken": "yourCookieToken",
+    "botNick": "yourBotNick"
+  },
+  "logger": {
+    "logToFile": false
+  },
+  "overRustle": {
+    "url": "https://overrustlelogs.net"
+  },
+  "sql": {
+    "fileLocation": ""
+  },
+  "chatCache": {
+    "messagesToKeepPerUser": 10,
+    "maxMessagesInList": 5000,
+    "timeToLiveSeconds": 600,
+    "tomeStoneIntervalMilliseconds": 60000
+  },
+  "punishmentCache": {
+    "baseMuteSeconds": 60,
+    "muteGrowthMultiplier": 2,
+    "timeToLiveSeconds": 600,
+    "tomeStoneIntervalMilliseconds": 60000
+  },
+  "twitch": {
+    "clientId": "yourClientId",
+    "clientSecret": "yourClientSecret",
+    "accessToken": "yourAccesstoken"
+  }
+}
