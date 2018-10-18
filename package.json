@@ -4,9 +4,9 @@
   "description": "Chat bot for destiny.gg chat",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha tests/**/*.test.js --exit --reporter spec",
-    "lint": "./node_modules/.bin/eslint index.js ./lib/**/*.js",
-    "start": "node index.js | ./node_modules/bunyan/bin/bunyan"
+    "test": "mocha tests/**/*.test.js --exit --reporter spec",
+    "lint": "eslint index.js ./lib/**/*.js",
+    "start": "node index.js | bunyan"
   },
   "author": "linusred",
   "license": "MIT",
