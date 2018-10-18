@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha tests/**/*.test.js --exit --reporter spec",
-    "lint": "./node_modules/.bin/eslint index.js ./lib/**",
+    "lint": "./node_modules/.bin/eslint index.js ./lib/**/*.js",
     "start": "node index.js | ./node_modules/bunyan/bin/bunyan"
   },
   "author": "linusred",
