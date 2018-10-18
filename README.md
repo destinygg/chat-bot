@@ -11,7 +11,7 @@ See below for local development of the bot.
 
 ```
 npm install
-npm run start
+npm start
 ```
 
 ## Contribution And Development

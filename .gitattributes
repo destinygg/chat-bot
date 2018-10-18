@@ -1,0 +1,8 @@
+# Windows devs will probably have things checked out as CRLF which makes eslint confused, so force LF line endnings at all times
+*.html  text eol=lf
+*.js    text eol=lf
+*.json  text eol=lf
+
+# Don't attempt merging on these files, as they are auto generated (Note this make git treat these as binary even though technically they are not)
+yarn.lock -diff
+package-lock.json -diff
