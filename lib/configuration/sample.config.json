@@ -26,6 +26,13 @@
     "timeToLiveSeconds": 600,
     "tomeStoneIntervalMilliseconds": 60000
   },
+  "spamDetection":{
+    "asciiArtThreshold": 20,
+    "matchPercentPerUserThreshold": 0.90,
+    "messagesToSearch": 75,
+    "nukeDepth": 900,
+    "minimumStringSearchLength": 100
+  },
   "twitch": {
     "clientId": "yourClientId",
     "clientSecret": "yourClientSecret",

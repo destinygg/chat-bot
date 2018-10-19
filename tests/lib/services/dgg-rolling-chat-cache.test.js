@@ -182,36 +182,6 @@ describe('Chat Cache Test suite', () => {
       chatCache.addMessageToCache('linusred', 'dank memes');
       assert.deepStrictEqual(chatCache.runningMessageList, expected);
     });
-
-    it('should find a user with matched string messages and return them once', function () {
-      const chatCache = new RollingChatCache({messsagesToKeepPerUser: 10, maxMessagesInList: 2, timeToLive:0, tombStoneInterval: 0});
-      const expected = ['linusred'];
-      chatCache.addMessageToRunningList('linusred', 'hey nice meme man');
-      chatCache.addMessageToRunningList('linusred', 'lol really nice meme man');
-      chatCache.addMessageToRunningList('billy', 'stupid meme')
-      const result = chatCache.getUsersWithMatchedMessage('nice meme', 2);
-      assert.deepStrictEqual(result, expected);
-    });
-
-    it('should find users with matched string messages regardless of caps or trailing whitespace', function () {
-      const chatCache = new RollingChatCache({messsagesToKeepPerUser: 10, maxMessagesInList: 20, timeToLive:0, tombStoneInterval: 0});
-      const expected = ['coopy', 'linusred'];
-      chatCache.addMessageToRunningList('linusred', 'hey nice meme man');
-      chatCache.addMessageToRunningList('coopy', 'hey NiCe MeME    ');
-      chatCache.addMessageToRunningList('billy', 'stupid meme');
-      const result = chatCache.getUsersWithMatchedMessage('nice meme', 2);
-      assert.deepStrictEqual(result, expected);
-    });
-
-    it('should find users with matched regex', function () {
-      const chatCache = new RollingChatCache({messsagesToKeepPerUser: 10, maxMessagesInList: 20, timeToLive:0, tombStoneInterval: 0});
-      const expected = ['coopy', 'linusred'];
-      chatCache.addMessageToRunningList('linusred', 'hey nice meme man');
-      chatCache.addMessageToRunningList('coopy', 'hey NiCe MeME    ');
-      chatCache.addMessageToRunningList('billy', 'stupid meme')
-      const result = chatCache.getUsersWithMatchedMessage(/.*nice\s+meme.*/i, 2);
-      assert.deepStrictEqual(result, expected);
-    });
   });
 });
 
