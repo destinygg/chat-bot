@@ -49,7 +49,7 @@
         this.logs = [];
       },
       sendMessage(e) {
-        this.socket.send(`MSG ${JSON.stringify({nick:'test-id-', message: this.message})}`);
+        this.socket.send(`MSG ${JSON.stringify({nick:'test-id-', data: this.message})}`);
         this.logs.push({ event: "Sent message", data: this.message });
         this.message = "";
       }
