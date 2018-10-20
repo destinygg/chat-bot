@@ -72,5 +72,31 @@ describe('Chat Cache Running List', () => {
     const result = this.spamDetection.getUsersWithMatchedMessage(/.*nice\s+meme.*/i, chatCache.runningMessageList);
     assert.deepStrictEqual(result, expected);
   });
+
+
+  it('add phrases to the banned list and checks them', function () {
+    this.spamDetection.addBannedPhrase("cool kid NO");
+    const isBanned = this.spamDetection.checkAgainstBannedPhrases("hello im such a cool kid NO lol");
+
+    assert.deepStrictEqual(isBanned, true);
+  });
+
+  it('adds many phrases to the banned list and checks them', function () {
+    this.spamDetection.addBannedPhrase("1");
+    this.spamDetection.addBannedPhrase("2");
+    this.spamDetection.addBannedPhrase("3");
+    const isBanned = this.spamDetection.checkAgainstBannedPhrases("3");
+
+    assert.deepStrictEqual(isBanned, true);
+  });
+
+  it('doesnt ban if phrase doesnt match', function () {
+    this.spamDetection.addBannedPhrase("1");
+    this.spamDetection.addBannedPhrase("2");
+    this.spamDetection.addBannedPhrase("3");
+    const isBanned = this.spamDetection.checkAgainstBannedPhrases("5");
+
+    assert.deepStrictEqual(isBanned, false);
+  });
 });
 
