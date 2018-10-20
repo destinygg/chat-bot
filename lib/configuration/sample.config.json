@@ -37,5 +37,10 @@
     "clientId": "yourClientId",
     "clientSecret": "yourClientSecret",
     "accessToken": "yourAccesstoken"
+  },
+  "lastFm":{
+    "url": "http://ws.audioscrobbler.com/2.0/",
+    "username": "yourUsername",
+    "apiKey": "yourApiKey"
   }
 }
