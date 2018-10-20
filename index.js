@@ -12,7 +12,6 @@ const config = loadConfig();
 const services = new Services(config);
 const { logger } = services;
 
-// TODO Create a routing file that routes messages from the emitter to various components.
 services.prepareAsyncServices()
   .then(() => {
     registerCommandsFromFiles(services.commandRegistry);
