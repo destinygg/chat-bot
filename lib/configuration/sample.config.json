@@ -39,7 +39,7 @@
     "accessToken": "yourAccesstoken"
   },
   "lastFm":{
-    "url": "http://ws.audioscrobbler.com/2.0/",
+    "url": "https://ws.audioscrobbler.com/2.0/",
     "username": "yourUsername",
     "apiKey": "yourApiKey"
   }
