@@ -98,5 +98,20 @@ describe('Chat Cache Running List', () => {
 
     assert.deepStrictEqual(isBanned, false);
   });
+
+  it('bans unique word violations', function () {
+    const result = this.spamDetection.uniqueWordsCheck('KAPPA KAPPA KAPPA KAPPA KAPPA KAPPA KAPPA KAPPA KAPPA KAPPA KAPPA KAPPA KAPPA KAPPA KAPPA KAPPA KAPPA KAPPA KAPPA KAPPA')
+    assert.deepStrictEqual(result, true);
+  });
+
+  it('does not ban small unique word violations', function () {
+    const result = this.spamDetection.uniqueWordsCheck('KAPPA KAPPA KAPPA')
+    assert.deepStrictEqual(result, false);
+  });
+
+  it('bans unique word violations even if its tricky', function () {
+    const result = this.spamDetection.uniqueWordsCheck('KAPPA KAPPA KAPPA heh yeah right guys this will never work KAPPA KAPPA KAPPA yeah right guys KAPPA KAPPA KAPPA  KAPPA KAPPA KAPPA KAPPA KAPPA KAPPA')
+    assert.deepStrictEqual(result, true);
+  });
 });
 

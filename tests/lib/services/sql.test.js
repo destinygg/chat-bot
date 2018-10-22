@@ -96,6 +96,24 @@ describe('SQLite Tests', () => {
       }).catch(done);
   });
 
+  it('does not add the same command twice', function (done) {
+    const expected = [ { sch_id: 1,
+      sch_cmd_id: 1,
+      cmd_id: 1,
+      cmd_key: '!test',
+      cmd_message: 'neat' } ];
+    this.sql.addCommand('!test', 'neat')
+      .then(() => this.sql.addScheduledCommand('!test'))
+      .then(() => this.sql.addScheduledCommand('!test'))
+      .then(() => this.sql.getScheduledCommands())
+      .then((commands) => {
+        done(new Error('added the same command twice :C'));
+      }).catch(err => {
+        assert.deepStrictEqual('Command not found or already scheduled', err.message)
+        done();
+    });
+  });
+
 
   it('adds scheduled commands and gets them all', function (done) {
     const expected = [ { sch_id: 1,

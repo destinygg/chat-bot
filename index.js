@@ -16,9 +16,11 @@ services.prepareAsyncServices()
   .then(() => {
     registerCommandsFromFiles(services.commandRegistry);
     logger.info('Config loaded! Starting bot!');
-    return registerCommandsFromDatabase(services.sql, services.commandRegistry).catch((err) => {
-      logger.warn(`No stored commands loaded. Reason: ${err}`);
-    });
+    return registerCommandsFromDatabase(services.sql, services.commandRegistry,
+      services.scheduledCommands, services.logger)
+      .catch((err) => {
+        logger.warn(`No stored commands loaded. Reason: ${err}`);
+      });
   })
   .then(() => {
     const { chatToConnectTo } = config;
@@ -37,7 +39,7 @@ services.prepareAsyncServices()
     }
 
     const chatServiceRouter = new ChatServiceRouter(config.chatToConnectTo, bot,
-      messageRouter, commandRouter, logger, services.punishmentStream);
+      messageRouter, commandRouter, logger, services.punishmentStream, services.scheduledCommands);
     chatServiceRouter.create();
   })
   .catch((err) => {

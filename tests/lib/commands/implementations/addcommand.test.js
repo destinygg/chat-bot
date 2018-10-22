@@ -25,7 +25,7 @@ describe('AddCommand Test', () => {
     const newCommand = '!test';
     const sql = this.mockServices.sql;
     const registry = this.mockServices.commandRegistry;
-    const expected = new CommandOutput(null, null, `Added new command: ${newCommand}`);
+    const expected = new CommandOutput(null, `Added new command: ${newCommand}`);
     addCommand.work('!test cool test text', this.mockServices).then((output) => {
       assert.deepStrictEqual(output, expected);
       assert.deepStrictEqual(sql.addCommand.getCall(0).args[0], '!test');
