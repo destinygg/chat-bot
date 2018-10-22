@@ -16,12 +16,12 @@ wss.on('connection', function connection(ws) {
   const myId = id;
   sockets[myId] = ws;
   ws.on('message', function incoming(message) {
-    let parsedMessage = parseMessage(message);
+    const parsedMessage = parseMessage(message);
     parsedMessage.nick = parsedMessage.nick + myId;
-    for(let socketId in sockets){
+    for(const socketId in sockets) {
       if(socketId != myId){
         if(sockets[socketId].readyState === 1){
-          sockets[socketId].send(formatMessage(parsedMessage.nick, parsedMessage.message));
+          sockets[socketId].send(formatMessage(parsedMessage.nick, parsedMessage.data));
         }
       }
     }
