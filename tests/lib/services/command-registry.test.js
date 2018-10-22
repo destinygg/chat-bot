@@ -7,7 +7,7 @@ describe('Command Registry Tests', () => {
     const registry = new CommandRegistry();
     const command = new Command(()=>{}, false, null, null);
     registry.registerCommand('!test', command);
-    assert.deepStrictEqual(registry.commands['!test'], command)
+    assert.deepStrictEqual(registry.commands['!test'].work, command)
   });
 
   it('throws an error if a non command is registered', function () {
