@@ -48,5 +48,9 @@
     "url": "https://ws.audioscrobbler.com/2.0/",
     "username": "yourUsername",
     "apiKey": "yourApiKey"
+  },
+  "youtube": {
+    "YOUTUBE_API_KEY": "",
+    "YOUTUBE_CHANNEL": ""
   }
 }
