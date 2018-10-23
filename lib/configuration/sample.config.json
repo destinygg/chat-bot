@@ -24,14 +24,20 @@
     "baseMuteSeconds": 60,
     "muteGrowthMultiplier": 2,
     "timeToLiveSeconds": 600,
-    "tomeStoneIntervalMilliseconds": 60000
+    "tomeStoneIntervalMilliseconds": 60000,
+    "rateLimitMaxMessages": 4,
+    "rateLimitSecondsToRefresh": 3
   },
   "spamDetection":{
     "asciiArtThreshold": 20,
     "matchPercentPerUserThreshold": 0.90,
     "messagesToSearch": 75,
     "nukeDepth": 900,
-    "minimumStringSearchLength": 100
+    "minimumStringSearchLength": 100,
+    "uniqueWordsThreshold": 0.45
+  },
+  "schedule":{
+    "messageIntervalMillis": 900000
   },
   "twitch": {
     "clientId": "yourClientId",

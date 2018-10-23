@@ -143,6 +143,50 @@ describe('Chat Cache Test suite', () => {
     });
   });
 
+  describe('Chat Cache Rate Limit Tests', () => {
+    beforeEach(function () {
+      this.clock = sinon.useFakeTimers();
+    });
+
+    afterEach(function () {
+      this.clock.restore();
+    });
+
+    it('rate limits if theres not enough time between messages', function () {
+      const chatCache = new RollingChatCache({});
+      const expected = {
+        linusred: 0,
+      };
+      chatCache.addMessageToCache('linusred', 'hey nice meme man');
+      chatCache.addMessageToCache('linusred', 'hey nice meme man');
+      chatCache.addMessageToCache('linusred', 'hey nice meme man');
+      chatCache.addMessageToCache('linusred', 'hey nice meme man');
+      chatCache.addMessageToCache('linusred', 'hey nice meme man');
+      chatCache.addMessageToCache('linusred', 'hey nice meme man');
+      assert.deepStrictEqual(chatCache.isPastRateLimit('linusred'), true);
+    });
+
+    it('does not rate limit if messages are spread out', function () {
+      const chatCache = new RollingChatCache({});
+      const expected = {
+        linusred: 0,
+      };
+      chatCache.addMessageToCache('linusred', 'hey nice meme man');
+      this.clock.tick(1000)
+      chatCache.addMessageToCache('linusred', 'hey nice meme man');
+      this.clock.tick(1000)
+      chatCache.addMessageToCache('linusred', 'hey nice meme man');
+      this.clock.tick(1000)
+      chatCache.addMessageToCache('linusred', 'hey nice meme man');
+      this.clock.tick(1000)
+      chatCache.addMessageToCache('linusred', 'hey nice meme man');
+      this.clock.tick(1000)
+      chatCache.addMessageToCache('linusred', 'hey nice meme man');
+      this.clock.tick(1000)
+      assert.deepStrictEqual(chatCache.isPastRateLimit('linusred'), false);
+    });
+  });
+
   describe('Chat Cache Running List', () => {
     it('adds a message to running list', function () {
       const chatCache = new RollingChatCache({});
