@@ -1,0 +1,79 @@
+{
+ "getChannelsUploadedPlaylistId": {
+    "kind": "youtube#channelListResponse",
+    "etag": "\"XI7nbFXulYBIpL0ayR_gDh3eu1k/Q4EBb0pKv0kjPKAhlunmv6Hg6Oc\"",
+    "pageInfo": {
+      "totalResults": 1,
+      "resultsPerPage": 5
+    },
+    "items": [
+      {
+        "kind": "youtube#channel",
+        "etag": "\"XI7nbFXulYBIpL0ayR_gDh3eu1k/rGM6d0AXM0SXx7D5bD4F7l6wSy4\"",
+        "id": "UC554eY5jNUfDq3yDOJYirOQ",
+        "contentDetails": {
+          "relatedPlaylists": {
+            "uploads": "UU554eY5jNUfDq3yDOJYirOQ",
+            "watchHistory": "HL",
+            "watchLater": "WL"
+          }
+        }
+      }
+    ]
+  },
+  "getListOfUploadedVideos": {
+    "kind": "youtube#playlistItemListResponse",
+    "etag": "\"XI7nbFXulYBIpL0ayR_gDh3eu1k/ZbgjQFk18ztZ8a29o83MM2a9Fjs\"",
+    "nextPageToken": "CAEQAA",
+    "pageInfo": {
+      "totalResults": 1392,
+      "resultsPerPage": 1
+    },
+    "items": [
+      {
+        "kind": "youtube#playlistItem",
+        "etag": "\"XI7nbFXulYBIpL0ayR_gDh3eu1k/nkOSQq0bh2gw6pzMe5BSLMB87Cc\"",
+        "id": "VVU1NTRlWTVqTlVmRHEzeURPSllpck9RLnVlbmYzdVlES0JF",
+        "snippet": {
+          "publishedAt": "2018-10-22T11:10:49.000Z",
+          "channelId": "UC554eY5jNUfDq3yDOJYirOQ",
+          "title": "POLITICON - DESTINY REACTS",
+          "description": "Date streamed: October 20th, 2018\n\nClick▼\n\n\nFollow Destiny\n►STREAM - http://www.destiny.gg/bigscreen\n►DISCORD - https://discordapp.com/invite/destiny\n►REDDIT - https://www.reddit.com/r/Destiny\n\nUse Destiny's affiliate link to buy stuff! http://www.amazon.com/?tag=des000-20\n\nEdited by https://twitter.com/editormaddog\nThumbnail by https://twitter.com/novusalan\n\nMusic:\n►OUTRO: https://soundcloud.com/osvelit/cc6-mastered-3-conflict",
+          "thumbnails": {
+            "default": {
+              "url": "https://i.ytimg.com/vi/uenf3uYDKBE/default.jpg",
+              "width": 120,
+              "height": 90
+            },
+            "medium": {
+              "url": "https://i.ytimg.com/vi/uenf3uYDKBE/mqdefault.jpg",
+              "width": 320,
+              "height": 180
+            },
+            "high": {
+              "url": "https://i.ytimg.com/vi/uenf3uYDKBE/hqdefault.jpg",
+              "width": 480,
+              "height": 360
+            },
+            "standard": {
+              "url": "https://i.ytimg.com/vi/uenf3uYDKBE/sddefault.jpg",
+              "width": 640,
+              "height": 480
+            }
+          },
+          "channelTitle": "Destiny",
+          "playlistId": "UU554eY5jNUfDq3yDOJYirOQ",
+          "position": 0,
+          "resourceId": {
+            "kind": "youtube#video",
+            "videoId": "uenf3uYDKBE"
+          }
+        },
+        "contentDetails": {
+          "videoId": "uenf3uYDKBE",
+          "videoPublishedAt": "2018-10-22T11:10:49.000Z"
+        }
+      }
+    ]
+  }
+}
