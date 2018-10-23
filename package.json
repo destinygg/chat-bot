@@ -10,6 +10,9 @@
   },
   "author": "linusred",
   "license": "MIT",
+  "engines": {
+    "node": ">=8.0.0"
+  },
   "dependencies": {
     "axios": "^0.18.0",
     "bunyan": "^1.8.12",
@@ -29,6 +32,7 @@
     "eslint": "^5.6.1",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-node": "^7.0.1",
     "mocha": "^5.2.0",
     "proxyquire": "^2.1.0",
     "sinon": "^6.3.5"
