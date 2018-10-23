@@ -1,3 +1,5 @@
+/* eslint-disable no-process-exit */
+
 const DestinyChat = require('./lib/services/destinychat');
 const TwitchChat = require('./lib/services/twitch-chat');
 const CommandRouter = require('./lib/message-routing/command-router');
