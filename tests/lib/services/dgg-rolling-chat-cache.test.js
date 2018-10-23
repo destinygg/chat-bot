@@ -172,17 +172,17 @@ describe('Chat Cache Test suite', () => {
         linusred: 0,
       };
       chatCache.addMessageToCache('linusred', 'hey nice meme man');
-      this.clock.tick(1000)
+      this.clock.tick(2000);
       chatCache.addMessageToCache('linusred', 'hey nice meme man');
-      this.clock.tick(1000)
+      this.clock.tick(2000);
       chatCache.addMessageToCache('linusred', 'hey nice meme man');
-      this.clock.tick(1000)
+      this.clock.tick(2000);
       chatCache.addMessageToCache('linusred', 'hey nice meme man');
-      this.clock.tick(1000)
+      this.clock.tick(2000);
       chatCache.addMessageToCache('linusred', 'hey nice meme man');
-      this.clock.tick(1000)
+      this.clock.tick(2000);
       chatCache.addMessageToCache('linusred', 'hey nice meme man');
-      this.clock.tick(1000)
+      this.clock.tick(2000);
       assert.deepStrictEqual(chatCache.isPastRateLimit('linusred'), false);
     });
   });

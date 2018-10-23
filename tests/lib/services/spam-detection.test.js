@@ -75,25 +75,25 @@ describe('Chat Cache Running List', () => {
 
 
   it('add phrases to the banned list and checks them', function () {
-    this.spamDetection.addBannedPhrase("cool kid NO");
+    this.spamDetection.addBannedPhrase({text:"cool kid NO", duration:600, type:'mute'});
     const isBanned = this.spamDetection.checkAgainstBannedPhrases("hello im such a cool kid NO lol");
 
-    assert.deepStrictEqual(isBanned, true);
+    assert.deepStrictEqual(isBanned, {text:"cool kid NO", duration:600, type:'mute'});
   });
 
   it('adds many phrases to the banned list and checks them', function () {
-    this.spamDetection.addBannedPhrase("1");
-    this.spamDetection.addBannedPhrase("2");
-    this.spamDetection.addBannedPhrase("3");
-    const isBanned = this.spamDetection.checkAgainstBannedPhrases("3");
+    this.spamDetection.addBannedPhrase({text:"1", duration:600, type:'mute'});
+    this.spamDetection.addBannedPhrase({text:"2", duration:600, type:'mute'});
+    this.spamDetection.addBannedPhrase({text:"3", duration:600, type:'mute'});
+    const isBanned = this.spamDetection.checkAgainstBannedPhrases('3');
 
-    assert.deepStrictEqual(isBanned, true);
+    assert.deepStrictEqual(isBanned, {text:"3", duration:600, type:'mute'});
   });
 
   it('doesnt ban if phrase doesnt match', function () {
-    this.spamDetection.addBannedPhrase("1");
-    this.spamDetection.addBannedPhrase("2");
-    this.spamDetection.addBannedPhrase("3");
+    this.spamDetection.addBannedPhrase({text:"1", duration:600, type:'mute'});
+    this.spamDetection.addBannedPhrase({text:"2", duration:600, type:'mute'});
+    this.spamDetection.addBannedPhrase({text:"3", duration:600, type:'mute'});
     const isBanned = this.spamDetection.checkAgainstBannedPhrases("5");
 
     assert.deepStrictEqual(isBanned, false);

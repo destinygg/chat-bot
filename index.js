@@ -5,7 +5,7 @@ const Services = require('./lib/services/service-index');
 const loadConfig = require('./lib/configuration/config-loader');
 const MessageRouter = require('./lib/message-routing/message-router');
 const ChatServiceRouter = require('./lib/message-routing/chat-service-router');
-const { registerCommandsFromFiles, registerCommandsFromDatabase } = require('./lib/configuration/configure-commands');
+const { registerCommandsFromFiles, setupCommandsAndCachesFromDb } = require('./lib/configuration/configure-commands');
 
 
 const config = loadConfig();
@@ -16,10 +16,10 @@ services.prepareAsyncServices()
   .then(() => {
     registerCommandsFromFiles(services.commandRegistry);
     logger.info('Config loaded! Starting bot!');
-    return registerCommandsFromDatabase(services.sql, services.commandRegistry,
-      services.scheduledCommands, services.logger)
+    return setupCommandsAndCachesFromDb(services.sql, services.commandRegistry,
+      services.scheduledCommands, services.spamDetection, services.logger)
       .catch((err) => {
-        logger.warn(`No stored commands loaded. Reason: ${err}`);
+        logger.warn(`Problem loading commands/banned phrases from sql. Reason: ${err}`);
       });
   })
   .then(() => {

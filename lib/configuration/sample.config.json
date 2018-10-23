@@ -42,7 +42,8 @@
   "twitch": {
     "clientId": "yourClientId",
     "clientSecret": "yourClientSecret",
-    "accessToken": "yourAccesstoken"
+    "accessToken": "yourAccesstoken",
+    "channelId": "yourChannel"
   },
   "lastFm":{
     "url": "https://ws.audioscrobbler.com/2.0/",
