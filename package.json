@@ -24,7 +24,7 @@
     "moment-timezone": "^0.5.21",
     "protobufjs": "^6.8.8",
     "sqlite3": "^4.0.2",
-    "twitch": "^1.0.2",
+    "twitch": "^1.0.3",
     "twitch-js": "^1.2.14",
     "ws": "^6.1.0"
   },
