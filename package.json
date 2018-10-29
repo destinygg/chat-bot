@@ -21,15 +21,15 @@
     "googleapis": "^34.0.0",
     "lodash": "^4.17.11",
     "moment": "^2.22.2",
-    "moment-timezone": "^0.5.21",
+    "moment-timezone": "^0.5.23",
     "protobufjs": "^6.8.8",
     "sqlite3": "^4.0.2",
-    "twitch": "^1.0.2",
+    "twitch": "^1.0.3",
     "twitch-js": "^1.2.14",
     "ws": "^6.1.0"
   },
   "devDependencies": {
-    "eslint": "^5.6.1",
+    "eslint": "^5.8.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-node": "^7.0.1",

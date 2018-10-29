@@ -14,16 +14,24 @@ describe('Punishment tests ', () => {
   it('adds a user to the cache with the default mute duration', function() {
     const punishmentCache = new PunishmentCache({baseMuteSeconds: 10});
 
-    const duration = punishmentCache.getAndAddMuteDuration('skyrt');
+    const duration = punishmentCache.getAndAddPunishmentDuration('skyrt');
     assert.deepStrictEqual(duration, 10);
+  });
+
+
+  it('adds a user to the cache with a set mute duration', function() {
+    const punishmentCache = new PunishmentCache({baseMuteSeconds: 10});
+
+    const duration = punishmentCache.getAndAddPunishmentDuration('skyrt', 600);
+    assert.deepStrictEqual(duration, 600);
   });
 
 
   it('grows the mute punishment by the muteGrowthMultiplier', function() {
     const punishmentCache = new PunishmentCache({baseMuteSeconds: 10, muteGrowthMultiplier: 2});
 
-    punishmentCache.getAndAddMuteDuration('skyrt');
-    const duration = punishmentCache.getAndAddMuteDuration('skyrt');
+    punishmentCache.getAndAddPunishmentDuration('skyrt');
+    const duration = punishmentCache.getAndAddPunishmentDuration('skyrt');
     assert.deepStrictEqual(duration, 20);
   });
 
@@ -31,12 +39,12 @@ describe('Punishment tests ', () => {
     const punishmentCache = new PunishmentCache({baseMuteSeconds: 10, muteGrowthMultiplier: 2,
       timeToLiveSeconds: 5, tomeStoneIntervalMilliseconds: 10000 });
 
-    let duration= punishmentCache.getAndAddMuteDuration('skyrt');
+    let duration= punishmentCache.getAndAddPunishmentDuration('skyrt');
     assert.deepStrictEqual(duration, 10);
-    duration = punishmentCache.getAndAddMuteDuration('skyrt');
+    duration = punishmentCache.getAndAddPunishmentDuration('skyrt');
     assert.deepStrictEqual(duration, 20);
     this.clock.tick(11000);
-    duration = punishmentCache.getAndAddMuteDuration('skyrt');
+    duration = punishmentCache.getAndAddPunishmentDuration('skyrt');
 
     assert.deepStrictEqual(duration, 10);
   });
