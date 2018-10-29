@@ -32,9 +32,8 @@ More to come once the bot is, you know, actually live and not in a constant stat
 ## Todo
 
 - ~~User Permissions and Validation of command structure~~
-- Integration with various APIs (instagram, youtube, twitch etc.)
-- ~~Clearly defined spam rules~~ mostly ish
-- Scheduling static commands to run on intervals
+- Integration with various APIs (Just need twitch, google calendar)
+- ~~Clearly defined spam rules~~
+- ~~Scheduling static commands to run on intervals~~
 - ~~Punishment features~~
-- Integration tests, more unit tests, always more tests
-- Probably lots more
+- Can always add more testing
