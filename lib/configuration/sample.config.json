@@ -36,6 +36,10 @@
     "minimumStringSearchLength": 100,
     "uniqueWordsThreshold": 0.45
   },
+  "roleCache": {
+    "timeToLiveSeconds": 21600,
+    "tombStoneIntervalMilliseconds": 1200000
+  },
   "schedule":{
     "messageIntervalMillis": 900000
   },
