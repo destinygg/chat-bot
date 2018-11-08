@@ -1,0 +1,171 @@
+{
+    "getEventList": {
+        "kind": "calendar#events",
+        "etag": "\"p32odd6e3h71ts0g\"",
+        "summary": "Destiny - Stream Schedule",
+        "description": "My public streaming schedule.",
+        "updated": "2018-11-07T20:02:18.206Z",
+        "timeZone": "America/Chicago",
+        "accessRole": "reader",
+        "defaultReminders": [],
+        "nextPageToken": "EjYKKzM3Z3I3YmcyMTRudTNhdmZuc283NG9mZWVrXzIwMTkwOTIwVDIyMDAwMFoYgIiCgfDf5AI=",
+        "items": [
+         {
+          "kind": "calendar#event",
+          "etag": "\"3071859262768000\"",
+          "id": "37gr7bg214nu3avfnso74ofeek_20181112T230000Z",
+          "status": "confirmed",
+          "htmlLink": "https://www.google.com/calendar/event?eid=MzdncjdiZzIxNG51M2F2Zm5zbzc0b2ZlZWtfMjAxODExMTJUMjMwMDAwWiBpNTRqNGN1OXBsNDI3MGFzb2szbXFnZHJoa0Bn",
+          "created": "2018-09-02T23:07:11.000Z",
+          "updated": "2018-09-02T23:07:11.384Z",
+          "summary": "Stream",
+          "creator": {
+           "email": "steven.bonnell.ii@gmail.com",
+           "displayName": "Steven Bonnell II"
+          },
+          "organizer": {
+           "email": "i54j4cu9pl4270asok3mqgdrhk@group.calendar.google.com",
+           "displayName": "Destiny - Stream Schedule",
+           "self": true
+          },
+          "start": {
+           "dateTime": "2018-11-12T17:00:00-06:00",
+           "timeZone": "America/Chicago"
+          },
+          "end": {
+           "dateTime": "2018-11-13T00:00:00-06:00",
+           "timeZone": "America/Chicago"
+          },
+          "recurringEventId": "37gr7bg214nu3avfnso74ofeek",
+          "originalStartTime": {
+           "dateTime": "2018-11-12T17:00:00-06:00",
+           "timeZone": "America/Chicago"
+          },
+          "iCalUID": "37gr7bg214nu3avfnso74ofeek@google.com",
+          "sequence": 0,
+          "extendedProperties": {
+           "private": {
+            "everyoneDeclinedDismissed": "-1"
+           }
+          }
+         },
+         {
+          "kind": "calendar#event",
+          "etag": "\"3071859262768000\"",
+          "id": "37gr7bg214nu3avfnso74ofeek_20181113T230000Z",
+          "status": "confirmed",
+          "htmlLink": "https://www.google.com/calendar/event?eid=MzdncjdiZzIxNG51M2F2Zm5zbzc0b2ZlZWtfMjAxODExMTNUMjMwMDAwWiBpNTRqNGN1OXBsNDI3MGFzb2szbXFnZHJoa0Bn",
+          "created": "2018-09-02T23:07:11.000Z",
+          "updated": "2018-09-02T23:07:11.384Z",
+          "summary": "Stream",
+          "creator": {
+           "email": "steven.bonnell.ii@gmail.com",
+           "displayName": "Steven Bonnell II"
+          },
+          "organizer": {
+           "email": "i54j4cu9pl4270asok3mqgdrhk@group.calendar.google.com",
+           "displayName": "Destiny - Stream Schedule",
+           "self": true
+          },
+          "start": {
+           "dateTime": "2018-11-13T17:00:00-06:00",
+           "timeZone": "America/Chicago"
+          },
+          "end": {
+           "dateTime": "2018-11-14T00:00:00-06:00",
+           "timeZone": "America/Chicago"
+          },
+          "recurringEventId": "37gr7bg214nu3avfnso74ofeek",
+          "originalStartTime": {
+           "dateTime": "2018-11-13T17:00:00-06:00",
+           "timeZone": "America/Chicago"
+          },
+          "iCalUID": "37gr7bg214nu3avfnso74ofeek@google.com",
+          "sequence": 0,
+          "extendedProperties": {
+           "private": {
+            "everyoneDeclinedDismissed": "-1"
+           }
+          }
+         },
+         {
+          "kind": "calendar#event",
+          "etag": "\"3077380926314000\"",
+          "id": "70oj8e1i64pjeb9j70o3ib9k6lgm4bb26gqjcbb6cgs6cpb3cdj3cp9m6k_20181114T223000Z",
+          "status": "confirmed",
+          "htmlLink": "https://www.google.com/calendar/event?eid=NzBvajhlMWk2NHBqZWI5ajcwbzNpYjlrNmxnbTRiYjI2Z3FqY2JiNmNnczZjcGIzY2RqM2NwOW02a18yMDE4MTExNFQyMjMwMDBaIGk1NGo0Y3U5cGw0MjcwYXNvazNtcWdkcmhrQGc",
+          "created": "2018-10-03T20:55:40.000Z",
+          "updated": "2018-10-04T22:01:03.157Z",
+          "summary": "Stream",
+          "creator": {
+           "email": "steven.bonnell.ii@gmail.com",
+           "displayName": "Steven Bonnell II"
+          },
+          "organizer": {
+           "email": "i54j4cu9pl4270asok3mqgdrhk@group.calendar.google.com",
+           "displayName": "Destiny - Stream Schedule",
+           "self": true
+          },
+          "start": {
+           "dateTime": "2018-11-14T16:30:00-06:00",
+           "timeZone": "America/Chicago"
+          },
+          "end": {
+           "dateTime": "2018-11-14T21:00:00-06:00",
+           "timeZone": "America/Chicago"
+          },
+          "recurringEventId": "70oj8e1i64pjeb9j70o3ib9k6lgm4bb26gqjcbb6cgs6cpb3cdj3cp9m6k_R20181114T223000",
+          "originalStartTime": {
+           "dateTime": "2018-11-14T16:30:00-06:00",
+           "timeZone": "America/Chicago"
+          },
+          "iCalUID": "70oj8e1i64pjeb9j70o3ib9k6lgm4bb26gqjcbb6cgs6cpb3cdj3cp9m6k_R20181114T223000@google.com",
+          "sequence": 0,
+          "extendedProperties": {
+           "private": {
+            "eventAttendeeList": "[]"
+           }
+          }
+         },
+         {
+          "kind": "calendar#event",
+          "etag": "\"3083241876412000\"",
+          "id": "6t3s1oqf861ner26ehhknn2b88_20181115T030000Z",
+          "status": "confirmed",
+          "htmlLink": "https://www.google.com/calendar/event?eid=NnQzczFvcWY4NjFuZXIyNmVoaGtubjJiODhfMjAxODExMTVUMDMwMDAwWiBpNTRqNGN1OXBsNDI3MGFzb2szbXFnZHJoa0Bn",
+          "created": "2018-10-04T22:01:37.000Z",
+          "updated": "2018-11-07T20:02:18.206Z",
+          "summary": "DnD with Koibu, Lilypichu, DisguisedToast, Mylixia, MrMouton and Destiny.",
+          "creator": {
+           "email": "steven.bonnell.ii@gmail.com",
+           "displayName": "Steven Bonnell II"
+          },
+          "organizer": {
+           "email": "i54j4cu9pl4270asok3mqgdrhk@group.calendar.google.com",
+           "displayName": "Destiny - Stream Schedule",
+           "self": true
+          },
+          "start": {
+           "dateTime": "2018-11-14T21:00:00-06:00",
+           "timeZone": "America/Chicago"
+          },
+          "end": {
+           "dateTime": "2018-11-15T01:00:00-06:00",
+           "timeZone": "America/Chicago"
+          },
+          "recurringEventId": "6t3s1oqf861ner26ehhknn2b88",
+          "originalStartTime": {
+           "dateTime": "2018-11-14T21:00:00-06:00",
+           "timeZone": "America/Chicago"
+          },
+          "iCalUID": "6t3s1oqf861ner26ehhknn2b88@google.com",
+          "sequence": 1,
+          "extendedProperties": {
+           "private": {
+            "everyoneDeclinedDismissed": "-1"
+           }
+          }
+         }
+        ]
+       }
+}
