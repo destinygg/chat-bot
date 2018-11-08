@@ -162,6 +162,32 @@ describe('SQLite Tests', () => {
       }).catch(done);
   });
 
+  it('cant add the same banned phrase twice', function (done) {
+    const expected = [{ text: 'cool beans', duration: 600, type: 'mute' }];
+    this.sql.addBannedPhrase('cool beans', 600, 'mute')
+      .then(() => this.sql.addBannedPhrase('cool beans', 600, 'mute'))
+      .then(() => this.sql.getAllBannedPhrases())
+      .then((commands) => {
+        done(new Error('Same phrased added twice :C'));
+      }).catch(err => {
+        assert.deepStrictEqual(err.errno, 19);
+        done()
+    });
+  });
+
+  it('deletes banned phrases', function (done) {
+    const expected = [{ text: 'cool beans', duration: 600, type: 'mute' }];
+    this.sql.addBannedPhrase('cool beans', 600, 'mute')
+      .then(() => this.sql.deleteBannedPhrase('cool beans'))
+      .then(() => this.sql.getAllBannedPhrases())
+      .then((phrases) => {
+        done(new Error('Did not delete banned phrases'));
+      }).catch(err => {
+      assert.deepStrictEqual(err.message, 'No banned phrases found');
+      done()
+    });
+  });
+
   it('gets all banned phrases', function (done) {
     const expected = [ { text: 'cool beans', duration: 1000, type: 'ban' },
       { text: 'meepo meepo meep', duration: 1500, type: 'mute' } ];

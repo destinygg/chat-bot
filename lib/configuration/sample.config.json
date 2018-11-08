@@ -36,13 +36,18 @@
     "minimumStringSearchLength": 100,
     "uniqueWordsThreshold": 0.45
   },
+  "roleCache": {
+    "timeToLiveSeconds": 21600,
+    "tombStoneIntervalMilliseconds": 1200000
+  },
   "schedule":{
     "messageIntervalMillis": 900000
   },
   "twitch": {
     "clientId": "yourClientId",
     "clientSecret": "yourClientSecret",
-    "accessToken": "yourAccesstoken"
+    "accessToken": "yourAccesstoken",
+    "channelId": "yourChannel"
   },
   "lastFm":{
     "url": "https://ws.audioscrobbler.com/2.0/",

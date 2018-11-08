@@ -5,7 +5,7 @@ const RollingChatCache = require('../../../lib/services/dgg-rolling-chat-cache')
 describe('Chat Cache Test suite', () => {
   describe('Chat Cache Viewer Map Tests', () => {
     it('add messages to the cache for a given user', () => {
-      const chatCache = new RollingChatCache({});
+      const chatCache = new RollingChatCache({viewerMessageMinimumLength: 1});
       const expected = {
         linusred: ['hey nice meme man'],
       };
@@ -14,7 +14,7 @@ describe('Chat Cache Test suite', () => {
     });
 
     it('add messages to the cache for a given user up to the default of 2', () => {
-      const chatCache = new RollingChatCache({});
+      const chatCache = new RollingChatCache({viewerMessageMinimumLength: 1});
       const expected = {
         linusred: ['hey nice meme man', 'really cool'],
       };
@@ -25,7 +25,7 @@ describe('Chat Cache Test suite', () => {
     });
 
     it('add messages to the cache for a given user and replaces messages if the number of messages is above the threshold', () => {
-      const chatCache = new RollingChatCache({});
+      const chatCache = new RollingChatCache({viewerMessageMinimumLength: 1});
       const expected = {
         linusred: ['really cool', 'nice'],
       };
@@ -37,7 +37,7 @@ describe('Chat Cache Test suite', () => {
     });
 
     it('add messages to the cache for multiple users', () => {
-      const chatCache = new RollingChatCache({});
+      const chatCache = new RollingChatCache({viewerMessageMinimumLength: 1});
       const expected = {
         linusred: ['hey nice meme man'],
         bob: ['really cool']
@@ -49,7 +49,7 @@ describe('Chat Cache Test suite', () => {
     });
 
     it('returns expected value for diffed messages that are the same', () => {
-      const chatCache = new RollingChatCache({});
+      const chatCache = new RollingChatCache({viewerMessageMinimumLength: 1});
       const expected = [1];
       chatCache.addMessageToCache('linusred', 'hey nice meme man');
       const result = chatCache.diffNewMessageForUser('linusred', 'hey nice meme man');
@@ -57,7 +57,7 @@ describe('Chat Cache Test suite', () => {
     });
 
     it('returns expected value for diffed messages that are diferent', () => {
-      const chatCache = new RollingChatCache({});
+      const chatCache = new RollingChatCache({viewerMessageMinimumLength: 1});
       const expected = [0.9];
       chatCache.addMessageToCache('linusred', '1234567890');
       const result = chatCache.diffNewMessageForUser('linusred', '123456789');
@@ -65,7 +65,7 @@ describe('Chat Cache Test suite', () => {
     });
 
     it('returns expected value for diffed messages that are crazy', () => {
-      const chatCache = new RollingChatCache({});
+      const chatCache = new RollingChatCache({viewerMessageMinimumLength: 1});
       const expected = [1];
       chatCache.addMessageToCache('linusred', `
       \`  (¯\\\`·.¸¸.·´¯\\\`·.¸¸.·´¯)
@@ -98,7 +98,7 @@ describe('Chat Cache Test suite', () => {
     });
 
     it('adds a message to the tombstone with a timestamp cache', function () {
-      const chatCache = new RollingChatCache({});
+      const chatCache = new RollingChatCache({viewerMessageMinimumLength: 1});
       const expected = {
         linusred: 0,
       };
@@ -107,14 +107,14 @@ describe('Chat Cache Test suite', () => {
     });
 
     it('expires and removes a set of message after a duration of time', function () {
-      const chatCache = new RollingChatCache({});
+      const chatCache = new RollingChatCache({viewerMessageMinimumLength: 1});
       chatCache.addMessageToCache('linusred', 'hey nice meme man');
       this.clock.tick(1800000);
       assert.deepStrictEqual(chatCache.tombStoneMap, {});
     });
 
     it('expires messages for many users after a given period of time', function () {
-      const chatCache = new RollingChatCache({});
+      const chatCache = new RollingChatCache({viewerMessageMinimumLength: 1});
       chatCache.addMessageToCache('linusred', 'hey nice meme man');
       chatCache.addMessageToCache('neat', 'hey nice meme man');
       chatCache.addMessageToCache('cool', 'hey nice meme man');
@@ -124,7 +124,7 @@ describe('Chat Cache Test suite', () => {
     });
 
     it('updates expire time upon a new messages being added', function () {
-      const chatCache = new RollingChatCache({});
+      const chatCache = new RollingChatCache({viewerMessageMinimumLength: 1});
       const expected = {
         linusred: 900, neat: 900, cool: 900, kyle: 900
       };
@@ -153,7 +153,7 @@ describe('Chat Cache Test suite', () => {
     });
 
     it('rate limits if theres not enough time between messages', function () {
-      const chatCache = new RollingChatCache({});
+      const chatCache = new RollingChatCache({viewerMessageMinimumLength: 1});
       const expected = {
         linusred: 0,
       };
@@ -167,22 +167,22 @@ describe('Chat Cache Test suite', () => {
     });
 
     it('does not rate limit if messages are spread out', function () {
-      const chatCache = new RollingChatCache({});
+      const chatCache = new RollingChatCache({viewerMessageMinimumLength: 1});
       const expected = {
         linusred: 0,
       };
       chatCache.addMessageToCache('linusred', 'hey nice meme man');
-      this.clock.tick(1000)
+      this.clock.tick(2000);
       chatCache.addMessageToCache('linusred', 'hey nice meme man');
-      this.clock.tick(1000)
+      this.clock.tick(2000);
       chatCache.addMessageToCache('linusred', 'hey nice meme man');
-      this.clock.tick(1000)
+      this.clock.tick(2000);
       chatCache.addMessageToCache('linusred', 'hey nice meme man');
-      this.clock.tick(1000)
+      this.clock.tick(2000);
       chatCache.addMessageToCache('linusred', 'hey nice meme man');
-      this.clock.tick(1000)
+      this.clock.tick(2000);
       chatCache.addMessageToCache('linusred', 'hey nice meme man');
-      this.clock.tick(1000)
+      this.clock.tick(2000);
       assert.deepStrictEqual(chatCache.isPastRateLimit('linusred'), false);
     });
   });
