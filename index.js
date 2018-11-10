@@ -10,7 +10,11 @@ const MessageRouter = require('./lib/message-routing/message-router');
 const ChatServiceRouter = require('./lib/message-routing/chat-service-router');
 const { registerCommandsFromFiles, setupCommandsAndCachesFromDb } = require('./lib/configuration/configure-commands');
 
+
 const config = loadConfig(argv.config);
+const chatToConnectTo = argv.chat || config.chatToConnectTo;
+config.chatToConnectTo = chatToConnectTo;
+
 if (config === null) {
   // eslint-disable-next-line
   console.log('WARNING: Config file not found, no config loaded. Shutting down.');
@@ -30,7 +34,6 @@ services.prepareAsyncServices()
       });
   })
   .then(() => {
-    const chatToConnectTo = argv.chat || config.chatToConnectTo;
     logger.info(`Configuring for ${chatToConnectTo} chat`);
     const commandRouter = new CommandRouter(services);
     const messageRouter = new MessageRouter({}, services);
