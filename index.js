@@ -1,4 +1,5 @@
 /* eslint-disable no-process-exit */
+const { argv } = require('yargs');
 
 const DestinyChat = require('./lib/services/destinychat');
 const TwitchChat = require('./lib/services/twitch-chat');
@@ -9,8 +10,12 @@ const MessageRouter = require('./lib/message-routing/message-router');
 const ChatServiceRouter = require('./lib/message-routing/chat-service-router');
 const { registerCommandsFromFiles, setupCommandsAndCachesFromDb } = require('./lib/configuration/configure-commands');
 
-
-const config = loadConfig();
+const config = loadConfig(argv.config);
+if (config === null) {
+  // eslint-disable-next-line
+  console.log('WARNING: Config file not found, no config loaded. Shutting down.');
+  process.exit(0);
+}
 const services = new Services(config);
 const { logger } = services;
 
@@ -25,7 +30,7 @@ services.prepareAsyncServices()
       });
   })
   .then(() => {
-    const { chatToConnectTo } = config;
+    const chatToConnectTo = argv.chat || config.chatToConnectTo;
     logger.info(`Configuring for ${chatToConnectTo} chat`);
     const commandRouter = new CommandRouter(services);
     const messageRouter = new MessageRouter({}, services);
