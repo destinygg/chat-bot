@@ -32,7 +32,7 @@ More to come once the bot is, you know, actually live and not in a constant stat
 ## Command References
 The below table is the standard list of non static commands.
 
-{} = requires parameter
+{} = required parameter
 
 
 () = optional parameter
@@ -69,7 +69,7 @@ Durations are in the format of the number, followed by h,m,s or d.
 | !youtube !yt !lastvideo                        | None                         | Last video posted on Destiny's youtube channel                                          | No             | !yt                                                 |
 | !addban !addmute                               | (duration) {banned phrase}   | Adds a banned phrase that will auto mute/ban upon a user posting it.                    | Yes            | !addban 10d HAHA GNOMED                             |
 | !deleteban                                     | {banned phrase}              | Removes a banned phrase                                                                 | Yes            | !deleteban HAHA GNOMED                              |
-| !live                                          | None                         | Reports whether the last time a stream was live, or how long the stream has been going. | No             | !live                                               |
+| !live                                          | None                         | Reports the last time a stream was live, or how long the stream has been going. | No             | !live                                               |
 |                                                |                              |                                                                                         |                |                                                     |
 
 
