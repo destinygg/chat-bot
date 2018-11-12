@@ -48,7 +48,7 @@ describe('Chat Cache Running List', () => {
     const expected = ['linusred'];
     chatCache.addMessageToRunningList('linusred', 'hey nice meme man');
     chatCache.addMessageToRunningList('linusred', 'lol really nice meme man');
-    chatCache.addMessageToRunningList('billy', 'stupid meme')
+    chatCache.addMessageToRunningList('billy', 'stupid meme');
     const result = this.spamDetection.getUsersWithMatchedMessage('nice meme', chatCache.runningMessageList);
     assert.deepStrictEqual(result, expected);
   });
@@ -59,7 +59,7 @@ describe('Chat Cache Running List', () => {
     chatCache.addMessageToRunningList('linusred', 'hey nice meme man');
     chatCache.addMessageToRunningList('coopy', 'hey NiCe MeME    ');
     chatCache.addMessageToRunningList('billy', 'stupid meme');
-    const result = this.spamDetection.getUsersWithMatchedMessage('nice meme', chatCache.runningMessageList);;
+    const result = this.spamDetection.getUsersWithMatchedMessage('nice meme', chatCache.runningMessageList);
     assert.deepStrictEqual(result, expected);
   });
 
@@ -68,7 +68,7 @@ describe('Chat Cache Running List', () => {
     const expected = ['coopy', 'linusred'];
     chatCache.addMessageToRunningList('linusred', 'hey nice meme man');
     chatCache.addMessageToRunningList('coopy', 'hey NiCe MeME    ');
-    chatCache.addMessageToRunningList('billy', 'stupid meme')
+    chatCache.addMessageToRunningList('billy', 'stupid meme');
     const result = this.spamDetection.getUsersWithMatchedMessage(/.*nice\s+meme.*/i, chatCache.runningMessageList);
     assert.deepStrictEqual(result, expected);
   });
@@ -105,13 +105,33 @@ describe('Chat Cache Running List', () => {
   });
 
   it('does not ban small unique word violations', function () {
-    const result = this.spamDetection.uniqueWordsCheck('KAPPA KAPPA KAPPA')
+    const result = this.spamDetection.uniqueWordsCheck('KAPPA KAPPA KAPPA');
     assert.deepStrictEqual(result, false);
   });
 
   it('bans unique word violations even if its tricky', function () {
-    const result = this.spamDetection.uniqueWordsCheck('KAPPA KAPPA KAPPA heh yeah right guys this will never work KAPPA KAPPA KAPPA yeah right guys KAPPA KAPPA KAPPA  KAPPA KAPPA KAPPA KAPPA KAPPA KAPPA')
+    const result = this.spamDetection.uniqueWordsCheck('KAPPA KAPPA KAPPA heh yeah right guys this will never work KAPPA KAPPA KAPPA yeah right guys KAPPA KAPPA KAPPA  KAPPA KAPPA KAPPA KAPPA KAPPA KAPPA');
     assert.deepStrictEqual(result, true);
+  });
+
+  it('matches nuked phrases with content and picks the highest one', function() {
+    const result = SpamDetection.isMessageNuked([{duration: 100, phrase:'abc'}, {duration: 500, phrase: '123'}], 'abc123');
+    assert.deepStrictEqual(result, 500)
+  });
+
+  it('returns 0 on finding no matches', function() {
+    const result = SpamDetection.isMessageNuked([{duration: 100, phrase:'abc'}, {duration: 500, phrase: '123'}], 'eeeee');
+    assert.deepStrictEqual(result, 0)
+  });
+
+  it('returns 0 on an empty nuke list', function() {
+    const result = SpamDetection.isMessageNuked([], 'eeeee');
+    assert.deepStrictEqual(result, 0)
+  });
+
+  it('works with regex nuke phrases', function() {
+    const result = SpamDetection.isMessageNuked([{duration: 500,phrase: /abc/},{duration: 1000,phrase: '123'}], 'abc');
+    assert.deepStrictEqual(result, 500)
   });
 });
 
