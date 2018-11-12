@@ -40,7 +40,9 @@ describe('Schedule Tests', () => {
 
     return schedule.findNextStreamDay()
     .then(function (response) {
-        return assert.equal(response, mockResponses.getEventList.items[0].start);
+        return assert.deepStrictEqual(response, {start:{ dateTime: '2018-11-12T17:00:00-06:00',
+            timeZone: 'America/Chicago' },
+          name: 'Stream' });
     });
   });
 
