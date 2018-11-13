@@ -47,9 +47,13 @@ services.prepareAsyncServices()
       logger.error('Config property: "chatToConnectTo" not set to one of "dgg" or "twitch"');
       process.exit(1);
     }
+    // Schedule some complex stuff
+    services.fakeScheduler.createMessage('!youtube');
+    services.fakeScheduler.createMessage('!schedule');
 
     const chatServiceRouter = new ChatServiceRouter(config.chatToConnectTo, bot,
-      messageRouter, commandRouter, logger, services.punishmentStream, services.scheduledCommands);
+      messageRouter, commandRouter, logger, services.punishmentStream,
+      services.scheduledCommands, services.fakeScheduler);
     chatServiceRouter.create();
   })
   .catch((err) => {
