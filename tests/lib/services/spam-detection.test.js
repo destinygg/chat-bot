@@ -4,7 +4,7 @@ const RollingChatCache = require('../../../lib/services/dgg-rolling-chat-cache')
 const SpamDetection = require('../../../lib/services/spam-detection');
 
 
-describe('Chat Cache Running List', () => {
+describe('Spam detection Tests', () => {
   before(function () {
     this.spamDetection = new SpamDetection({});
   });
@@ -116,22 +116,22 @@ describe('Chat Cache Running List', () => {
 
   it('matches nuked phrases with content and picks the highest one', function() {
     const result = SpamDetection.isMessageNuked([{duration: 100, phrase:'abc'}, {duration: 500, phrase: '123'}], 'abc123');
-    assert.deepStrictEqual(result, 500)
+    assert.deepStrictEqual(result, { duration: 500, phrase: '123' })
   });
 
   it('returns 0 on finding no matches', function() {
     const result = SpamDetection.isMessageNuked([{duration: 100, phrase:'abc'}, {duration: 500, phrase: '123'}], 'eeeee');
-    assert.deepStrictEqual(result, 0)
+    assert.deepStrictEqual(result, { duration: 0, phrase: '' })
   });
 
   it('returns 0 on an empty nuke list', function() {
     const result = SpamDetection.isMessageNuked([], 'eeeee');
-    assert.deepStrictEqual(result, 0)
+    assert.deepStrictEqual(result, { duration: 0, phrase: '' })
   });
 
   it('works with regex nuke phrases', function() {
     const result = SpamDetection.isMessageNuked([{duration: 500,phrase: /abc/},{duration: 1000,phrase: '123'}], 'abc');
-    assert.deepStrictEqual(result, 500)
+    assert.deepStrictEqual(result, { duration: 500, phrase: '/abc/' })
   });
 });
 
