@@ -47,10 +47,11 @@ Durations are in the format of the number, followed by h,m,s or d.
 
 500d
 
-
+(Note on adding commands/scheduled commands for admins, when you add the commands to twitch/dgg, you need to !restart the bot in the other chat to pick these changes up. This will change with a future update.)
 
 | Command                                        | Input                        | What it does                                                                            | Requires Admin | Example                                             |
 |------------------------------------------------|------------------------------|-----------------------------------------------------------------------------------------|----------------|-----------------------------------------------------|
+| !restart                                       | None                         | Restarts the dgg or Twitch.tv bot                                                       | Yes            | !restart                                            |
 | !stalk                                         | {user} (postnumber)          | Overrustle logs posts                                                                   | Yes            | !stalk Destiny 5                                    |
 | !time                                          | None                         | Current Steven Time                                                                     | No             | !time                                               |
 | !addcommand                                    | {command} {text}             | Adds a static command that can be called by anyone.                                     | Yes            | !addcommand !hello HEY HOWDY THERE PAL HOW YOU DOIN |
@@ -71,7 +72,6 @@ Durations are in the format of the number, followed by h,m,s or d.
 | !addban !addmute                               | (duration) {banned phrase}   | Adds a banned phrase that will auto mute/ban upon a user posting it.                    | Yes            | !addban 10d HAHA GNOMED                             |
 | !deleteban                                     | {banned phrase}              | Removes a banned phrase                                                                 | Yes            | !deleteban HAHA GNOMED                              |
 | !live                                          | None                         | Reports the last time a stream was live, or how long the stream has been going. | No             | !live                                               |
-|                                                |                              |                                                                                         |                |                                                     |
 
 
 
