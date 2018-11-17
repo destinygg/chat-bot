@@ -51,7 +51,7 @@ Durations are in the format of the number, followed by h,m,s or d.
 
 | Command                                        | Input                        | What it does                                                                            | Requires Admin | Example                                             |
 |------------------------------------------------|------------------------------|-----------------------------------------------------------------------------------------|----------------|-----------------------------------------------------|
-| !restart                                       | None                         | Restarts the dgg or Twitch.tv bot                                                       | Yes            | !restart                                            |
+| !restart                                       | None                         | Restarts the dgg or Twitch.tv bot. Don't overuse the command, it resets caches.         | Yes            | !restart                                            |
 | !stalk                                         | {user} (postnumber)          | Overrustle logs posts                                                                   | Yes            | !stalk Destiny 5                                    |
 | !time                                          | None                         | Current Steven Time                                                                     | No             | !time                                               |
 | !addcommand                                    | {command} {text}             | Adds a static command that can be called by anyone.                                     | Yes            | !addcommand !hello HEY HOWDY THERE PAL HOW YOU DOIN |
