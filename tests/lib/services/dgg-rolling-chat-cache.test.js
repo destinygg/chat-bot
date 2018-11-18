@@ -154,9 +154,7 @@ describe('Chat Cache Test suite', () => {
 
     it('rate limits if theres not enough time between messages', function () {
       const chatCache = new RollingChatCache({viewerMessageMinimumLength: 1});
-      const expected = {
-        linusred: 0,
-      };
+
       chatCache.addMessageToCache('linusred', 'hey nice meme man');
       chatCache.addMessageToCache('linusred', 'hey nice meme man');
       chatCache.addMessageToCache('linusred', 'hey nice meme man');
@@ -168,9 +166,7 @@ describe('Chat Cache Test suite', () => {
 
     it('does not rate limit if messages are spread out', function () {
       const chatCache = new RollingChatCache({viewerMessageMinimumLength: 1});
-      const expected = {
-        linusred: 0,
-      };
+
       chatCache.addMessageToCache('linusred', 'hey nice meme man');
       this.clock.tick(2000);
       chatCache.addMessageToCache('linusred', 'hey nice meme man');
@@ -188,17 +184,25 @@ describe('Chat Cache Test suite', () => {
   });
 
   describe('Chat Cache Running List', () => {
+    beforeEach(function () {
+      this.clock = sinon.useFakeTimers();
+      this.clock.tick(0)
+    });
+
+    afterEach(function () {
+      this.clock.restore();
+    });
     it('adds a message to running list', function () {
       const chatCache = new RollingChatCache({});
-      const expected = [{user: 'linusred', message: 'hey nice meme man'}];
+      const expected = [{user: 'linusred', message: 'hey nice meme man', timeStamp: 0}];
       chatCache.addMessageToCache('linusred', 'hey nice meme man');
       assert.deepStrictEqual(chatCache.runningMessageList, expected);
     });
 
     it('adds many messages to running list', function () {
       const chatCache = new RollingChatCache({});
-      const expected = [{user: 'linusred', message: 'hey nice meme man'},
-        {user: 'jimbo', message: 'hey'}];
+      const expected = [{user: 'linusred', message: 'hey nice meme man', timeStamp: 0},
+        {user: 'jimbo', message: 'hey', timeStamp: 0}];
       chatCache.addMessageToCache('linusred', 'hey nice meme man');
       chatCache.addMessageToCache('jimbo', 'hey');
       assert.deepStrictEqual(chatCache.runningMessageList, expected);
@@ -207,8 +211,8 @@ describe('Chat Cache Test suite', () => {
 
     it('replaces the first messages when the queue is full', function () {
       const chatCache = new RollingChatCache({messsagesToKeepPerUser: 10, maxMessagesInList: 2, timeToLive:0, tombStoneInterval: 0});
-      const expected = [{user: 'jimbo', message: 'hey'},
-        {user: 'jimbo', message: 'cool'}];
+      const expected = [{user: 'jimbo', message: 'hey', timeStamp: 0},
+        {user: 'jimbo', message: 'cool', timeStamp: 0}];
       chatCache.addMessageToCache('linusred', 'hey nice meme man');
       chatCache.addMessageToCache('jimbo', 'hey');
       chatCache.addMessageToCache('jimbo', 'cool');
@@ -217,8 +221,8 @@ describe('Chat Cache Test suite', () => {
 
     it('replaces many messages when the queue is full', function () {
       const chatCache = new RollingChatCache({messsagesToKeepPerUser: 10, maxMessagesInList: 2, timeToLive:0, tombStoneInterval: 0});
-      const expected = [{user: 'linusred', message: 'eugh'},
-        {user: 'linusred', message: 'dank memes'}];
+      const expected = [{user: 'linusred', message: 'eugh', timeStamp: 0},
+        {user: 'linusred', message: 'dank memes', timeStamp: 0}];
       chatCache.addMessageToCache('linusred', 'hey nice meme man');
       chatCache.addMessageToCache('jimbo', 'hey');
       chatCache.addMessageToCache('jimbo', 'cool');
