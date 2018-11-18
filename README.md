@@ -63,15 +63,15 @@ Durations are in the format of the number, followed by h,m,s or d.
 | !unban                                         | {user}                       | Unbans a user                                                                           | Yes            | !unban JAYL                                         |
 | !nuke                                          | (duration) {phrase or regex} | The total users nuked.                                                                  | Yes            | !nuke 30m KING MOUTON !nuke 30d /[A-Z]+\s?420/      |
 | !aegis                                         | None                         | Undoes the last nuke                                                                    | Yes            | !aegis                                              |
-| !love                                          | None                         | Gives you love                                                                         | No             | !love Linusred                                      |
+| !love                                          | None                         | Gives you love                                                                          | No             | !love Linusred                                      |
 | !addschcmd !asc                                | (commandToAdd)               | Schedules a static command to be sent from the bot every few minutes.                   | Yes            | !asc !hello                                         |
 | !deleteschcmd !dsc                             | (commandToDelete)            | Deletes a scheduled command so its not longer sent.                                     | Yes            | !dsc !hello                                         |
 | !song                                          | None                         | Current song being played on Last.fm                                                    | No             | !song                                               |
 | !lastsong !pastsong !previoussong !earlierSong | None                         | Previous song before the current one being played on last.fm                            | No             | !lastsong                                           |
 | !youtube !yt !lastvideo                        | None                         | Last video posted on Destiny's youtube channel                                          | No             | !yt                                                 |
 | !addban !addmute                               | (duration) {banned phrase}   | Adds a banned phrase that will auto mute/ban upon a user posting it.                    | Yes            | !addban 10d HAHA GNOMED                             |
-| !deleteban                                     | {banned phrase}              | Removes a banned phrase                                                                 | Yes            | !deleteban HAHA GNOMED                              |
-| !live                                          | None                         | Reports the last time a stream was live, or how long the stream has been going. | No             | !live                                               |
+| !deleteban !delb                               | {banned phrase}              | Removes a banned or muted phrase. Works for both.                                       | Yes            | !deleteban HAHA GNOMED                              |
+| !live                                          | None                         | Reports the last time a stream was live, or how long the stream has been going.         | No             | !live                                               |
 
 
 
