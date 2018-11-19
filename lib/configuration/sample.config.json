@@ -54,6 +54,16 @@
     "username": "yourUsername",
     "apiKey": "yourApiKey"
   },
+  "influx": {
+    "enabled": false,
+    "host": "yourHost",
+    "pathPrefix": "yourProxyPAth",
+    "port": 8086,
+    "database": "yourDatabase",
+    "protocol": "https",
+    "username": "yourUsername",
+    "password": "yourPassword"
+  },
   "youtube": {
     "YOUTUBE_API_KEY": "",
     "YOUTUBE_CHANNEL": ""
