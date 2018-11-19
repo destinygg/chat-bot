@@ -9,7 +9,7 @@ const loadConfig = require('./lib/configuration/config-loader');
 const MessageRouter = require('./lib/message-routing/message-router');
 const ChatServiceRouter = require('./lib/message-routing/chat-service-router');
 const { registerCommandsFromFiles, setupCommandsAndCachesFromDb } = require('./lib/configuration/configure-commands');
-
+const { configureReporter } = require('./lib/services/metrics/metrics-reporter');
 
 const config = loadConfig(argv.config);
 const chatToConnectTo = argv.chat || config.chatToConnectTo;
@@ -21,6 +21,7 @@ if (config === null) {
   process.exit(0);
 }
 const services = new Services(config);
+configureReporter(config.influx, new Map([['chat', config.chatToConnectTo]]));
 const { logger } = services;
 
 services.prepareAsyncServices()
