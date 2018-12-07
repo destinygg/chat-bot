@@ -100,7 +100,7 @@ describe('Spam detection Tests', () => {
   });
 
   it('bans unique word violations', function () {
-    const result = this.spamDetection.uniqueWordsCheck('KAPPA KAPPA KAPPA KAPPA KAPPA KAPPA KAPPA KAPPA KAPPA KAPPA KAPPA KAPPA KAPPA KAPPA KAPPA KAPPA KAPPA KAPPA KAPPA KAPPA')
+    const result = this.spamDetection.uniqueWordsCheck('KAPPA KAPPA KAPPA KAPPA KAPPA KAPPA KAPPA KAPPA KAPPA KAPPA KAPPA KAPPA KAPPA KAPPA KAPPA KAPPA KAPPA KAPPA KAPPA KAPPA');
     assert.deepStrictEqual(result, true);
   });
 
@@ -117,6 +117,17 @@ describe('Spam detection Tests', () => {
   it('matches nuked phrases with content and picks the highest one', function() {
     const result = SpamDetection.isMessageNuked([{duration: 100, phrase:'abc'}, {duration: 500, phrase: '123'}], 'abc123');
     assert.deepStrictEqual(result, { duration: 500, phrase: '123' })
+  });
+
+
+  it('matches case insensitive nuked phrases with content and picks the highest one', function() {
+    const result = SpamDetection.isMessageNuked([{duration: 100, phrase:'ABC'}, {duration: 500, phrase: '123'}], 'abc');
+    assert.deepStrictEqual(result, { duration: 100, phrase: 'ABC' })
+  });
+
+  it('matches case insensitive nuked phrases with content', function() {
+    const result = SpamDetection.isMessageNuked([{duration: 100, phrase:'ABC'}, {duration: 500, phrase: 'AUT'}], 'AUT');
+    assert.deepStrictEqual(result, { duration: 500, phrase: 'AUT' })
   });
 
   it('returns 0 on finding no matches', function() {
