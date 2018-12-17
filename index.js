@@ -20,13 +20,13 @@ if (config === null) {
   console.log('WARNING: Config file not found, no config loaded. Shutting down.');
   process.exit(0);
 }
-const services = new Services(config);
+const services = new Services(config, chatToConnectTo);
 configureReporter(config.influx, new Map([['chat', config.chatToConnectTo]]));
 const { logger } = services;
 
 services.prepareAsyncServices()
   .then(() => {
-    registerCommandsFromFiles(services.commandRegistry);
+    registerCommandsFromFiles(services.commandRegistry, chatToConnectTo);
     logger.info('Config loaded! Starting bot!');
     return setupCommandsAndCachesFromDb(services.sql, services.commandRegistry,
       services.scheduledCommands, services.spamDetection, services.logger)
