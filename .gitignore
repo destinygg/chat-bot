@@ -10,3 +10,6 @@ node_modules/
 prod.config.json
 .vscode/
 jsconfig.json
+
+lib/configuration/thread-content.json
+lib/configuration/thread-state.json
