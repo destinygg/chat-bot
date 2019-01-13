@@ -3,7 +3,7 @@
 ## Runnin' it
 
 You'll need a configuration file, there's a sample configuration under ./configuration, rename this to prod.config.json
-and enter in your own keys to hit the APIs. Documentation on configuration coming eventually. 
+and enter in your own keys to hit the APIs. Documentation on configuration coming eventually.
 
 You shouldn't need api keys for most commands, but you will definitely need them to run the bot against twitch.
 
@@ -17,7 +17,7 @@ npm start
 ## Contribution And Development
 
 Contribution is welcome, but please get in contact with me before you start contributing to make sure we're not stepping on each others toes
-or you're not doing something that the bot shouldn't be doing. 
+or you're not doing something that the bot shouldn't be doing.
 
 In order to get up and running, the easiest way is to cd on into the /.tools directory and run
 ```bash
@@ -72,6 +72,8 @@ Durations are in the format of the number, followed by h,m,s or d.
 | !addban !addmute                               | (duration) {banned phrase}   | Adds a banned phrase that will auto mute/ban upon a user posting it.                    | Yes            | !addban 10d HAHA GNOMED                             |
 | !deleteban !delb                               | {banned phrase}              | Removes a banned or muted phrase. Works for both.                                       | Yes            | !deleteban HAHA GNOMED                              |
 | !live                                          | None                         | Reports the last time a stream was live, or how long the stream has been going.         | No             | !live                                               |
+| !ud                                            | Any text                       | Updates the !duo command with whatever text you type.                                   | Yes            | !ud Lilypichu AYAYA                                               |
+| !duo                                           | None                           | Outputs whatever is current stored using !ud                                            | No             | !duo                                               |
 
 
 
