@@ -210,4 +210,18 @@ describe('SQLite Tests', () => {
       done();
     });
   });
+
+  it('updates duo phrase', function (done) {
+    const expected = [];
+    this.sql.updateDuo('Jimmy')
+      .then(() => {
+        this.sql.getDuoText().then(duoText => {
+          assert.deepStrictEqual(duoText, 'Jimmy');
+          done();
+        })
+      }).catch(err => {
+      done(err);
+    });
+  });
+
 });
