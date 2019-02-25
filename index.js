@@ -53,8 +53,11 @@ services.prepareAsyncServices()
     services.fakeScheduler.createMessage('!schedule');
 
     const chatServiceRouter = new ChatServiceRouter(config.chatToConnectTo, bot,
-      messageRouter, commandRouter, logger, services.punishmentStream,
-      services.scheduledCommands, services.fakeScheduler);
+      messageRouter, commandRouter, logger,
+      services.punishmentStream,
+      services.scheduledCommands,
+      services.fakeScheduler,
+      services.messageRelay);
     chatServiceRouter.create();
   })
   .catch((err) => {
