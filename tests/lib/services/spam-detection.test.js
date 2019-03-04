@@ -1,5 +1,4 @@
 const assert = require('assert');
-const sinon = require('sinon');
 const RollingChatCache = require('../../../lib/services/dgg-rolling-chat-cache');
 const SpamDetection = require('../../../lib/services/spam-detection');
 
@@ -143,6 +142,21 @@ describe('Spam detection Tests', () => {
   it('works with regex nuke phrases', function() {
     const result = SpamDetection.isMessageNuked([{duration: 500,phrase: /abc/},{duration: 1000,phrase: '123'}], 'abc');
     assert.deepStrictEqual(result, { duration: 500, phrase: '/abc/' })
+  });
+
+  it('mutes stupid repated things', function () {
+    const result = this.spamDetection.longRepeatedPhrase('Painstiny REE lol lol look at me AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHHHHHHHHHHHHHHHHHHHHHHHHH');
+    assert.deepStrictEqual(result, true);
+  });
+
+  it('doesnt mute less stupid things', function () {
+    const result = this.spamDetection.longRepeatedPhrase('this is some phrase thats really long its nice that its really long lol this is awesome lol');
+    assert.deepStrictEqual(result, false);
+  });
+
+  it('doesnt mute even more less stupid things', function () {
+    const result = this.spamDetection.longRepeatedPhrase('www.reddit.com/awdawd look at my stupid look look at tihs lin khey kaw dkaw ai');
+    assert.deepStrictEqual(result, false);
   });
 });
 
