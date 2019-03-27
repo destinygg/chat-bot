@@ -74,8 +74,9 @@ Durations are in the format of the number, followed by h,m,s or d.
 | !live                                          | None                         | Reports the last time a stream was live, or how long the stream has been going.         | No             | !live                                               |
 | !ud                                            | Any text                       | Updates the !duo command with whatever text you type.                                   | Yes            | !ud Lilypichu AYAYA                                               |
 | !duo                                           | None                           | Outputs whatever is current stored using !ud                                            | No             | !duo                                               |
-
-
+| !deaths                                        | None                           | Outputs the current death counter                                                       | No             | !death !died
+| !incdeaths                                     | None                         | Adds 1 to the current death counter. Can only be updated once every 15 seconds to prevent 2 people updating          | Yes            |  !id !ideaths !incd                      
+| !setdeaths                                     | (number to set deaths to))   | Sets the death counter to the value specified          | Yes            |  !setd 50 !sdeaths  100                    
 
 
 ## Todo
