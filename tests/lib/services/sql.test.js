@@ -224,4 +224,69 @@ describe('SQLite Tests', () => {
     });
   });
 
+  it('increments death', function (done) {
+    const expected = [];
+    this.sql.incrementDeaths()
+      .then(() => {
+        return this.sql.getDeaths().then(deaths => {
+          assert.deepStrictEqual(deaths, 1);
+          done();
+        })
+      }).catch(err => {
+      done(err);
+    });
+  });
+
+  it('increments death again', function (done) {
+    const expected = [];
+    this.timeout(3000)
+    this.sql.incrementDeaths(2)
+      .then(() => {
+        setTimeout(()=>{
+          this.sql.incrementDeaths(2).then(() => {
+            this.sql.getDeaths().then(deaths => {
+              assert.deepStrictEqual(deaths, 2);
+              done();
+            });
+          });
+        }, 2222);
+      }).catch(err => {
+      done(err);
+    });
+    this.sql.getDeaths()
+  });
+
+  it('increments death but only if the update length of seconds has passed', function (done) {
+    const expected = [];
+    this.timeout(3000)
+    this.sql.incrementDeaths(2)
+      .then(() => {
+        setTimeout(()=>{
+          this.sql.incrementDeaths(3).then(() => {
+            this.sql.getDeaths().then(deaths => {
+              assert.deepStrictEqual(deaths, 1);
+              done();
+            });
+          });
+        }, 2222);
+      }).catch(err => {
+      done(err);
+    });
+    this.sql.getDeaths()
+  });
+
+
+  it('sets deaths', function (done) {
+    const expected = [];
+    this.sql.setDeaths(50)
+      .then(() => {
+        return this.sql.getDeaths().then(deaths => {
+          assert.deepStrictEqual(deaths, 50);
+          done();
+        })
+      }).catch(err => {
+      done(err);
+    });
+  });
+
 });
