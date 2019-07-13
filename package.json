@@ -21,7 +21,7 @@
     "googleapis": "^34.0.0",
     "inspector-influx": "^2.0.0",
     "inspector-metrics": "^1.13.0",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.13",
     "moment": "^2.22.2",
     "moment-timezone": "^0.5.23",
     "protobufjs": "^6.8.8",
