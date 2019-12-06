@@ -50,7 +50,7 @@ describe('SQLite Tests', () => {
 
 
   it('it lists many commands after being added the table', function (done) {
-    const expected = '!test, !test2';
+    const expected = '!test,!test2';
     this.sql.addCommand('!test', 'neat')
       .then(() => this.sql.addCommand('!test2', 'cool'))
       .then(() => this.sql.listCommands())
