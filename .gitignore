@@ -13,3 +13,5 @@ jsconfig.json
 
 lib/configuration/thread-content.json
 lib/configuration/thread-state.json
+
+yarn.lock
