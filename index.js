@@ -8,7 +8,10 @@ const Services = require('./lib/services/service-index');
 const loadConfig = require('./lib/configuration/config-loader');
 const MessageRouter = require('./lib/message-routing/message-router');
 const ChatServiceRouter = require('./lib/message-routing/chat-service-router');
-const { registerCommandsFromFiles, setupCommandsAndCachesFromDb } = require('./lib/configuration/configure-commands');
+const {
+  registerCommandsFromFiles,
+  setupCommandsAndCachesFromDb,
+} = require('./lib/configuration/configure-commands');
 const { configureReporter } = require('./lib/services/metrics/metrics-reporter');
 
 const config = loadConfig(argv.config);
@@ -17,22 +20,27 @@ config.chatToConnectTo = chatToConnectTo;
 
 if (config === null) {
   // eslint-disable-next-line
-  console.log('WARNING: Config file not found, no config loaded. Shutting down.');
+  console.log("WARNING: Config file not found, no config loaded. Shutting down.");
   process.exit(0);
 }
 const services = new Services(config, chatToConnectTo);
 configureReporter(config.influx, new Map([['chat', config.chatToConnectTo]]));
 const { logger } = services;
 
-services.prepareAsyncServices()
+services
+  .prepareAsyncServices()
   .then(() => {
     registerCommandsFromFiles(services.commandRegistry, chatToConnectTo);
     logger.info('Config loaded! Starting bot!');
-    return setupCommandsAndCachesFromDb(services.sql, services.commandRegistry,
-      services.scheduledCommands, services.spamDetection, services.logger)
-      .catch((err) => {
-        logger.warn(`Problem loading commands/banned phrases from sql. Reason: ${err}`);
-      });
+    return setupCommandsAndCachesFromDb(
+      services.sql,
+      services.commandRegistry,
+      services.scheduledCommands,
+      services.spamDetection,
+      services.logger,
+    ).catch(err => {
+      logger.warn(`Problem loading commands/banned phrases from sql. Reason: ${err}`);
+    });
   })
   .then(() => {
     logger.info(`Configuring for ${chatToConnectTo} chat`);
@@ -52,22 +60,26 @@ services.prepareAsyncServices()
     services.fakeScheduler.createMessage('!youtube');
     services.fakeScheduler.createMessage('!schedule');
 
-    const chatServiceRouter = new ChatServiceRouter(config.chatToConnectTo, bot,
-      messageRouter, commandRouter, logger,
+    const chatServiceRouter = new ChatServiceRouter(
+      config.chatToConnectTo,
+      bot,
+      messageRouter,
+      commandRouter,
+      logger,
       services.punishmentStream,
       services.scheduledCommands,
       services.fakeScheduler,
-      services.messageRelay);
+      services.messageRelay,
+    );
     chatServiceRouter.create();
   })
-  .catch((err) => {
+  .catch(err => {
     logger.error('Problem starting up services, shutting down...');
     logger.error(err);
     process.exit(1);
   });
 
-
-process.on('uncaughtException', (err) => {
+process.on('uncaughtException', err => {
   logger.error('Uncaught exception. Crashing.');
   logger.error(err);
   process.exit(1);
