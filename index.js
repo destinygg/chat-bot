@@ -19,8 +19,8 @@ const chatToConnectTo = argv.chat || config.chatToConnectTo;
 config.chatToConnectTo = chatToConnectTo;
 
 if (config === null) {
-  // eslint-disable-next-line
-  console.log("WARNING: Config file not found, no config loaded. Shutting down.");
+  // eslint-disable-next-line no-console
+  console.log('WARNING: Config file not found, no config loaded. Shutting down.');
   process.exit(0);
 }
 const services = new Services(config, chatToConnectTo);
