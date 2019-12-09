@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha tests/**/*.test.js --exit --reporter spec",
-    "lint": "eslint index.js ./lib/**/*.js",
+    "lint": "eslint index.js \"./lib/**/*.js\"",
     "start": "node index.js | bunyan"
   },
   "author": "linusred",
@@ -34,9 +34,12 @@
   "devDependencies": {
     "eslint": "^5.8.0",
     "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-config-prettier": "^6.7.0",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-node": "^7.0.1",
+    "eslint-plugin-prettier": "^3.1.1",
     "mocha": "^5.2.0",
+    "prettier": "^1.19.1",
     "proxyquire": "^2.1.0",
     "sinon": "^6.3.5"
   }
