@@ -129,7 +129,21 @@ describe('Spam detection Tests', () => {
 
     assert.deepStrictEqual(isBanned, { text: '3', duration: 600, type: 'mute' });
   });
+  it('adds regex and properly matches', function() {
+    this.spamDetection.addBannedPhrase({ text: 'regex:h..lo', duration: 600, type: 'mute' });
 
+    const isBanned1 = this.spamDetection.checkAgainstBannedPhrases('match: h&&lo');
+    assert.deepStrictEqual(isBanned1, { text: 'regex:h..lo', duration: 600, type: 'mute' });
+
+    const isBanned2 = this.spamDetection.checkAgainstBannedPhrases('NOT match: h&&&lo');
+    assert.deepStrictEqual(isBanned2, false);
+  });
+  it("doesn't match empty regex", function() {
+    this.spamDetection.addBannedPhrase({ text: 'regex:', duration: 600, type: 'mute' });
+    const isBanned = this.spamDetection.checkAgainstBannedPhrases('Nothing should match regex:');
+
+    assert.deepStrictEqual(isBanned, false);
+  });
   it('doesnt ban if phrase doesnt match', function() {
     this.spamDetection.addBannedPhrase({ text: '1', duration: 600, type: 'mute' });
     this.spamDetection.addBannedPhrase({ text: '2', duration: 600, type: 'mute' });
