@@ -3,7 +3,7 @@ const RollingChatCache = require('../../../lib/services/dgg-rolling-chat-cache')
 const SpamDetection = require('../../../lib/services/spam-detection');
 
 describe('Spam detection Tests', () => {
-  before(function() {
+  beforeEach(function() {
     this.spamDetection = new SpamDetection({});
   });
 
@@ -140,9 +140,19 @@ describe('Spam detection Tests', () => {
   });
   it("doesn't match empty regex", function() {
     this.spamDetection.addBannedPhrase({ text: 'regex:', duration: 600, type: 'mute' });
-    const isBanned = this.spamDetection.checkAgainstBannedPhrases('Nothing should match regex:');
+    const isBanned = this.spamDetection.checkAgainstBannedPhrases(
+      'Nothing should match, even "regex:"',
+    );
 
     assert.deepStrictEqual(isBanned, false);
+  });
+  it('matches double-escaped regex characters as regex', function() {
+    this.spamDetection.addBannedPhrase({ text: 'regex:\\d\\d\\d', duration: 600, type: 'mute' });
+    const isBanned = this.spamDetection.checkAgainstBannedPhrases('Should match: 123');
+
+    assert.deepStrictEqual(isBanned, { text: 'regex:\\d\\d\\d', duration: 600, type: 'mute' });
+    const isBanned2 = this.spamDetection.checkAgainstBannedPhrases('Should NOT match: 12d');
+    assert.deepStrictEqual(isBanned2, false);
   });
   it('doesnt ban if phrase doesnt match', function() {
     this.spamDetection.addBannedPhrase({ text: '1', duration: 600, type: 'mute' });
