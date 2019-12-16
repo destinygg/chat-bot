@@ -152,6 +152,15 @@ describe('Spam detection Tests', () => {
     const isBanned2 = this.spamDetection.checkAgainstBannedPhrases('Should NOT match: 12d');
     assert.deepStrictEqual(isBanned2, false);
   });
+  it('does not match regex within phrase', function() {
+    this.spamDetection.addBannedPhrase({ text: 'wow/bob/wow', duration: 600, type: 'mute' });
+
+    const isBanned = this.spamDetection.checkAgainstBannedPhrases('Should match: wow/bob/wow');
+    assert.deepStrictEqual(isBanned, { text: 'wow/bob/wow', duration: 600, type: 'mute' });
+
+    const isBanned2 = this.spamDetection.checkAgainstBannedPhrases('Should NOT match: bob');
+    assert.deepStrictEqual(isBanned2, false);
+  });
   it('doesnt ban if phrase doesnt match', function() {
     this.spamDetection.addBannedPhrase({ text: '1', duration: 600, type: 'mute' });
     this.spamDetection.addBannedPhrase({ text: '2', duration: 600, type: 'mute' });
