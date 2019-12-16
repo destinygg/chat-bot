@@ -18,7 +18,7 @@
     "bunyan": "^1.8.12",
     "fast-levenshtein": "^2.0.6",
     "google-auth-library": "^2.0.0",
-    "googleapis": "^34.0.0",
+    "googleapis": "^46.0.0",
     "inspector-influx": "^2.0.0",
     "inspector-metrics": "^1.13.0",
     "lodash": "^4.17.13",
