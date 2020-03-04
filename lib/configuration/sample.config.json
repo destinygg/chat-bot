@@ -1,6 +1,7 @@
 {
   "chatToConnectTo": "dgg",
   "timezone": "America/Tijuana",
+  "timezoneString": "svensk",
   "dggChat": {
     "url": "ws://localhost:8420",
     "cookieToken": "yourCookieToken",
