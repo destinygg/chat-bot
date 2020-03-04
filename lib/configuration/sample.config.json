@@ -1,6 +1,7 @@
 {
   "chatToConnectTo": "dgg",
-  "dggChat":{
+  "timezone": "America/Tijuana",
+  "dggChat": {
     "url": "ws://localhost:8420",
     "cookieToken": "yourCookieToken",
     "botNick": "yourBotNick"
@@ -28,9 +29,9 @@
     "rateLimitMaxMessages": 4,
     "rateLimitSecondsToRefresh": 3
   },
-  "spamDetection":{
+  "spamDetection": {
     "asciiArtThreshold": 20,
-    "matchPercentPerUserThreshold": 0.90,
+    "matchPercentPerUserThreshold": 0.9,
     "messagesToSearch": 75,
     "nukeDepth": 900,
     "minimumStringSearchLength": 100,
@@ -40,7 +41,7 @@
     "timeToLiveSeconds": 21600,
     "tombStoneIntervalMilliseconds": 1200000
   },
-  "schedule":{
+  "schedule": {
     "messageIntervalMillis": 900000
   },
   "twitch": {
@@ -49,7 +50,7 @@
     "accessToken": "yourAccesstoken",
     "channelId": "yourChannel"
   },
-  "lastFm":{
+  "lastFm": {
     "url": "https://ws.audioscrobbler.com/2.0/",
     "username": "yourUsername",
     "apiKey": "yourApiKey"
@@ -67,5 +68,9 @@
   "youtube": {
     "YOUTUBE_API_KEY": "",
     "YOUTUBE_CHANNEL": ""
+  },
+  "googleCalendar": {
+    "GOOGLE_CALENDAR_API_KEY": "xxxxxxxxxxxx",
+    "GOOGLE_CALENDAR_ID": "xxxxxxxxxxxxx"
   }
 }

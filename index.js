@@ -30,7 +30,7 @@ const { logger } = services;
 services
   .prepareAsyncServices()
   .then(() => {
-    registerCommandsFromFiles(services.commandRegistry, chatToConnectTo);
+    registerCommandsFromFiles(services.commandRegistry, chatToConnectTo, config);
     logger.info('Config loaded! Starting bot!');
     return setupCommandsAndCachesFromDb(
       services.sql,
