@@ -31,6 +31,7 @@
     "rateLimitSecondsToRefresh": 3
   },
   "gulag": {
+    "enabled": false,
     "matchIntervalMilliseconds": 60000,
     "muteDurationSeconds": 3600,
     "matchDurationSeconds": 10
