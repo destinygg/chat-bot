@@ -32,7 +32,8 @@
   },
   "gulag": {
     "matchIntervalMilliseconds": 60000,
-    "muteDurationSeconds": 3600
+    "muteDurationSeconds": 3600,
+    "matchDurationSeconds": 10
   },
   "spamDetection": {
     "asciiArtThreshold": 20,
