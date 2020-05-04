@@ -32,9 +32,9 @@
   },
   "gulag": {
     "enabled": false,
-    "matchIntervalMilliseconds": 30000,
-    "muteDurationSeconds": 3600,
-    "matchDurationMilliseconds": 15000
+    "matchIntervalMilliseconds": 60000,
+    "muteDurationSeconds": 900,
+    "matchDurationMilliseconds": 45000
   },
   "spamDetection": {
     "asciiArtThreshold": 20,
