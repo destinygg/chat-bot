@@ -30,6 +30,10 @@
     "rateLimitMaxMessages": 4,
     "rateLimitSecondsToRefresh": 3
   },
+  "gulag": {
+    "matchIntervalMilliseconds": 60000,
+    "muteDurationSeconds": 3600
+  },
   "spamDetection": {
     "asciiArtThreshold": 20,
     "matchPercentPerUserThreshold": 0.9,
