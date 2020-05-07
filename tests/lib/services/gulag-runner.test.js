@@ -154,7 +154,7 @@ describe('Gulag Runner Tests', () => {
     }, 100)
   });
 
-  it('can handle running a gulag match with a winner where both players answer', (done) => {
+  it('can handle running a gulag match with a winner where both players answer correctly', (done) => {
     this.runner.countdownHandle = 'dummyhandle';
     this.runner.addPrisoner('prisoner1');
     this.runner.addPrisoner('prisoner2');
@@ -175,6 +175,34 @@ describe('Gulag Runner Tests', () => {
           `They have ${this.runner.matchDurationMilliseconds / 1000} seconds to answer with !answer.`,
           'The audience can use !stone <user> to cancel out a submitted answer',
           'prisoner1 beat prisoner2 by 0.001s and won their freedom'
+        ]);
+        done()
+      }, 700);
+    }, 100)
+  });
+
+  it('can handle running a gulag match with a winner where both players answer incorrectly', (done) => {
+    this.runner.countdownHandle = 'dummyhandle';
+    this.runner.addPrisoner('prisoner1');
+    this.runner.addPrisoner('prisoner2');
+    this.runner.matchDurationMilliseconds = 700;
+    this.runner.matchCountdownMilliseconds = 0;
+    this.runner.startMatchCountdown();
+    setTimeout(() => {
+      this.runner.currentMatch['prisoner1'] = ['wrong', 1];
+      this.runner.currentMatch['prisoner2'] = ['wrong2', 2];
+      setTimeout(() => {
+        assert.deepStrictEqual(this.mockServices.punishmentStream.punishments, [
+          makeMute('prisoner2', this.runner.muteDurationSeconds, 'Lost in the gulag'),
+          makeMute('prisoner1', this.runner.muteDurationSeconds, 'Lost in the gulag')
+        ]);
+        assert.deepStrictEqual(this.mockServices.messageRelay.messages.slice(0, 1), [
+          'prisoner2 and prisoner1 are now engaged in mortal combat in the gulag!'
+        ]);
+        assert.deepStrictEqual(this.mockServices.messageRelay.messages.slice(2), [
+          `They have ${this.runner.matchDurationMilliseconds / 1000} seconds to answer with !answer.`,
+          'The audience can use !stone <user> to cancel out a submitted answer',
+          'Neither prisoner2 nor prisoner1 were able to answer correctly'
         ]);
         done()
       }, 700);
