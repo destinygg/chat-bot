@@ -32,7 +32,7 @@
   },
   "gulag": {
     "enabled": false,
-    "matchIntervalMilliseconds": 60000,
+    "matchCountdownMilliseconds": 10000,
     "muteDurationSeconds": 900,
     "matchDurationMilliseconds": 45000,
     "maxStonesPerMatch": 1,
