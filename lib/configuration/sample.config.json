@@ -30,6 +30,14 @@
     "rateLimitMaxMessages": 4,
     "rateLimitSecondsToRefresh": 3
   },
+  "gulag": {
+    "enabled": false,
+    "matchCountdownMilliseconds": 10000,
+    "muteDurationSeconds": 900,
+    "matchDurationMilliseconds": 45000,
+    "maxStonesPerMatch": 1,
+    "stoneHitChance": 30
+  },
   "spamDetection": {
     "asciiArtThreshold": 20,
     "matchPercentPerUserThreshold": 0.9,

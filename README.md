@@ -80,6 +80,12 @@ Durations are in the format of the number, followed by h,m,s or d.
 | !deaths                                        | None                           | Outputs the current death counter                                                       | No             | !death !died                                      |
 | !incdeaths                                     | None                         | Adds 1 to the current death counter. Can only be updated once every 15 seconds to prevent 2 people updating          | Yes            |  !id !ideaths !incd    |                 
 | !setdeaths                                     | (number to set deaths to))   | Sets the death counter to the value specified                                             | Yes            |  !setd 50 !sdeaths  100                           |        
+| !gulag                                         | {user1} (user2) ... (user n) | Add specific users to the gulag queue                                                    | Yes           | !gulag derDeidra Dan
+| !release                                       | {user1} (user2) ... (user n) | Remove specific users from the gulag queue                                               | Yes           | !release derDeidra
+| !purge                                         | {pharse}                     | Add users who used the specified phrase to the gulag queue                               | Yes           | !purge PepeLaugh
+| !revolution                                    | None                         | Free all users from the gulag queue (does NOT unmute users who lost)                     | Yes           | !revolution
+| !answer                                        | {answer}                     | Used by gulag match participants to answer the gulag match question                      | No            | !answer 53
+| !stone                                         | {participant}                | Used by the audience to knock out the answers of match participants.  Configurable chance to hit. |  No  | !stone derDeidra             
 
 
 ## Todo
