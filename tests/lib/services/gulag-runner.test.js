@@ -106,7 +106,7 @@ describe('Gulag Runner Tests', () => {
     done()
   });
 
-  it('can handle running a gulag match with nobody answering', (done) => {
+  it('can handle running a gulag match when nobody answers in time', (done) => {
     this.runner.countdownHandle = 'dummyhandle';
     this.runner.addPrisoner('prisoner1');
     this.runner.addPrisoner('prisoner2');
@@ -128,7 +128,7 @@ describe('Gulag Runner Tests', () => {
     }, 1000)
   });
 
-  it('can handle running a gulag match with a winner', (done) => {
+  it('can handle running a gulag match with a winner where only 1 player answers in time', (done) => {
     this.runner.countdownHandle = 'dummyhandle';
     this.runner.addPrisoner('prisoner1');
     this.runner.addPrisoner('prisoner2');
@@ -181,7 +181,7 @@ describe('Gulag Runner Tests', () => {
     }, 100)
   });
 
-  it('can handle running a gulag match with a winner where both players answer incorrectly', (done) => {
+  it('can handle running a gulag match with no winner where both players answer incorrectly', (done) => {
     this.runner.countdownHandle = 'dummyhandle';
     this.runner.addPrisoner('prisoner1');
     this.runner.addPrisoner('prisoner2');
