@@ -65,7 +65,7 @@ Durations are in the format of the number, followed by h,m,s or d.
 | !unban                                         | {user}                       | Unbans a user                                                                           | Yes            | !unban JAYL                                         |
 | !nuke                                          | (duration) {phrase or regex} | Mutes anyone using the nuked phrase for 10m by default.                                 | Yes            | !nuke 30m KING MOUTON !nuke 30d /[A-Z]+\s?420/      |
 | !meganuke                                      | (duration) {phrase or regex} | IPBans anyone using the nuked phrase for 10m by default.                                | Yes            | !nuke 30m KING MOUTON !nuke 30d /[A-Z]+\s?420/      |
-| !aegis                                         | None                         | Removes any nukes that have been fired in the last 10 minutes and unmutes all users muted                | Yes                                                 |    
+| !aegis                                         | None                         | Removes any nukes that have been fired in the last 10 minutes and unmutes all users muted                | Yes                                                 |
 | !love                                          | None                         | Gives you love                                                                          | No             | !love Linusred                                      |
 | !addschcmd !asc                                | (commandToAdd)               | Schedules a static command to be sent from the bot every few minutes.                   | Yes            | !asc !hello                                         |
 | !deleteschcmd !dsc                             | (commandToDelete)            | Deletes a scheduled command so its not longer sent.                                     | Yes            | !dsc !hello                                         |
@@ -78,15 +78,9 @@ Durations are in the format of the number, followed by h,m,s or d.
 | !ud                                            | Any text                       | Updates the !duo command with whatever text you type.                                   | Yes            | !ud Lilypichu AYAYA                               |
 | !duo                                           | None                           | Outputs whatever is current stored using !ud                                            | No             | !duo                                              |
 | !deaths                                        | None                           | Outputs the current death counter                                                       | No             | !death !died                                      |
-| !incdeaths                                     | None                         | Adds 1 to the current death counter. Can only be updated once every 15 seconds to prevent 2 people updating          | Yes            |  !id !ideaths !incd    |                 
-| !setdeaths                                     | (number to set deaths to))   | Sets the death counter to the value specified                                             | Yes            |  !setd 50 !sdeaths  100                           |        
-| !gulag                                         | {user1} (user2) ... (user n) | Add specific users to the gulag queue                                                    | Yes           | !gulag derDeidra Dan
-| !release                                       | {user1} (user2) ... (user n) | Remove specific users from the gulag queue                                               | Yes           | !release derDeidra
-| !purge                                         | {pharse}                     | Add users who used the specified phrase to the gulag queue                               | Yes           | !purge PepeLaugh
-| !revolution                                    | None                         | Free all users from the gulag queue (does NOT unmute users who lost)                     | Yes           | !revolution
-| !answer                                        | {answer}                     | Used by gulag match participants to answer the gulag match question                      | No            | !answer 53
-| !stone                                         | {participant}                | Used by the audience to knock out the answers of match participants.  Configurable chance to hit. |  No  | !stone derDeidra             
-
+| !incdeaths                                     | None                         | Adds 1 to the current death counter. Can only be updated once every 15 seconds to prevent 2 people updating          | Yes            |  !id !ideaths !incd    |
+| !setdeaths                                     | (number to set deaths to))   | Sets the death counter to the value specified                                             | Yes            |  !setd 50 !sdeaths  100                           |
+| !gulag                                         | (duration) {user1} (user2) ... (user n) | Voteban between all included users. `random` as a username will select recent random chatter | Yes | !gulag derDeidra Dan
 
 ## Todo
 - Can always add more testing
