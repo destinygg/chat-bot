@@ -62,7 +62,8 @@
   "lastFm": {
     "url": "https://ws.audioscrobbler.com/2.0/",
     "username": "yourUsername",
-    "apiKey": "yourApiKey"
+    "apiKey": "yourApiKey",
+    "enable": true
   },
   "influx": {
     "enabled": false,
