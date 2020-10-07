@@ -59,6 +59,9 @@
     "accessToken": "yourAccesstoken",
     "channelId": "yourChannel"
   },
+  "timeBomb": {
+    "defaultBombDelaySeconds": 60
+  },
   "lastFm": {
     "url": "https://ws.audioscrobbler.com/2.0/",
     "username": "yourUsername",
