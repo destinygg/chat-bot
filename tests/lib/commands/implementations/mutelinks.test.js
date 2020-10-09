@@ -97,6 +97,14 @@ describe('Mutelinks Test', () => {
       message: 'wow i love this site destiny.gg',
       user: 'test6',
     });
+    messageRelay.relayMessageToListeners({
+      message: 'wow i love this site meme.com destiny.gg',
+      user: 'test7',
+    });
+    messageRelay.relayMessageToListeners({
+      message: 'wow i love this site meme.com destiny!',
+      user: 'test8',
+    });
 
     const output2 = mutelinks.work('off', this.mockServices);
     assert.deepStrictEqual(output2, new CommandOutput(null, 'Link muting turned off'));
@@ -106,7 +114,7 @@ describe('Mutelinks Test', () => {
       user: 'test7',
     });
 
-    assert.deepStrictEqual(punishmentStream.write.callCount, 2);
+    assert.deepStrictEqual(punishmentStream.write.callCount, 3);
     assert.deepStrictEqual(
       punishmentStream.write.getCall(0).args[0],
       makeMute('test4', 1200, 'test4 muted for 20m for posting a link while link muting is on.'),
@@ -114,6 +122,10 @@ describe('Mutelinks Test', () => {
     assert.deepStrictEqual(
       punishmentStream.write.getCall(1).args[0],
       makeMute('test5', 1200, 'test5 muted for 20m for posting a link while link muting is on.'),
+    );
+    assert.deepStrictEqual(
+      punishmentStream.write.getCall(2).args[0],
+      makeMute('test8', 1200, 'test8 muted for 20m for posting a link while link muting is on.'),
     );
   });
   it('message formats correctly and alerts of duplicate commands', function() {
