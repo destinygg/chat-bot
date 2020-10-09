@@ -55,7 +55,7 @@ Durations are in the format of the number, followed by h,m,s or d.
 | !stalk                                         | {user} (postnumber)          | Overrustle logs posts                                                                   | Yes            | !stalk Destiny 5                                    |
 | !time                                          | None                         | Current Steven Time                                                                     | No             | !time                                               |
 | !addcommand                                    | {command} {text}             | Adds a static command that can be called by anyone.                                     | Yes            | !addcommand !hello HEY HOWDY THERE PAL HOW YOU DOIN |
-| !deletecommand                                 | {commandToDelete}            | Deletes a static command                                                                | Yes            | !deleteCommand !hello                               |
+| !deletecommand !delcommand !removecommand !dc  | {commandToDelete}            | Deletes a static command                                                                | Yes            | !deleteCommand !hello                               |
 | !listcommands !lc                              | None                         | Lists all static database stored commands                                               | Yes            | !listcommands                                       |
 | !listscheduled !lsc                            | None                         | Lists all currently scheduled commands. Youtube and Calendar are always scheduled.      | Yes            | !lsc                                                |
 | !mute                                          | (duration) {user}            | Mutes a user                                                                            | Yes            | !mute 10m MrMouton                                  |
@@ -74,7 +74,7 @@ Durations are in the format of the number, followed by h,m,s or d.
 | !lastsong !pastsong !previoussong !earlierSong | None                         | Previous song before the current one being played on last.fm                            | No             | !lastsong                                           |
 | !youtube !yt !lastvideo                        | None                         | Last video posted on Destiny's youtube channel                                          | No             | !yt                                                 |
 | !addban !addmute                               | (duration) {banned phrase}   | Adds a banned phrase that will auto mute/ban upon a user posting it.                    | Yes            | !addban 10d HAHA GNOMED !addmute /\bwee(woo)?\b/    |
-| !mutelinks                                     | {on,off,all} (duration)      | Auto mute linkers. `on` only mutes links that mention the command sender. `all` mutes all links. | Yes   | !mutelinks on !mutelinks on 10m !mutelinks all 10m  |
+| !mutelinks !mutelink !linksmute !linkmute      | {on,off,all} (duration)      | Auto mute linkers. `on` only mutes links that mention the command sender. `all` mutes all links. | Yes   | !mutelinks on !mutelinks on 10m !mutelinks all 10m  |
 | !deleteban !delb                               | {banned phrase}              | Removes a banned or muted phrase. Works for both.                                       | Yes            | !deleteban HAHA GNOMED                              |
 | !live                                          | None                         | Reports the last time a stream was live, or how long the stream has been going.         | No             | !live                                               |
 | !ud                                            | Any text                     | Updates the !duo command with whatever text you type.                                   | Yes            | !ud Lilypichu AYAYA                                 |
@@ -83,6 +83,7 @@ Durations are in the format of the number, followed by h,m,s or d.
 | !incdeaths                                     | None                         | Adds 1 to the current death counter. Can only be updated once every 15 seconds to prevent 2 people updating          | Yes            |  !id !ideaths !incd    |
 | !setdeaths                                     | (number to set deaths to))   | Sets the death counter to the value specified                                             | Yes            |  !setd 50 !sdeaths  100                           |
 | !gulag                                         | (duration) {user1} (user2) ... (user n) | Voteban between all included users. `random` as a username will select a recent random chatter. | Yes | !gulag 30m derDeidra Dan                    |
+
 
 ## Todo
 - Can always add more testing
