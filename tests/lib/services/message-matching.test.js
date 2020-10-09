@@ -45,13 +45,16 @@ describe('Message matching tests ', () => {
     it('matches #2', () => assert.deepStrictEqual(mentionsUser('DesTiny hi', 'desTiny'), true));
     it('matches #3', () =>
       assert.deepStrictEqual(mentionsUser('destiny hi destiny destiny', 'DESTINY'), true));
+    it('matches #4', () => assert.deepStrictEqual(mentionsUser('destiny. hi', 'DESTINY'), true));
     it('matches #5', () => assert.deepStrictEqual(mentionsUser('destiny, yo gg', 'destiny'), true));
     it('matches #6', () => assert.deepStrictEqual(mentionsUser('destiny?', 'destiny'), true));
     it('matches #7', () => assert.deepStrictEqual(mentionsUser('destiny!', 'destiny'), true));
-    it('matches #8', () =>
+    it('not match #1', () =>
       assert.deepStrictEqual(mentionsUser('https://destiny!', 'destiny'), false));
-    it('matches #9', () => assert.deepStrictEqual(mentionsUser('destiny.gg', 'destiny'), false));
-    it('matches #10', () => assert.deepStrictEqual(mentionsUser('yodestiny.gg', 'destiny'), false));
-    it('matches #11', () => assert.deepStrictEqual(mentionsUser('yodestiny', 'destiny'), false));
+    it('not match #2', () => assert.deepStrictEqual(mentionsUser('destiny.gg', 'destiny'), false));
+    it('not match #3', () =>
+      assert.deepStrictEqual(mentionsUser('yodestiny.gg', 'destiny'), false));
+    it('not match #4', () => assert.deepStrictEqual(mentionsUser('yodestiny', 'destiny'), false));
+    it('not match #5', () => assert.deepStrictEqual(mentionsUser('destinyt', 'DESTINY'), false));
   });
 });
