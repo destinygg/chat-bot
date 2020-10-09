@@ -94,7 +94,7 @@ describe('Mutelinks Test', () => {
       user: 'test5',
     });
     messageRelay.relayMessageToListeners({
-      message: 'destinysenpai click https://twitch.tv',
+      message: 'wow i love this site destiny.gg',
       user: 'test6',
     });
 

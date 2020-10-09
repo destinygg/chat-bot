@@ -45,5 +45,6 @@ describe('Message matching tests ', () => {
     it('matches #2', () => assert.deepStrictEqual(mentionsUser('DesTiny hi', 'desTiny'), true));
     it('matches #3', () =>
       assert.deepStrictEqual(mentionsUser('destiny hi destiny destiny', 'DESTINY'), true));
+    it('matches #3', () => assert.deepStrictEqual(mentionsUser('destiny.gg', 'destiny'), false));
   });
 });
