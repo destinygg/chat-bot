@@ -16,9 +16,14 @@ describe('Youtube Tests', () => {
     return {
         channels: {
             list: function(payload){
-                return Promise.resolve({
-                    data: mockResponses.getChannelsUploadedPlaylistId
-                })
+                switch(payload.part) {
+                    case 'contentDetails':
+                        return Promise.resolve({ data: mockResponses.getChannelsUploadedPlaylistId });
+                    case 'id':
+                        return Promise.resolve({ data: mockResponses.getChannelIdFromUsername });
+                    default:
+                        return Promise.reject('YOU FUCKED UP');
+                }
             }
         },
         playlistItems: {
@@ -27,13 +32,28 @@ describe('Youtube Tests', () => {
                     data: mockResponses.getListOfUploadedVideos
                 });
             }
+        },
+        search: {
+            list: function(){
+                return Promise.resolve({
+                    //data: mockResponses.getActiveLiveBroadcastsVideoIdOffline
+                    data: mockResponses.getActiveLiveBroadcastsVideoId
+                })
+            }
+        },
+        videos: {
+            list: function(){
+                return Promise.resolve({
+                    //data: mockResponses.getConcurrentViewersOffline
+                    data: mockResponses.getConcurrentViewers
+                })
+            }
         }
     }
   }
 
   const youtubeProxy = proxyquire('../../../lib/services/youtube', { 'googleapis': { google: pathStub }})
   const yt = new youtubeProxy(config);
-
 
   it('Gets a Channels Uploaded Playlist Id', function () {
 
@@ -55,6 +75,29 @@ describe('Youtube Tests', () => {
     return yt.getLatestUploadedVideo()
     .then(function (response) {
         return assert.equal(response, mockResponses.getListOfUploadedVideos.items[0]);
+    });
+  });
+
+  it('Gets the channel id from username', function() {
+      return yt.getChannelIdFromUsername(config.YOUTUBE_CHANNEL)
+      .then(function (response) {
+          return assert.strictEqual(response, 'UC554eY5jNUfDq3yDOJYirOQ')
+      });
+  });
+
+  it('Gets live broadcast details from channel id', function() {
+    return yt.getActiveLiveBroadcastsVideoId()
+    .then(function (response) {
+        //return assert.strictEqual(response, null);
+        return assert.strictEqual(response, 'qif_XUayrWY');
+    });
+  });
+
+  it('Gets live broadcast concurrent viewers count', function() {
+    return yt.getConcurrentViewers()
+    .then(function (response) {
+        //return assert.strictEqual(response, null);
+        return assert.strictEqual(response, '1785');
     });
   });
 

@@ -75,5 +75,105 @@
         }
       }
     ]
+  },
+  "getChannelIdFromUsername": {
+    "kind": "youtube#channelListResponse",
+    "etag": "HDb0rTGfEHM-71GKrEi-ppIjOBU",
+    "pageInfo": {
+      "totalResults": 1,
+      "resultsPerPage": 5
+    },
+    "items": [
+      {
+        "kind": "youtube#channel",
+        "etag": "68OLRYpJC3FdmRmtCbYPgCz1jIs",
+        "id": "UC554eY5jNUfDq3yDOJYirOQ"
+      }
+    ]
+  },
+  "getActiveLiveBroadcastsVideoId": {
+    "kind": "youtube#searchListResponse",
+    "etag": "ltkmVel3nQbC33R4NfZoYfKYjoQ",
+    "regionCode": "US",
+    "pageInfo": {
+      "totalResults": 1,
+      "resultsPerPage": 5
+    },
+    "items": [
+      {
+        "kind": "youtube#searchResult",
+        "etag": "lPm4OW84dH30emAhxIF_QUVHz0U",
+        "id": {
+          "kind": "youtube#video",
+          "videoId": "qif_XUayrWY"
+        },
+        "snippet": {
+          "publishedAt": "2020-10-10T19:04:09Z",
+          "channelId": "UC554eY5jNUfDq3yDOJYirOQ",
+          "title": "Setting up stream stuffs, Starcraft 2, then Wastelands 3 later tonight",
+          "description": "Powered by Restream https://restream.io/ Setting up stream stuffs, Starcraft 2, then Wastelands 3 later tonight.",
+          "thumbnails": {
+            "default": {
+              "url": "https://i.ytimg.com/vi/qif_XUayrWY/default_live.jpg",
+              "width": 120,
+              "height": 90
+            },
+            "medium": {
+              "url": "https://i.ytimg.com/vi/qif_XUayrWY/mqdefault_live.jpg",
+              "width": 320,
+              "height": 180
+            },
+            "high": {
+              "url": "https://i.ytimg.com/vi/qif_XUayrWY/hqdefault_live.jpg",
+              "width": 480,
+              "height": 360
+            }
+          },
+          "channelTitle": "Destiny",
+          "liveBroadcastContent": "live",
+          "publishTime": "2020-10-10T19:04:09Z"
+        }
+      }
+    ]
+  },
+  "getActiveLiveBroadcastsVideoIdOffline": {
+    "kind": "youtube#searchListResponse",
+    "etag": "ltkmVel3nQbC33R4NfZoYfKYjoQ",
+    "regionCode": "US",
+    "pageInfo": {
+      "totalResults": 1,
+      "resultsPerPage": 5
+    },
+    "items": []
+  },
+  "getConcurrentViewers": {
+    "kind": "youtube#videoListResponse",
+    "etag": "asdBmhAo0sk8pRVHMVH5dBpnzW0",
+    "items": [
+      {
+        "kind": "youtube#video",
+        "etag": "d7_SxNUwnmRN7geQibeTHhMIF2Y",
+        "id": "qif_XUayrWY",
+        "liveStreamingDetails": {
+          "actualStartTime": "2020-10-10T19:04:28Z",
+          "scheduledStartTime": "2020-10-10T19:04:25Z",
+          "concurrentViewers": "1785",
+          "activeLiveChatId": "Cg0KC3FpZl9YVWF5cldZKicKGFVDNTU0ZVk1ak5VZkRxM3lET0pZaXJPURILcWlmX1hVYXlyV1k"
+        }
+      }
+    ],
+    "pageInfo": {
+      "totalResults": 1,
+      "resultsPerPage": 1
+    }
+  },
+  "getConcurrentViewersOffline": {
+    "kind": "youtube#videoListResponse",
+    "etag": "asdBmhAo0sk8pRVHMVH5dBpnzW0",
+    "items": [],
+    "pageInfo": {
+      "totalResults": 1,
+      "resultsPerPage": 1
+    }
   }
 }
