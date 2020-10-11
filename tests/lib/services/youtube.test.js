@@ -13,6 +13,8 @@ describe('Youtube Tests', () => {
   const pathStub = function(){
   }
   pathStub.youtube = function(config){
+    let searchCalled = 0;
+    let videosCalled = 0;
     return {
         channels: {
             list: function(payload){
@@ -35,18 +37,26 @@ describe('Youtube Tests', () => {
         },
         search: {
             list: function(){
-                return Promise.resolve({
-                    //data: mockResponses.getActiveLiveBroadcastsVideoIdOffline
-                    data: mockResponses.getActiveLiveBroadcastsVideoId
-                })
+                searchCalled += 1;
+
+                if (searchCalled % 2 === 1) {
+                    return Promise.resolve({ data: mockResponses.getActiveLiveBroadcastsVideoId });
+                }
+                if (searchCalled % 2 === 0) {
+                    return Promise.resolve({ data: mockResponses.getActiveLiveBroadcastsVideoIdOffline });
+                }
             }
         },
         videos: {
             list: function(){
-                return Promise.resolve({
-                    //data: mockResponses.getConcurrentViewersOffline
-                    data: mockResponses.getConcurrentViewers
-                })
+                videosCalled += 1;
+                console.warn(`videosCalled ${videosCalled}`);
+                if (videosCalled === 1) {
+                    return Promise.resolve({ data: mockResponses.getConcurrentViewers });
+                }
+                if (videosCalled === 2) {
+                    return Promise.resolve({ data: mockResponses.getConcurrentViewersOffline });
+                }
             }
         }
     }
@@ -88,16 +98,28 @@ describe('Youtube Tests', () => {
   it('Gets live broadcast details from channel id', function() {
     return yt.getActiveLiveBroadcastsVideoId()
     .then(function (response) {
-        //return assert.strictEqual(response, null);
         return assert.strictEqual(response, 'qif_XUayrWY');
+    });
+  });
+
+  it('Gets live broadcast details from channel id when offline', function() {
+    return yt.getActiveLiveBroadcastsVideoId()
+    .then(function (response) {
+        return assert.strictEqual(response, null);
     });
   });
 
   it('Gets live broadcast concurrent viewers count', function() {
     return yt.getConcurrentViewers()
     .then(function (response) {
-        //return assert.strictEqual(response, null);
         return assert.strictEqual(response, '1785');
+    });
+  });
+
+  it('Gets live broadcast concurrent viewers count when offline', function() {
+    return yt.getConcurrentViewers()
+    .then(function (response) {
+        return assert.strictEqual(response, null);
     });
   });
 
