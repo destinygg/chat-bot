@@ -9,8 +9,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "body-parser": "^1.18.3",
-    "restify": "^7.2.1",
-    "ws": "^6.1.0"
+    "body-parser": "^1.19.0",
+    "restify": "^8.5.1",
+    "ws": "^7.3.1"
   }
 }
