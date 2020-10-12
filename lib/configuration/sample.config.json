@@ -25,6 +25,7 @@
   "punishmentCache": {
     "baseMuteSeconds": 60,
     "muteGrowthMultiplier": 2,
+    "maxMuteSeconds": 86400,
     "timeToLiveSeconds": 600,
     "tomeStoneIntervalMilliseconds": 60000,
     "rateLimitMaxMessages": 4,
