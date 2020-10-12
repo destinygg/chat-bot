@@ -1,4 +1,4 @@
-FROM node:8.12.0
+FROM node:erbium
 COPY package.json package.json
 COPY package-lock.json package-lock.json
 RUN npm install
