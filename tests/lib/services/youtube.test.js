@@ -2,6 +2,7 @@ const assert = require('assert');
 const sinon = require('sinon');
 const proxyquire  = require('proxyquire').noCallThru();
 const mockResponses = require('./mocks/youtube-responses.json')
+const moment = require('moment');
 
 describe('Youtube Tests', () => {
 
@@ -110,16 +111,16 @@ describe('Youtube Tests', () => {
   });
 
   it('Gets live broadcast concurrent viewers count', function() {
-    return yt.getConcurrentViewers()
+    return yt.getChannelStatus()
     .then(function (response) {
-        return assert.strictEqual(response, '1785');
+        return assert.deepStrictEqual(response, { isLive: true, viewers: '1785', started: moment('2020-10-10T19:04:28Z', 'YYYY-MM-DDTHH:mm:ssZ') });
     });
   });
 
   it('Gets live broadcast concurrent viewers count when offline', function() {
-    return yt.getConcurrentViewers()
+    return yt.getChannelStatus()
     .then(function (response) {
-        return assert.strictEqual(response, null);
+        return assert.deepStrictEqual(response, { isLive: false });
     });
   });
 
