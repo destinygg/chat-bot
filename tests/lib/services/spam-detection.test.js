@@ -197,7 +197,7 @@ describe('Spam detection Tests', () => {
       ],
       'abc123',
     );
-    assert.deepStrictEqual(result, { duration: 500, phrase: '123' });
+    assert.deepStrictEqual(result, { duration: 500, isMegaNuke: false, phrase: '123' });
   });
 
   it('matches case insensitive nuked phrases with content and picks the highest one', function() {
@@ -208,7 +208,7 @@ describe('Spam detection Tests', () => {
       ],
       'abc',
     );
-    assert.deepStrictEqual(result, { duration: 100, phrase: 'ABC' });
+    assert.deepStrictEqual(result, { duration: 100, isMegaNuke: false, phrase: 'ABC' });
   });
 
   it('matches case insensitive nuked phrases with content', function() {
@@ -219,7 +219,7 @@ describe('Spam detection Tests', () => {
       ],
       'AUT',
     );
-    assert.deepStrictEqual(result, { duration: 500, phrase: 'AUT' });
+    assert.deepStrictEqual(result, { duration: 500, isMegaNuke: false, phrase: 'AUT' });
   });
 
   it('returns 0 on finding no matches', function() {
@@ -230,12 +230,12 @@ describe('Spam detection Tests', () => {
       ],
       'eeeee',
     );
-    assert.deepStrictEqual(result, { duration: 0, phrase: '' });
+    assert.deepStrictEqual(result, { duration: 0, isMegaNuke: false, phrase: '' });
   });
 
   it('returns 0 on an empty nuke list', function() {
     const result = SpamDetection.isMessageNuked([], 'eeeee');
-    assert.deepStrictEqual(result, { duration: 0, phrase: '' });
+    assert.deepStrictEqual(result, { duration: 0, isMegaNuke: false, phrase: '' });
   });
 
   it('works with regex nuke phrases', function() {
@@ -246,7 +246,7 @@ describe('Spam detection Tests', () => {
       ],
       'abc',
     );
-    assert.deepStrictEqual(result, { duration: 500, phrase: '/abc/' });
+    assert.deepStrictEqual(result, { duration: 500, isMegaNuke: false, phrase: '/abc/' });
   });
 
   it('mutes stupid repated things', function() {
