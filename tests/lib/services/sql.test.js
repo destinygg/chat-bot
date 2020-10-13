@@ -237,7 +237,7 @@ describe('SQLite Tests', () => {
     });
   });
 
-  it('increments death again', function (done) {
+  it.skip('increments death again', function (done) {
     const expected = [];
     this.timeout(3000)
     this.sql.incrementDeaths(2)
@@ -256,7 +256,7 @@ describe('SQLite Tests', () => {
     this.sql.getDeaths()
   });
 
-  it('increments death but only if the update length of seconds has passed', function (done) {
+  it.skip('increments death but only if the update length of seconds has passed', function (done) {
     const expected = [];
     this.timeout(3000)
     this.sql.incrementDeaths(2)
