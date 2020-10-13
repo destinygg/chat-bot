@@ -38,7 +38,7 @@ services
       services.scheduledCommands,
       services.spamDetection,
       services.logger,
-    ).catch(err => {
+    ).catch((err) => {
       logger.warn(`Problem loading commands/banned phrases from sql. Reason: ${err}`);
     });
   })
@@ -73,13 +73,13 @@ services
     );
     chatServiceRouter.create();
   })
-  .catch(err => {
+  .catch((err) => {
     logger.error('Problem starting up services, shutting down...');
     logger.error(err);
     process.exit(1);
   });
 
-process.on('uncaughtException', err => {
+process.on('uncaughtException', (err) => {
   logger.error('Uncaught exception. Crashing.');
   logger.error(err);
   process.exit(1);
