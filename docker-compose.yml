@@ -9,6 +9,7 @@ services:
       - ./prod.config.json:/usr/src/app/lib/configuration/prod.config.json:ro
       - ./database:/usr/src/app/database
     command: ["node", "/usr/src/app/index.js", "--chat=dgg"]
+    restart: unless-stopped
   bot-ttv:
     build:
       context: .
@@ -18,3 +19,4 @@ services:
       - ./prod.config.json:/usr/src/app/lib/configuration/prod.config.json:ro
       - ./database:/usr/src/app/database
     command: ["node", "/usr/src/app/index.js", "--chat=twitch"]
+    restart: unless-stopped
