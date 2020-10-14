@@ -1,5 +1,10 @@
 /* eslint-disable no-process-exit */
-const { argv } = require('yargs');
+const yargs = require('yargs/yargs');
+
+const { argv } = yargs(process.argv.slice(2)).options({
+  config: { type: 'string' },
+  chat: { choices: ['twitch', 'dgg'] },
+});
 
 const DestinyChat = require('./lib/services/destinychat');
 const TwitchChat = require('./lib/services/twitch-chat');
