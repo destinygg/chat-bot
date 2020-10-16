@@ -15,22 +15,23 @@ const {
 const { configureReporter } = require('./lib/services/metrics/metrics-reporter');
 
 const config = loadConfig(argv.config);
-const chatToConnectTo = argv.chat || config.chatToConnectTo;
-config.chatToConnectTo = chatToConnectTo;
+if (typeof argv.chat === 'string') {
+  config.chatToConnectTo = argv.chat;
+}
 
 if (config === null) {
   // eslint-disable-next-line no-console
   console.log('WARNING: Config file not found, no config loaded. Shutting down.');
   process.exit(0);
 }
-const services = new Services(config, chatToConnectTo);
+const services = new Services(config, config.chatToConnectTo);
 configureReporter(config.influx, new Map([['chat', config.chatToConnectTo]]));
 const { logger } = services;
 
 services
   .prepareAsyncServices()
   .then(() => {
-    registerCommandsFromFiles(services.commandRegistry, chatToConnectTo, config);
+    registerCommandsFromFiles(services.commandRegistry, config.chatToConnectTo, config);
     logger.info('Config loaded! Starting bot!');
     return setupCommandsAndCachesFromDb(
       services.sql,
@@ -43,14 +44,14 @@ services
     });
   })
   .then(() => {
-    logger.info(`Configuring for ${chatToConnectTo} chat`);
+    logger.info(`Configuring for ${config.chatToConnectTo} chat`);
     const commandRouter = new CommandRouter(services);
     const messageRouter = new MessageRouter({}, services);
     let bot = null;
 
-    if (chatToConnectTo === 'twitch') {
+    if (config.chatToConnectTo === 'twitch') {
       bot = new TwitchChat(config.twitch, services);
-    } else if (chatToConnectTo === 'dgg') {
+    } else if (config.chatToConnectTo === 'dgg') {
       bot = new DestinyChat(config.dggChat, services);
     } else {
       logger.error('Config property: "chatToConnectTo" not set to one of "dgg" or "twitch"');

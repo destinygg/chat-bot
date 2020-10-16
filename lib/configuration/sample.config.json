@@ -82,5 +82,11 @@
   "googleCalendar": {
     "GOOGLE_CALENDAR_API_KEY": "xxxxxxxxxxxx",
     "GOOGLE_CALENDAR_ID": "xxxxxxxxxxxxx"
+  },
+  "redditVote": {
+    "enabled": false,
+    "scriptPath": "",
+    "threadFilePath": "",
+    "stateStoreFilePath": ""
   }
 }
