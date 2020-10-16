@@ -1,4 +1,4 @@
-FROM node:14-slim
+FROM node:14-slim as builder
 
 WORKDIR /usr/src/app
 
@@ -11,13 +11,16 @@ RUN apt-get update && apt-get install -y \
 COPY package.json package.json
 COPY package-lock.json package-lock.json
 
-RUN npm install
+RUN npm install --production
 
-RUN apt-get remove -y \
-    python3 \
-    gcc \
-    build-essential \
-    && apt-get clean
+##### RUNNER #####
+FROM node:14-slim
+
+WORKDIR /usr/src/app
+USER node
+
+COPY package.json package.json
+COPY --from=builder /usr/src/app/node_modules node_modules
 
 COPY lib lib
 COPY index.js index.js
