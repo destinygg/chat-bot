@@ -5,6 +5,7 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: bot-dgg
+    user: 1004:1004
     volumes:
       - ./prod.config.json:/usr/src/app/lib/configuration/prod.config.json:ro
       - ./database:/usr/src/app/database
@@ -15,6 +16,7 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: bot-ttv
+    user: 1004:1004
     volumes:
       - ./prod.config.json:/usr/src/app/lib/configuration/prod.config.json:ro
       - ./database:/usr/src/app/database
