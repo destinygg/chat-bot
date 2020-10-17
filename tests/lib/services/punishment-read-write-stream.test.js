@@ -38,4 +38,10 @@ describe('Mute capping tests', () => {
     punishmentReadWriteStream.sendMute('mute', 200, 'mute', 'tommy');
     assert.deepStrictEqual(100, punishmentReadWriteStream.read().duration);
   });
+
+  it('throws a TypeError if the mute duration is a string', function() {
+    const punishmentReadWriteStream = new PunishmentReadWriteStream(this.mockServices);
+    punishmentReadWriteStream.sendMute('mute', 'OOO', 'mute', 'tommy');
+    assert.throws(() => {punishmentReadWriteStream.sendMute().read(), TypeError});
+  });
 });
