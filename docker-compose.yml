@@ -1,0 +1,28 @@
+version: '3.4'
+services:
+  bot-dgg:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: bot-dgg
+    user: 1004:1004
+    volumes:
+      - ./prod.config.json:/usr/src/app/lib/configuration/prod.config.json:ro
+      - ./database:/usr/src/app/database
+    command: ["node", "/usr/src/app/index.js", "--chat=dgg"]
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+  bot-ttv:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: bot-ttv
+    user: 1004:1004
+    volumes:
+      - ./prod.config.json:/usr/src/app/lib/configuration/prod.config.json:ro
+      - ./database:/usr/src/app/database
+    command: ["node", "/usr/src/app/index.js", "--chat=twitch"]
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
