@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y \
 COPY package.json package.json
 COPY package-lock.json package-lock.json
 
-RUN npm install --production
+RUN npm ci
 
 ##### RUNNER #####
 FROM node:14-slim
