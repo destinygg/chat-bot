@@ -70,7 +70,15 @@ describe('Youtube Tests', () => {
 
     return yt.getChannelsUploadedPlaylistId(config.YOUTUBE_CHANNEL)
     .then(function (response) {
-        return assert.equal(response, "UU554eY5jNUfDq3yDOJYirOQ");
+        return assert.strictEqual(response, "UU554eY5jNUfDq3yDOJYirOQ");
+    });
+  });
+
+  it('Gets a Channels Uploaded Playlist Id and caches it', function () {
+
+    return yt.getChannelsUploadedPlaylistId(config.YOUTUBE_CHANNEL)
+    .then(function () {
+        return assert.strictEqual(yt.playlistId, "UU554eY5jNUfDq3yDOJYirOQ");
     });
   });
 
@@ -95,6 +103,13 @@ describe('Youtube Tests', () => {
           return assert.strictEqual(response, 'UC554eY5jNUfDq3yDOJYirOQ')
       });
   });
+
+  it('Gets the channel id from username and caches it', function() {
+    return yt.getChannelIdFromUsername(config.YOUTUBE_CHANNEL)
+    .then(function () {
+        return assert.strictEqual(yt.channelId, 'UC554eY5jNUfDq3yDOJYirOQ')
+    });
+});
 
   it('Gets live broadcast details from channel id', function() {
     return yt.getActiveLiveBroadcastsVideoId()
