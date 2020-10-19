@@ -2,6 +2,7 @@
 const { argv } = require('yargs');
 
 const DestinyChat = require('./lib/services/destinychat');
+const YoutubeChat = require('./lib/services/youtube-chat');
 const TwitchChat = require('./lib/services/twitch-chat');
 const CommandRouter = require('./lib/message-routing/command-router');
 const Services = require('./lib/services/service-index');
@@ -52,8 +53,12 @@ services
       bot = new TwitchChat(config.twitch, services);
     } else if (chatToConnectTo === 'dgg') {
       bot = new DestinyChat(config.dggChat, services);
+    } else if (chatToConnectTo === 'youtube') {
+      bot = new YoutubeChat(config.youtubeChat, services);
     } else {
-      logger.error('Config property: "chatToConnectTo" not set to one of "dgg" or "twitch"');
+      logger.error(
+        'Config property: "chatToConnectTo" not set to one of "dgg", "twitch" or "youtube"',
+      );
       process.exit(1);
     }
     // Schedule some complex stuff
