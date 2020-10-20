@@ -77,7 +77,8 @@
   },
   "youtube": {
     "YOUTUBE_API_KEY": "",
-    "YOUTUBE_CHANNEL": ""
+    "YOUTUBE_CHANNEL": "",
+    "liveViewerCountTimeToLiveSeconds": 300
   },
   "googleCalendar": {
     "GOOGLE_CALENDAR_API_KEY": "xxxxxxxxxxxx",
