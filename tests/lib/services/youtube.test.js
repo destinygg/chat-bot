@@ -8,7 +8,8 @@ describe('Youtube Tests', () => {
 
   const config = {
       YOUTUBE_API_KEY: 'TEST123',
-      YOUTUBE_CHANNEL: 'Destiny'
+      YOUTUBE_CHANNEL: 'Destiny',
+      liveViewerCountTimeToLiveSeconds: 300
   };
 
   const pathStub = function(){
@@ -51,13 +52,11 @@ describe('Youtube Tests', () => {
         videos: {
             list: function(){
                 videosCalled += 1;
-                console.warn(`videosCalled ${videosCalled}`);
-                if (videosCalled === 1) {
-                    return Promise.resolve({ data: mockResponses.getConcurrentViewers });
-                }
+
                 if (videosCalled === 2) {
                     return Promise.resolve({ data: mockResponses.getConcurrentViewersOffline });
                 }
+                return Promise.resolve({ data: mockResponses.getConcurrentViewers });
             }
         }
     }
@@ -65,6 +64,15 @@ describe('Youtube Tests', () => {
 
   const youtubeProxy = proxyquire('../../../lib/services/youtube', { 'googleapis': { google: pathStub }})
   const yt = new youtubeProxy(config);
+
+  beforeEach(function () {
+    this.clock = sinon.useFakeTimers(1603155310586);
+  });
+
+  afterEach(function () {
+    this.clock.restore();
+    yt.liveViewerCache = {};
+  });
 
   it('Gets a Channels Uploaded Playlist Id', function () {
 
@@ -128,15 +136,45 @@ describe('Youtube Tests', () => {
   it('Gets live broadcast concurrent viewers count', function() {
     return yt.getChannelStatus()
     .then(function (response) {
-        return assert.deepStrictEqual(response, { isLive: true, viewers: '1785', started: moment('2020-10-10T19:04:28Z', 'YYYY-MM-DDTHH:mm:ssZ') });
+        return assert.deepStrictEqual(response, { timestamp: 1603155310, isLive: true, viewers: '1785', started: moment('2020-10-10T19:04:28Z', 'YYYY-MM-DDTHH:mm:ssZ') });
     });
   });
 
   it('Gets live broadcast concurrent viewers count when offline', function() {
     return yt.getChannelStatus()
     .then(function (response) {
-        return assert.deepStrictEqual(response, { isLive: false });
+        return assert.deepStrictEqual(response, { timestamp: 1603155310, isLive: false });
     });
   });
 
+  it('uses live viewer cache when not yet expired', function() {
+    const meme = yt.getChannelStatus;
+    return yt.getChannelStatus()
+    .then(function (response) {
+        return assert.deepStrictEqual(response, { timestamp: 1603155310, isLive: true, viewers: '1785', started: moment('2020-10-10T19:04:28Z', 'YYYY-MM-DDTHH:mm:ssZ') });
+    })
+    .then(() => {
+        this.clock.tick(1*60*1000);
+        console.warn(meme === yt.getChannelStatus)
+        return yt.getChannelStatus()
+        .then(function (response) {
+            return assert.deepStrictEqual(response, { timestamp: 1603155310, isLive: true, viewers: '1785', started: moment('2020-10-10T19:04:28Z', 'YYYY-MM-DDTHH:mm:ssZ') });
+        })
+    });
+  });
+
+  it('refreshes live viewer count when cache expired', function() {
+    return yt.getChannelStatus()
+    .then(function (response) {
+        return assert.deepStrictEqual(response, { timestamp: 1603155310, isLive: true, viewers: '1785', started: moment('2020-10-10T19:04:28Z', 'YYYY-MM-DDTHH:mm:ssZ') });
+    })
+    .then(() => {
+        this.clock.tick(6*60*1000);
+        return yt.getChannelStatus()
+        .then(function (response) {
+            const timestamp = 1603155310+(6*60);
+            return assert.deepStrictEqual(response, { timestamp, isLive: true, viewers: '1785', started: moment('2020-10-10T19:04:28Z', 'YYYY-MM-DDTHH:mm:ssZ') });
+        })
+    });
+  });
 });
