@@ -20,7 +20,7 @@ describe('Youtube Tests', () => {
     return {
         channels: {
             list: function(payload){
-                switch(payload.part) {
+                switch(payload.part.join()) {
                     case 'contentDetails':
                         return Promise.resolve({ data: mockResponses.getChannelsUploadedPlaylistId });
                     case 'id':
