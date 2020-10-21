@@ -148,14 +148,12 @@ describe('Youtube Tests', () => {
   });
 
   it('uses live viewer cache when not yet expired', function() {
-    const meme = yt.getChannelStatus;
     return yt.getChannelStatus()
     .then(function (response) {
         return assert.deepStrictEqual(response, { timestamp: 1603155310, isLive: true, viewers: '1785', started: moment('2020-10-10T19:04:28Z', 'YYYY-MM-DDTHH:mm:ssZ') });
     })
     .then(() => {
         this.clock.tick(1*60*1000);
-        console.warn(meme === yt.getChannelStatus)
         return yt.getChannelStatus()
         .then(function (response) {
             return assert.deepStrictEqual(response, { timestamp: 1603155310, isLive: true, viewers: '1785', started: moment('2020-10-10T19:04:28Z', 'YYYY-MM-DDTHH:mm:ssZ') });
