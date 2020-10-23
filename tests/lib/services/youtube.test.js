@@ -20,7 +20,7 @@ describe('Youtube Tests', () => {
     return {
         channels: {
             list: function(payload){
-                switch(payload.part) {
+                switch(payload.part.join(',')) {
                     case 'contentDetails':
                         return Promise.resolve({ data: mockResponses.getChannelsUploadedPlaylistId });
                     case 'id':
@@ -86,7 +86,7 @@ describe('Youtube Tests', () => {
 
     return yt.getChannelsUploadedPlaylistId(config.YOUTUBE_CHANNEL)
     .then(function () {
-        return assert.strictEqual(yt.playlistId, "UU554eY5jNUfDq3yDOJYirOQ");
+        return assert.strictEqual(yt.etags['getChannelsUploadedPlaylistId'].data.items[0].contentDetails.relatedPlaylists.uploads, 'UU554eY5jNUfDq3yDOJYirOQ')
     });
   });
 
@@ -115,7 +115,7 @@ describe('Youtube Tests', () => {
   it('Gets the channel id from username and caches it', function() {
     return yt.getChannelIdFromUsername(config.YOUTUBE_CHANNEL)
     .then(function () {
-        return assert.strictEqual(yt.channelId, 'UC554eY5jNUfDq3yDOJYirOQ')
+        return assert.strictEqual(yt.etags['getChannelIdFromUsername'].data.items[0].id, 'UC554eY5jNUfDq3yDOJYirOQ')
     });
 });
 
@@ -144,35 +144,6 @@ describe('Youtube Tests', () => {
     return yt.getChannelStatus()
     .then(function (response) {
         return assert.deepStrictEqual(response, { timestamp: 1603155310, isLive: false });
-    });
-  });
-
-  it('uses live viewer cache when not yet expired', function() {
-    return yt.getChannelStatus()
-    .then(function (response) {
-        return assert.deepStrictEqual(response, { timestamp: 1603155310, isLive: true, viewers: '1785', started: moment('2020-10-10T19:04:28Z', 'YYYY-MM-DDTHH:mm:ssZ') });
-    })
-    .then(() => {
-        this.clock.tick(1*60*1000);
-        return yt.getChannelStatus()
-        .then(function (response) {
-            return assert.deepStrictEqual(response, { timestamp: 1603155310, isLive: true, viewers: '1785', started: moment('2020-10-10T19:04:28Z', 'YYYY-MM-DDTHH:mm:ssZ') });
-        })
-    });
-  });
-
-  it('refreshes live viewer count when cache expired', function() {
-    return yt.getChannelStatus()
-    .then(function (response) {
-        return assert.deepStrictEqual(response, { timestamp: 1603155310, isLive: true, viewers: '1785', started: moment('2020-10-10T19:04:28Z', 'YYYY-MM-DDTHH:mm:ssZ') });
-    })
-    .then(() => {
-        this.clock.tick(6*60*1000);
-        return yt.getChannelStatus()
-        .then(function (response) {
-            const timestamp = 1603155310+(6*60);
-            return assert.deepStrictEqual(response, { timestamp, isLive: true, viewers: '1785', started: moment('2020-10-10T19:04:28Z', 'YYYY-MM-DDTHH:mm:ssZ') });
-        })
     });
   });
 });
