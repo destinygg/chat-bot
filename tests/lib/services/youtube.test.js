@@ -20,7 +20,7 @@ describe('Youtube Tests', () => {
     return {
         channels: {
             list: function(payload){
-                switch(payload.part) {
+                switch(payload.part.join(',')) {
                     case 'contentDetails':
                         return Promise.resolve({ data: mockResponses.getChannelsUploadedPlaylistId });
                     case 'id':
@@ -86,7 +86,7 @@ describe('Youtube Tests', () => {
 
     return yt.getChannelsUploadedPlaylistId(config.YOUTUBE_CHANNEL)
     .then(function () {
-        return assert.strictEqual(yt.playlistId, "UU554eY5jNUfDq3yDOJYirOQ");
+        return assert.strictEqual(yt.etags['getChannelsUploadedPlaylistId'].data.items[0].contentDetails.relatedPlaylists.uploads, 'UU554eY5jNUfDq3yDOJYirOQ')
     });
   });
 
@@ -115,7 +115,7 @@ describe('Youtube Tests', () => {
   it('Gets the channel id from username and caches it', function() {
     return yt.getChannelIdFromUsername(config.YOUTUBE_CHANNEL)
     .then(function () {
-        return assert.strictEqual(yt.channelId, 'UC554eY5jNUfDq3yDOJYirOQ')
+        return assert.strictEqual(yt.etags['getChannelIdFromUsername'].data.items[0].id, 'UC554eY5jNUfDq3yDOJYirOQ')
     });
 });
 
