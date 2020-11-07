@@ -60,6 +60,11 @@
     "accessToken": "yourAccesstoken",
     "channelId": "yourChannel"
   },
+  "twitter": {
+    "consumerKey": "",
+    "consumerSecret": "",
+    "bearerToken": ""
+  },
   "lastFm": {
     "url": "https://ws.audioscrobbler.com/2.0/",
     "username": "yourUsername",
