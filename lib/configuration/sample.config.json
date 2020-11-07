@@ -65,6 +65,9 @@
     "consumerSecret": "",
     "bearerToken": ""
   },
+  "breakingNews": {
+    "defaultMaxAge": 300
+  },
   "lastFm": {
     "url": "https://ws.audioscrobbler.com/2.0/",
     "username": "yourUsername",
