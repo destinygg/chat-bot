@@ -22,6 +22,8 @@
     "inspector-influx": "^2.7.0",
     "inspector-metrics": "^1.21.0",
     "lodash": "^4.17.20",
+    "metascraper": "^5.14.20",
+    "metascraper-date": "^5.14.20",
     "moment": "^2.29.1",
     "moment-timezone": "^0.5.31",
     "protobufjs": "^6.10.1",
