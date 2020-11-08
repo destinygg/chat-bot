@@ -63,7 +63,9 @@
   "twitter": {
     "consumerKey": "",
     "consumerSecret": "",
-    "bearerToken": ""
+    "bearerToken": "",
+    "cacheClearingInterval": 600,
+    "maxCacheAge": 3600
   },
   "lastFm": {
     "url": "https://ws.audioscrobbler.com/2.0/",
