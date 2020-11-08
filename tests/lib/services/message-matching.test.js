@@ -1,4 +1,4 @@
-const { hasLink, mentionsUser } = require('../../../lib/services/message-matching');
+const { hasLink, hasTwitterLink, getLinks, mentionsUser } = require('../../../lib/services/message-matching');
 const assert = require('assert');
 
 describe('Message matching tests ', () => {
@@ -37,6 +37,32 @@ describe('Message matching tests ', () => {
     badLinkMessages.forEach((msg, i) => {
       it(`hasLink does not match non-link-containing message #${i + 1}`, () =>
         assert.deepStrictEqual(hasLink(msg), false, msg));
+    });
+  });
+
+  describe('hasTwitterLink matches valid twitter link', function() {
+    const messageWithTwitterLink = 'OMEGALUL https://twitter.com/GazeWithin/status/1301160632838959111';
+    it('hasTwitterLink matches valid twitter link', () => {
+      assert.ok(hasTwitterLink(messageWithTwitterLink));
+    });
+  });
+
+  describe('hasTwitterLink does not match invalid twitter link', function() {
+    const messageWithRandomLink = 'OMEGALUL https://facebook.com';
+    it('hasTwitterLink does not match invalid twitter link', () => {
+      assert.ok(!hasTwitterLink(messageWithRandomLink));
+    });
+  });
+
+  describe('getLinks lists links correctly', function() {
+    const links = ['http://destiny.gg', 'http://twitter.com', 'http://google.com'];
+    const messageWithLinks = `look at all these pretty links ${links.join(' ')}`;
+
+    const foundLinks = getLinks(messageWithLinks);
+    links.forEach((link, i) => {
+      it(`getLinks lists links correctly #${i+1}`, () => {
+        assert.deepStrictEqual(foundLinks[i], link);
+      });
     });
   });
 
