@@ -1,4 +1,4 @@
-const { hasLink, mentionsUser } = require('../../../lib/services/message-matching');
+const { hasLink, getLinks, mentionsUser } = require('../../../lib/services/message-matching');
 const assert = require('assert');
 
 describe('Message matching tests ', () => {
@@ -37,6 +37,18 @@ describe('Message matching tests ', () => {
     badLinkMessages.forEach((msg, i) => {
       it(`hasLink does not match non-link-containing message #${i + 1}`, () =>
         assert.deepStrictEqual(hasLink(msg), false, msg));
+    });
+  });
+
+  describe('getLinks lists links correctly', function() {
+    const links = ['http://destiny.gg', 'http://twitter.com', 'http://google.com'];
+    const messageWithLinks = `look at all these pretty links ${links.join(' ')}`;
+
+    const foundLinks = getLinks(messageWithLinks);
+    links.forEach((link, i) => {
+      it(`getLinks lists links correctly #${i+1}`, () => {
+        assert.deepStrictEqual(foundLinks[i].href, link);
+      });
     });
   });
 
