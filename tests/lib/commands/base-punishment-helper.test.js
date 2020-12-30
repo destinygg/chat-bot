@@ -1,76 +1,97 @@
-const basePunishmentHelper = require("../../../lib/commands/base-punishment-helper");
-const assert = require("assert");
+const basePunishmentHelper = require('../../../lib/commands/base-punishment-helper');
+const assert = require('assert');
 
-describe("BasePunishmentHelper Tests", () => {
-  it("punish one for time for reason", function(done) {
-    const input = "20m Bob for being stupid";
+describe('BasePunishmentHelper Tests', () => {
+  it('punish one for time for reason', function (done) {
+    const input = '20m Bob for being stupid';
     const output = basePunishmentHelper(input, 3600);
     const expected = [
       {
-        userToPunish: "bob",
+        userToPunish: 'bob',
         parsedDuration: 1200,
-        parsedReason: "for being stupid",
-        isPermanent: false
-      }
+        parsedReason: 'for being stupid',
+        isPermanent: false,
+      },
     ];
 
     assert.deepStrictEqual(output, expected);
     done();
   });
-  it("punish one with overRideDuration", function(done) {
-    const input = "20m Bob for being stupid";
+  it('punish one with overRideDuration', function (done) {
+    const input = '20m Bob for being stupid';
     const output = basePunishmentHelper(input, 3600, 1800);
     const expected = [
       {
-        userToPunish: "bob",
+        userToPunish: 'bob',
         parsedDuration: 1800,
-        parsedReason: "for being stupid",
-        isPermanent: false
-      }
+        parsedReason: 'for being stupid',
+        isPermanent: false,
+      },
     ];
 
     assert.deepStrictEqual(output, expected);
     done();
   });
-  it("punish one with default time", function(done) {
-    const input = "Bob for being stupid";
+  it('punish one with default time', function (done) {
+    const input = 'Bob for being stupid';
     const output = basePunishmentHelper(input, 3600);
     const expected = [
       {
-        userToPunish: "bob",
+        userToPunish: 'bob',
         parsedDuration: 3600,
-        parsedReason: "for being stupid",
-        isPermanent: false
-      }
+        parsedReason: 'for being stupid',
+        isPermanent: false,
+      },
     ];
 
     assert.deepStrictEqual(output, expected);
     done();
   });
-  it("punish many with time", function(done) {
-    const input = "20m Bob, Kogasa, MrMouton for being stupid";
+  it('punish many with time', function (done) {
+    const input = '20m Bob, Kogasa, MrMouton for being stupid';
     const output = basePunishmentHelper(input, 3600);
     const expected = [
       {
-        userToPunish: "bob",
+        userToPunish: 'bob',
         parsedDuration: 1200,
-        parsedReason: "for being stupid",
-        isPermanent: false
+        parsedReason: 'for being stupid',
+        isPermanent: false,
       },
       {
-        userToPunish: "kogasa",
+        userToPunish: 'kogasa',
         parsedDuration: 1200,
-        parsedReason: "for being stupid",
-        isPermanent: false
+        parsedReason: 'for being stupid',
+        isPermanent: false,
       },
       {
-        userToPunish: "mrmouton",
+        userToPunish: 'mrmouton',
         parsedDuration: 1200,
-        parsedReason: "for being stupid",
-        isPermanent: false
-      }
+        parsedReason: 'for being stupid',
+        isPermanent: false,
+      },
     ];
 
+    assert.deepStrictEqual(output, expected);
+    done();
+  });
+
+  it('punish many with perm!', function (done) {
+    const input = 'perm Tony, DoubleYou for being stupid';
+    const output = basePunishmentHelper(input, 3600);
+    const expected = [
+      {
+        userToPunish: 'tony',
+        parsedDuration: 0,
+        parsedReason: 'for being stupid',
+        isPermanent: true,
+      },
+      {
+        userToPunish: 'doubleyou',
+        parsedDuration: 0,
+        parsedReason: 'for being stupid',
+        isPermanent: true,
+      },
+    ];
     assert.deepStrictEqual(output, expected);
     done();
   });
