@@ -94,5 +94,9 @@
   },
   "dggApi": {
     "url": "https://www.destiny.gg/api/info/stream"
+  },
+  "redditVote": {
+    "enabled": false,
+    "scriptPath": ""
   }
 }
