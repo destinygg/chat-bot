@@ -11,6 +11,7 @@ services:
       - ./database:/usr/src/app/database
     command: ["node", "/usr/src/app/index.js", "--chat=dgg"]
     restart: unless-stopped
+    network_mode: "host"
     environment:
       - NODE_ENV=production
   bot-ttv:
@@ -24,5 +25,6 @@ services:
       - ./database:/usr/src/app/database
     command: ["node", "/usr/src/app/index.js", "--chat=twitch"]
     restart: unless-stopped
+    network_mode: "host"  
     environment:
       - NODE_ENV=production
