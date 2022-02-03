@@ -39,7 +39,7 @@
     "maxStonesPerMatch": 1,
     "stoneHitChance": 30
   },
-  "flairBasedBanDodgeChances" : {
+  "flairBasedBanDodgeChances": {
     "flair8": 0.4,
     "flair3": 0.3,
     "flair1": 0.2,
