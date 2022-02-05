@@ -1,4 +1,3 @@
-const { mutelinks } = require('../../../../lib/commands/implementations/mutelinks');
 const CommandOutput = require('../../../../lib/commands/command-output');
 const assert = require('assert');
 const sinon = require('sinon');
@@ -8,8 +7,7 @@ const MessageRelay = require('../../../../lib/services/message-relay');
 const PunishmentCache = require('../../../../lib/services/punishment-cache');
 const RoleCache = require('../../../../lib/services/role-cache');
 const messageMatching = require('../../../../lib/services/message-matching');
-const { makeMute } = require('../../../../lib/chat-utils/punishment-helpers');
-const { ban, ipban } = require('../../../../lib/commands/implementations/ban')
+const { ban } = require('../../../../lib/commands/implementations/ban')
 
 // These should be moved to a seperate file that the actual code sources from
 const cloggedGunPhrases = [
@@ -45,9 +43,11 @@ const flairArmorPhrases = [
 
 describe('Flair based dodge test', () => {
   beforeEach(() => {
+    config['flairBasedBanDodgeChances']['testFlair'] = 1;
     roleCache = new RoleCache(config);
     roleCache.roleMap = {
-      kierke: { roles: ['flair7'], timestamp: 123 },
+      kierke: { roles: ['testFlair'], timestamp: 123 },
+      poorkierke: { roles: [], timestamp: 123 },
     };
 
     this.mockServices = {
@@ -64,21 +64,9 @@ describe('Flair based dodge test', () => {
   });
 
   it('dodges !ban sometimes', () => {
-    let outputs = [];
-    for(i=0; i<15; i++) {
-      let output1 = ban.work('!ban 10m kierke No reason', this.mockServices, {user: 'kierke'}).output;
-      outputs.push(output1);
-    }
-    let anyMessage = '';
-    let atLeastOneBan= false;
-    for (const output of outputs) {
-      if (output) {
-        anyMessage = output;
-      } else {
-        atLeastOneBan = true;
-      }
-    }
-    assert(this.possbileOutputs.includes(anyMessage));
-    assert(atLeastOneBan);
+    let output1 = ban.work('kierke 10m No reason', this.mockServices, {user: 'kierke'}).output;
+    let output2 = ban.work('poorkierke 10m No reason', this.mockServices, {user: 'poorkierke'}).output;
+    assert(this.possbileOutputs.includes(output1));
+    assert(!this.possbileOutputs.includes(output2));
   });
 });
