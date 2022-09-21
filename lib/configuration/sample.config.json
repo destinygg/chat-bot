@@ -117,7 +117,7 @@
   },
   "googleCalendar": {
     "GOOGLE_CALENDAR_API_KEY": "xxxxxxxxxxxx",
-    "GOOGLE_CALENDAR_ID": "xxxxxxxxxxxxx"
+    "GOOGLE_CALENDAR_ID": "xxxxxxxxxxxxx",
     "SCHEDULE_LINK": "https://destiny.gg/schedule"
   },
   "dggApi": {
