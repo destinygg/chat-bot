@@ -57,7 +57,7 @@ services
       process.exit(1);
     }
 
-    config.scheduledCommands.COMMANDS.forEach(commandToSchedule => services.fakeScheduler.createMessage(commandToSchedule));
+    config.scheduledCommands.forEach(commandToSchedule => services.fakeScheduler.createMessage(commandToSchedule));
 
     const chatServiceRouter = new ChatServiceRouter(
       config.chatToConnectTo,
