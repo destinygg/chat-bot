@@ -56,8 +56,9 @@ services
       logger.error('Config property: "chatToConnectTo" not set to one of "dgg" or "twitch"');
       process.exit(1);
     }
-
-    config.scheduledCommands.forEach(commandToSchedule => services.fakeScheduler.createMessage(commandToSchedule));
+    if(config.hasOwnProperty('scheduledCommands')){
+      config.scheduledCommands.forEach(commandToSchedule => services.fakeScheduler.createMessage(commandToSchedule));
+    }
 
     const chatServiceRouter = new ChatServiceRouter(
       config.chatToConnectTo,
