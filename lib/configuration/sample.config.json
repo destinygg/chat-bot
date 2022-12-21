@@ -7,7 +7,10 @@
     "cookieToken": "yourCookieToken",
     "botNick": "yourBotNick"
   },
-  "scheduledCommands":["!youtube", "!schedule"],
+  "scheduledCommands": [
+    "!youtube",
+    "!schedule"
+  ],
   "logger": {
     "logToFile": false
   },
@@ -123,5 +126,14 @@
   },
   "dggApi": {
     "url": "https://www.destiny.gg/api/info/stream"
+  },
+  "redditVote": {
+    "enabled": false,
+    "scriptPath": "",
+    "threadFilePath": "",
+    "stateStoreFilePath": ""
+  },
+  "githubApi": {
+    "gui_url": "https://api.github.com/repos/destinygg/chat-gui/releases/latest"
   }
 }
