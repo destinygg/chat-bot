@@ -89,8 +89,6 @@
     "channelId": "yourChannel"
   },
   "twitter": {
-    "consumerKey": "",
-    "consumerSecret": "",
     "bearerToken": "",
     "cacheClearingInterval": 600,
     "maxCacheAge": 3600
