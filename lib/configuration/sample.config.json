@@ -89,6 +89,7 @@
     "channelId": "yourChannel"
   },
   "twitter": {
+    "streamFilter": "from:TheOmniLiberal -is:retweet",
     "bearerToken": "",
     "cacheClearingInterval": 600,
     "maxCacheAge": 3600
