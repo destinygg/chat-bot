@@ -36,8 +36,9 @@ describe('Schedule Tests', () => {
   it('Returns a Calendars Next "Stream" event', function () {
     return schedule.findNextStreamDay().then(function (response) {
       return assert.deepStrictEqual(response, {
-        start: { dateTime: '2018-11-12T17:00:00-06:00', timeZone: 'America/Chicago' },
+        start: '2018-11-12T17:00:00-06:00',
         name: 'Stream',
+        allDay: false,
       });
     });
   });
