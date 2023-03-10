@@ -167,5 +167,128 @@
         }
       }
     ]
+  },
+  "getAllDayEventList": {
+    "kind": "calendar#events",
+    "etag": "\"p33k8jk40kr7vq0g\"",
+    "summary": "Destiny - Stream Schedule",
+    "description": "My public streaming schedule.",
+    "updated": "2023-03-09T16:45:41.921Z",
+    "timeZone": "America/New_York",
+    "accessRole": "reader",
+    "defaultReminders": [],
+    "nextPageToken": "EiUKGjVpNHZyaXU4aXZjamtvMWppaGZjZDlsazRkGIDA3fKAnv4CIgcIBRDmkf8v",
+    "items": [
+      {
+        "kind": "calendar#event",
+        "etag": "\"3353332517346000\"",
+        "id": "4ov5ja6j1otg2afbl91fpnvcj7",
+        "status": "confirmed",
+        "htmlLink": "https://www.google.com/calendar/event?eid=NG92NWphNmoxb3RnMmFmYmw5MWZwbnZjajcgaTU0ajRjdTlwbDQyNzBhc29rM21xZ2RyaGtAZw",
+        "created": "2023-02-17T20:37:38.000Z",
+        "updated": "2023-02-17T20:37:38.673Z",
+        "summary": "Stop the Steal Debate with Ali Alexander",
+        "creator": { "email": "steven.bonnell.ii@gmail.com" },
+        "organizer": {
+          "email": "i54j4cu9pl4270asok3mqgdrhk@group.calendar.google.com",
+          "displayName": "Destiny - Stream Schedule",
+          "self": true
+        },
+        "start": { "date": "2023-03-15" },
+        "end": { "date": "2023-03-16" },
+        "transparency": "transparent",
+        "iCalUID": "4ov5ja6j1otg2afbl91fpnvcj7@google.com",
+        "sequence": 0,
+        "eventType": "default"
+      },
+      {
+        "kind": "calendar#event",
+        "etag": "\"3356760683842000\"",
+        "id": "68ojio9ocpij6bb168p34b9k64pj0bb2cphj6bb26cpmce1p6ss3gcr3co",
+        "status": "confirmed",
+        "htmlLink": "https://www.google.com/calendar/event?eid=NjhvamlvOW9jcGlqNmJiMTY4cDM0YjlrNjRwajBiYjJjcGhqNmJiMjZjcG1jZTFwNnNzM2djcjNjbyBpNTRqNGN1OXBsNDI3MGFzb2szbXFnZHJoa0Bn",
+        "created": "2023-02-02T15:21:39.000Z",
+        "updated": "2023-03-09T16:45:41.921Z",
+        "summary": "Fresh and Fit Donovan Sharp debate",
+        "creator": { "email": "steven.bonnell.ii@gmail.com" },
+        "organizer": {
+          "email": "i54j4cu9pl4270asok3mqgdrhk@group.calendar.google.com",
+          "displayName": "Destiny - Stream Schedule",
+          "self": true
+        },
+        "start": { "date": "2023-03-22" },
+        "end": { "date": "2023-03-23" },
+        "transparency": "transparent",
+        "iCalUID": "68ojio9ocpij6bb168p34b9k64pj0bb2cphj6bb26cpmce1p6ss3gcr3co@google.com",
+        "sequence": 3,
+        "eventType": "default"
+      },
+      {
+        "kind": "calendar#event",
+        "etag": "\"3356751990376000\"",
+        "id": "3upmeafcn0b7s158nj00s11j5c",
+        "status": "confirmed",
+        "htmlLink": "https://www.google.com/calendar/event?eid=M3VwbWVhZmNuMGI3czE1OG5qMDBzMTFqNWMgaTU0ajRjdTlwbDQyNzBhc29rM21xZ2RyaGtAZw",
+        "created": "2023-03-09T15:33:15.000Z",
+        "updated": "2023-03-09T15:33:15.188Z",
+        "summary": "Change My Mind Event + Tim Pool",
+        "creator": { "email": "steven.bonnell.ii@gmail.com" },
+        "organizer": {
+          "email": "i54j4cu9pl4270asok3mqgdrhk@group.calendar.google.com",
+          "displayName": "Destiny - Stream Schedule",
+          "self": true
+        },
+        "start": { "date": "2023-03-27" },
+        "end": { "date": "2023-03-31" },
+        "transparency": "transparent",
+        "iCalUID": "3upmeafcn0b7s158nj00s11j5c@google.com",
+        "sequence": 0,
+        "eventType": "default"
+      },
+      {
+        "kind": "calendar#event",
+        "etag": "\"3354434272734000\"",
+        "id": "2i83nr104kc24i9jel9s8s0c9o",
+        "status": "confirmed",
+        "htmlLink": "https://www.google.com/calendar/event?eid=Mmk4M25yMTA0a2MyNGk5amVsOXM4czBjOW8gaTU0ajRjdTlwbDQyNzBhc29rM21xZ2RyaGtAZw",
+        "created": "2023-02-24T05:38:56.000Z",
+        "updated": "2023-02-24T05:38:56.367Z",
+        "summary": "John Doyle debate @ University of South Carolina",
+        "creator": { "email": "steven.bonnell.ii@gmail.com" },
+        "organizer": {
+          "email": "i54j4cu9pl4270asok3mqgdrhk@group.calendar.google.com",
+          "displayName": "Destiny - Stream Schedule",
+          "self": true
+        },
+        "start": { "date": "2023-04-03" },
+        "end": { "date": "2023-04-04" },
+        "transparency": "transparent",
+        "iCalUID": "2i83nr104kc24i9jel9s8s0c9o@google.com",
+        "sequence": 0,
+        "eventType": "default"
+      },
+      {
+        "kind": "calendar#event",
+        "etag": "\"3354434316980000\"",
+        "id": "5i4vriu8ivcjko1jihfcd9lk4d",
+        "status": "confirmed",
+        "htmlLink": "https://www.google.com/calendar/event?eid=NWk0dnJpdThpdmNqa28xamloZmNkOWxrNGQgaTU0ajRjdTlwbDQyNzBhc29rM21xZ2RyaGtAZw",
+        "created": "2023-02-24T05:39:18.000Z",
+        "updated": "2023-02-24T05:39:18.490Z",
+        "summary": "Sydney Watson or Milo at University of Tennessee",
+        "creator": { "email": "steven.bonnell.ii@gmail.com" },
+        "organizer": {
+          "email": "i54j4cu9pl4270asok3mqgdrhk@group.calendar.google.com",
+          "displayName": "Destiny - Stream Schedule",
+          "self": true
+        },
+        "start": { "date": "2023-04-10" },
+        "end": { "date": "2023-04-11" },
+        "transparency": "transparent",
+        "iCalUID": "5i4vriu8ivcjko1jihfcd9lk4d@google.com",
+        "sequence": 0,
+        "eventType": "default"
+      }
+    ]
   }
 }
