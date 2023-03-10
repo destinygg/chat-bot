@@ -9,14 +9,14 @@ describe('Schedule Tests', () => {
     GOOGLE_CALENDAR_ID: 'i54j4cu9pl4270asok3mqgdrhk@group.calendar.google.com',
   };
 
-  const buildSchedule = function (responseSet = 'getEventList') {
+  const buildSchedule = function (responseSet = mockResponses['getEventList']) {
     const pathStub = function () {};
     pathStub.calendar = function (config) {
       return {
         events: {
           list: function (payload) {
             return Promise.resolve({
-              data: mockResponses[responseSet],
+              data: responseSet,
             });
           },
         },
@@ -50,7 +50,7 @@ describe('Schedule Tests', () => {
   });
 
   it('Returns the next all-day calendar event', function () {
-    return buildSchedule('getAllDayEventList')
+    return buildSchedule(mockResponses['getAllDayEventList'])
       .findNextStreamDay()
       .then(function (response) {
         return assert.deepStrictEqual(response, {
@@ -58,6 +58,14 @@ describe('Schedule Tests', () => {
           name: 'Stop the Steal Debate with Ali Alexander',
           allDay: true,
         });
+      });
+  });
+
+  it('Returns `null` if no events', function () {
+    return buildSchedule({ items: [] })
+      .findNextStreamDay()
+      .then(function (response) {
+        return assert.strictEqual(response, null);
       });
   });
 });
