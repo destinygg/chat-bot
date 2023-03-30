@@ -5,8 +5,7 @@ WORKDIR /usr/src/app
 RUN apt-get update && apt-get install -y \
     python3 \
     gcc \
-    build-essential \
-    && apt-get clean
+    build-essential
 
 COPY package.json package.json
 COPY package-lock.json package-lock.json
@@ -25,4 +24,7 @@ COPY --from=builder /usr/src/app/node_modules node_modules
 COPY lib lib
 COPY index.js index.js
 
+ENV NODE_ENV=production
+
+ENTRYPOINT ["node", "/usr/src/app/index.js", "--chat=dgg"]
 CMD ["node", "/usr/src/app/index.js"]

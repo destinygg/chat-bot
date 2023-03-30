@@ -1,0 +1,8 @@
+.eslint*
+.git*
+.nvm
+.tools*
+docker-compose.yml
+Makefile
+tests*
+*.md
