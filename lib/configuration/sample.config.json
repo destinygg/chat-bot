@@ -4,6 +4,7 @@
   "timezoneString": "svensk",
   "dggChat": {
     "url": "ws://localhost:8420",
+    "origin": "www.obamna.gg",
     "cookieToken": "yourCookieToken",
     "botNick": "yourBotNick"
   },
