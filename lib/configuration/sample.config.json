@@ -10,7 +10,7 @@
   },
   "scheduledCommands":["!youtube", "!schedule"],
   "logger": {
-    "logToFile": false
+    "level": "debug"
   },
   "overRustle": {
     "url": "https://overrustlelogs.net"
