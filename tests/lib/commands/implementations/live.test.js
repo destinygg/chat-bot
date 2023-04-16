@@ -17,7 +17,7 @@ describe('!live Test', () => {
     };
   };
 
-  it('responds correctly when stream is offline', function () {
+  it('responds with end time of newest stream when all streams are offline', function () {
     const expected = new CommandOutput(
       null,
       `Stream was last online 2 days 11h ago. Time Streamed: 4h 35m.`,
