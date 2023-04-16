@@ -1,23 +1,35 @@
 {
-    "data": {
-        "streams": {
-            "twitch": null,
-            "youtube": {
-                "live": false,
-                "game": null,
-                "preview": "https://i.ytimg.com/vi/HmCHsE9LYUI/mqdefault.jpg",
-                "status_text": "Okay I lied, second short stream today, leaving @ 6 PM | Random videos/articles/memes",
-                "started_at": "2023-04-13T16:23:41+0000",
-                "ended_at": "2023-04-13T20:58:13+0000",
-                "duration": 16472,
-                "viewers": null,
-                "id": null,
-                "platform": "youtube",
-                "type": "livestream"
-            },
-            "facebook": null,
-            "rumble": null,
-            "kick": null
-        }
+  "data": {
+    "streams": {
+      "twitch": {
+        "live": false,
+        "game": "Just Chatting",
+        "preview": null,
+        "status_text": "Okay I lied, second short stream today, leaving @ 6 PM | Random videos/articles/memes",
+        "started_at": "2023-04-13T16:23:41+0000",
+        "ended_at": "2023-04-13T20:59:13+0000",
+        "duration": 16532,
+        "viewers": null,
+        "id": null,
+        "platform": "twitch",
+        "type": null
+      },
+      "youtube": {
+        "live": false,
+        "game": null,
+        "preview": "https://i.ytimg.com/vi/HmCHsE9LYUI/mqdefault.jpg",
+        "status_text": "Okay I lied, second short stream today, leaving @ 6 PM | Random videos/articles/memes",
+        "started_at": "2023-04-13T16:23:41+0000",
+        "ended_at": "2023-04-13T20:58:13+0000",
+        "duration": 16472,
+        "viewers": null,
+        "id": null,
+        "platform": "youtube",
+        "type": "livestream"
+      },
+      "facebook": null,
+      "rumble": null,
+      "kick": null
     }
+  }
 }

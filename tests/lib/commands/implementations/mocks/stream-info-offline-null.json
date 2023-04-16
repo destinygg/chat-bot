@@ -1,0 +1,11 @@
+{
+  "data": {
+    "streams": {
+      "twitch": null,
+      "youtube": null,
+      "facebook": null,
+      "rumble": null,
+      "kick": null
+    }
+  }
+}
