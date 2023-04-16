@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const sinon = require('sinon');
 const live = require('../../../../lib/commands/implementations/live');
 const CommandOutput = require('../../../../lib/commands/command-output');
 const assert = require('assert');
@@ -16,6 +17,14 @@ describe('!live Test', () => {
       },
     };
   };
+
+  before(function () {
+    this.clock = sinon.useFakeTimers(1681633421000); // 2023-04-16T08:23:41.000Z
+  });
+
+  after(function () {
+    this.clock.restore();
+  });
 
   it('responds with end time of newest stream when all streams are offline', function () {
     const expected = new CommandOutput(
