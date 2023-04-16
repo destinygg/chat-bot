@@ -16,7 +16,10 @@ describe('!live Test', () => {
   };
 
   it('responds correctly when stream is offline', function () {
-    const expected = new CommandOutput(null, `Stream was last online 1s ago. Time Streamed: 10s.`);
+    const expected = new CommandOutput(
+      null,
+      `Stream was last online 2 days 11h ago. Time Streamed: 4h 34m.`,
+    );
     return live.work(null, buildMockServices(streamInfoOffline)).then((response) => {
       assert.deepStrictEqual(response, expected);
     });
