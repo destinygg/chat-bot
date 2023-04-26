@@ -45,6 +45,7 @@ describe('Schedule Tests', () => {
           start: '2018-11-12T17:00:00-06:00',
           name: 'Stream',
           allDay: false,
+          childEvent: undefined,
         });
       });
   });
@@ -57,6 +58,7 @@ describe('Schedule Tests', () => {
           start: '2023-03-15',
           name: 'Stop the Steal Debate with Ali Alexander',
           allDay: true,
+          childEvent: undefined,
         });
       });
   });
