@@ -42,7 +42,7 @@ describe('Schedule Tests', () => {
       .findNextStreamDay()
       .then(function (response) {
         return assert.deepStrictEqual(response, {
-          start: '2018-11-12T17:00:00-06:00',
+          start: '2018-11-12T17:00:00.000+00:00',
           name: 'Stream',
           allDay: false,
           childEvent: undefined,
@@ -62,6 +62,20 @@ describe('Schedule Tests', () => {
         });
       });
   });
+
+  it('Returns the next all-day calendar event with an event on the day', function () {
+    return buildSchedule(mockResponses['getAllDayEventWithSubEvent'])
+      .findNextStreamDay()
+      .then(function (response) {
+        return assert.deepStrictEqual(response, {
+          start: '2023-03-15',
+          name: 'Stop the Steal Debate with Ali Alexander',
+          allDay: true,
+          childEvent: {start: "2023-03-15T16:00:00.000+00:00", name: "Stop the Steal Ping Pong Break"},
+        });
+      });
+  });
+
 
   it('Returns `null` if no events', function () {
     return buildSchedule({ items: [] })
