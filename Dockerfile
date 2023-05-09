@@ -1,4 +1,4 @@
-FROM node:14-slim as builder
+FROM node:18-slim as builder
 
 WORKDIR /usr/src/app
 
@@ -13,7 +13,7 @@ COPY package-lock.json package-lock.json
 RUN npm ci
 
 ##### RUNNER #####
-FROM node:14-slim
+FROM node:18 -slim
 
 WORKDIR /usr/src/app
 USER node
