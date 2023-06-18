@@ -32,6 +32,7 @@ npm run start:dev
 The mock chat is a very basic web socket server on localhost:8420.
 
 After running the `start:dev` script, an HTML file will open in your default web browser to serve as a tiny chat page with connected to the tiny chat server that you can use to test commands.
+> Note that Chromium-based web browsers block insecure WebSocket connections to `localhost`, so you'll have to use a different web browser, such as Firefox, to circumvent.
 
 More to come once the bot is, you know, actually live and not in a constant state of rapid development.
 
