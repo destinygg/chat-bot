@@ -16,7 +16,7 @@
     "url": "https://overrustlelogs.net"
   },
   "sql": {
-    "fileLocation": "/usr/src/app/database/bot.db"
+    "fileLocation": "./bot.db"
   },
   "chatCache": {
     "messagesToKeepPerUser": 10,
