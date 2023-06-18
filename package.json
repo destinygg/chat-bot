@@ -6,7 +6,9 @@
   "scripts": {
     "test": "mocha tests/**/*.test.js --exit --reporter spec",
     "lint": "eslint index.js \"./lib/**/*.js\"",
-    "start": "node index.js | bunyan"
+    "start": "node index.js | bunyan",
+    "start:mock-chat": "node tools/mock-chat-server.js",
+    "start:dev": "concurrently --names \"mock-chat,chat-bot\" \"node tools/mock-chat-server.js\" \"node index.js | bunyan\""
   },
   "author": "linusred",
   "license": "MIT",
@@ -35,6 +37,7 @@
   },
   "devDependencies": {
     "@types/mocha": "^8.0.3",
+    "concurrently": "^8.2.0",
     "eslint": "^7.11.0",
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-config-prettier": "^6.12.0",
