@@ -19,13 +19,19 @@ npm start
 Contribution is welcome, but please get in contact with me before you start contributing to make sure we're not stepping on each others toes
 or you're not doing something that the bot shouldn't be doing.
 
-In order to get up and running, the easiest way is to cd on into the /.tools directory and run
+In order to get up and running, create a config file from the sample with
 ```bash
-node index.js
+cp lib/configuration/sample.config.json lib/configuration/prod.config.json
 ```
-This will open up a very basic web socket server on localhost:8420. Set your dgg config url to ws://localhost:8420 and you should connect right up.
 
-If you open the html file within the same directory in a browser, it serves as a tiny chat page with connected to the tiny chat server that you can use to test commands.
+and start the mock chat and chat bot with
+```bash
+npm run start:dev
+```
+
+The mock chat is a very basic web socket server on localhost:8420.
+
+After running the `start:dev` script, an HTML file will open in your default web browser to serve as a tiny chat page with connected to the tiny chat server that you can use to test commands.
 
 More to come once the bot is, you know, actually live and not in a constant state of rapid development.
 
