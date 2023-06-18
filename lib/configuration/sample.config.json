@@ -8,7 +8,7 @@
     "cookieToken": "yourCookieToken",
     "botNick": "yourBotNick"
   },
-  "scheduledCommands":["!youtube", "!schedule"],
+  "scheduledCommands": ["!youtube", "!schedule"],
   "logger": {
     "level": "debug"
   },
