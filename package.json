@@ -8,7 +8,7 @@
     "lint": "eslint index.js \"./lib/**/*.js\"",
     "start": "node index.js | bunyan",
     "start:mock-chat": "node tools/mock-chat-server.js",
-    "start:dev": "concurrently --names \"mock-chat,chat-bot,mock-chat\" \"node tools/mock-chat-server.js\" \"node --watch index.js | bunyan\" \"open-cli tools/mock-chat.html\""
+    "start:dev": "concurrently --names \"mock-chat,chat-bot,mock-chat\" npm:start:mock-chat \"node --watch index.js | bunyan\" \"open-cli tools/mock-chat.html\""
   },
   "author": "linusred",
   "license": "MIT",
