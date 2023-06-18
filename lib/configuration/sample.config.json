@@ -8,7 +8,7 @@
     "cookieToken": "yourCookieToken",
     "botNick": "yourBotNick"
   },
-  "scheduledCommands":["!youtube", "!schedule"],
+  "scheduledCommands": ["!youtube", "!schedule"],
   "logger": {
     "level": "debug"
   },
@@ -124,5 +124,11 @@
   },
   "dggApi": {
     "url": "https://www.destiny.gg/api/info/stream"
+  },
+  "redditVote": {
+    "enabled": false,
+    "scriptPath": "",
+    "threadFilePath": "",
+    "stateStoreFilePath": ""
   }
 }
