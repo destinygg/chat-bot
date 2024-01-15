@@ -22,7 +22,8 @@
     "messagesToKeepPerUser": 10,
     "maxMessagesInList": 5000,
     "timeToLiveSeconds": 600,
-    "tomeStoneIntervalMilliseconds": 60000
+    "tomeStoneIntervalMilliseconds": 60000,
+    "messageUrlSpamUser": "Destiny"
   },
   "punishmentCache": {
     "baseMuteSeconds": 60,
