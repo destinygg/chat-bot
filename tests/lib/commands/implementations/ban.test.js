@@ -1,7 +1,5 @@
-const CommandOutput = require('../../../../lib/commands/command-output');
 const assert = require('assert');
 const sinon = require('sinon');
-const Command = require('../../../../lib/commands/command-interface');
 const config = require('../../../../lib/configuration/prod.config.json');
 const MessageRelay = require('../../../../lib/services/message-relay');
 const PunishmentCache = require('../../../../lib/services/punishment-cache');
@@ -43,8 +41,8 @@ const flairArmorPhrases = [
 
 describe('Flair based dodge test', () => {
   beforeEach(() => {
-    config['flairBasedBanDodgeChances']['testFlair'] = 1;
-    roleCache = new RoleCache(config);
+    config['punishmentCache']['flairBasedBanDodgeChances']['testFlair'] = 1;
+    let roleCache = new RoleCache(config.roleCache);
     roleCache.roleMap = {
       kierke: { roles: ['testFlair'], timestamp: 123 },
       poorkierke: { roles: [], timestamp: 123 },
@@ -56,7 +54,7 @@ describe('Flair based dodge test', () => {
       punishmentStream: {
         write: sinon.spy(),
       },
-      punishmentCache: new PunishmentCache(config),
+      punishmentCache: new PunishmentCache(config.punishmentCache),
       roleCache: roleCache,
     };
 
