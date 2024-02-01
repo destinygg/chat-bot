@@ -28,15 +28,15 @@ describe('Mutelinks Test', () => {
       new CommandOutput(null, 'Link muting (10m) turned on for all links'),
     );
 
-    messageRelay.relayMessageToListeners('message', {
+    messageRelay.relayMessageToListeners('msg', {
       message: 'hey whats up.',
       user: 'test1',
     });
-    messageRelay.relayMessageToListeners('message', {
+    messageRelay.relayMessageToListeners('msg', {
       message: 'hey cool linkerino .youtube.com',
       user: 'test2',
     });
-    messageRelay.relayMessageToListeners('message', {
+    messageRelay.relayMessageToListeners('msg', {
       message: 'hey this is my second message with a link https://twitch.tv',
       user: 'test1',
     });
@@ -44,7 +44,7 @@ describe('Mutelinks Test', () => {
     const output2 = mutelinks.work('off', this.mockServices);
     assert.deepStrictEqual(output2, new CommandOutput(null, 'Link muting turned off'));
 
-    messageRelay.relayMessageToListeners('message', {
+    messageRelay.relayMessageToListeners('msg', {
       message: 'cool link http://twitter.com/widinwithbiden',
       user: 'test3',
     });
@@ -69,39 +69,39 @@ describe('Mutelinks Test', () => {
       new CommandOutput(null, 'Link muting (20m) turned on for mentioning deStInY'),
     );
 
-    messageRelay.relayMessageToListeners('message', {
+    messageRelay.relayMessageToListeners('msg', {
       message: 'hey whats up.',
       user: 'test1',
     });
-    messageRelay.relayMessageToListeners('message', {
+    messageRelay.relayMessageToListeners('msg', {
       message: 'hey cool linkerino .youtube.com',
       user: 'test2',
     });
-    messageRelay.relayMessageToListeners('message', {
+    messageRelay.relayMessageToListeners('msg', {
       message: 'hey this is my second message with a link https://twitch.tv',
       user: 'test1',
     });
-    messageRelay.relayMessageToListeners('message', {
+    messageRelay.relayMessageToListeners('msg', {
       message: 'yo Destiny what is up',
       user: 'test3',
     });
-    messageRelay.relayMessageToListeners('message', {
+    messageRelay.relayMessageToListeners('msg', {
       message: 'DeStInY click https://twitch.tv',
       user: 'test4',
     });
-    messageRelay.relayMessageToListeners('message', {
+    messageRelay.relayMessageToListeners('msg', {
       message: 'Destiny click reddit.com',
       user: 'test5',
     });
-    messageRelay.relayMessageToListeners('message', {
+    messageRelay.relayMessageToListeners('msg', {
       message: 'wow i love this site destiny.gg',
       user: 'test6',
     });
-    messageRelay.relayMessageToListeners('message', {
+    messageRelay.relayMessageToListeners('msg', {
       message: 'wow i love this site meme.com destiny.gg',
       user: 'test7',
     });
-    messageRelay.relayMessageToListeners('message', {
+    messageRelay.relayMessageToListeners('msg', {
       message: 'wow i love this site meme.com destiny!',
       user: 'test8',
     });
@@ -109,7 +109,7 @@ describe('Mutelinks Test', () => {
     const output2 = mutelinks.work('off', this.mockServices);
     assert.deepStrictEqual(output2, new CommandOutput(null, 'Link muting turned off'));
 
-    messageRelay.relayMessageToListeners('message', {
+    messageRelay.relayMessageToListeners('msg', {
       message: 'destiny click http://twitter.com/widinwithbiden',
       user: 'test7',
     });
