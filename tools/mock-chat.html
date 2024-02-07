@@ -78,7 +78,10 @@
             this.logs = [];
           },
           sendMessage(e) {
-            this.socket.send(`MSG ${JSON.stringify({ nick: 'test-id-', data: this.message })}`);
+            const roles = this.roles.filter((r) => r.enabled).map((r) => r.name);
+            this.socket.send(
+              `MSG ${JSON.stringify({ nick: 'test-id-', features: roles, data: this.message })}`,
+            );
             this.logs.push({ event: 'Sent message', data: this.message });
             this.message = '';
           },
