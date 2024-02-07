@@ -29,12 +29,12 @@
           <input
             class="role__input"
             type="checkbox"
-            :id="'role-' + role"
+            :id="'role-' + role.id"
             :name="role"
             v-model="role.enabled"
             :disabled="status === 'connected'"
           />
-          <label :for="'role-' + role.name">{{ role.name }}</label>
+          <label :for="'role-' + role.id">{{ role.name }}</label>
         </div>
       </fieldset>
 
@@ -50,7 +50,13 @@
     </div>
 
     <script>
-      const roles = ['moderator', 'admin', 'protected', 'community bot', 'vip'];
+      const roles = [
+        { name: 'moderator', id: 'moderator', enabled: false },
+        { name: 'admin', id: 'admin', enabled: false },
+        { name: 'protected', id: 'protected', enabled: false },
+        { name: 'community bot', id: 'flair11', enabled: false },
+        { name: 'vip', id: 'vip', enabled: false },
+      ];
 
       const app = new Vue({
         el: '#app',
@@ -58,7 +64,7 @@
           message: '',
           logs: [],
           status: 'disconnected',
-          roles: roles.map((r) => ({ name: r, enabled: false })),
+          roles,
         },
         methods: {
           connect() {
@@ -78,7 +84,7 @@
             this.logs = [];
           },
           sendMessage(e) {
-            const roles = this.roles.filter((r) => r.enabled).map((r) => r.name);
+            const roles = this.roles.filter((r) => r.enabled).map((r) => r.id);
             this.socket.send(
               `MSG ${JSON.stringify({ nick: 'test-id-', features: roles, data: this.message })}`,
             );
