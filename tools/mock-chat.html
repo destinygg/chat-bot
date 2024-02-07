@@ -4,11 +4,40 @@
     <meta charset="UTF-8" />
     <title>Title</title>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+    <style>
+      .roles {
+        display: inline-flex;
+        gap: 0.5rem;
+      }
+
+      .role {
+        display: flex;
+      }
+
+      .role__input:disabled {
+        cursor: not-allowed;
+      }
+    </style>
   </head>
   <body>
     <div id="app">
       <button @click="disconnect" v-if="status === 'connected'">Disconnect</button>
       <button @click="connect" v-if="status === 'disconnected'">Connect</button> {{ status }}
+      <fieldset class="roles">
+        <legend>Roles to Use</legend>
+        <div v-for="role in roles" class="role">
+          <input
+            class="role__input"
+            type="checkbox"
+            :id="'role-' + role"
+            :name="role"
+            v-model="role.enabled"
+            :disabled="status === 'connected'"
+          />
+          <label :for="'role-' + role.name">{{ role.name }}</label>
+        </div>
+      </fieldset>
+
       <br /><br />
       <div v-if="status === 'connected'">
         <form @submit.prevent="sendMessage" action="#">
@@ -21,12 +50,15 @@
     </div>
 
     <script>
+      const roles = ['moderator', 'admin', 'protected', 'community bot', 'vip'];
+
       const app = new Vue({
         el: '#app',
         data: {
           message: '',
           logs: [],
           status: 'disconnected',
+          roles: roles.map((r) => ({ name: r, enabled: false })),
         },
         methods: {
           connect() {
