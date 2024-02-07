@@ -1,11 +1,15 @@
 const WebSocket = require('ws');
 
-function formatMessage(nick, features, message) {
-  return `MSG ${JSON.stringify({ nick, features, data: message })}`;
+function formatMessage(data) {
+  return `${data.type} ${JSON.stringify(data)}`;
 }
 
 function parseMessage(message) {
-  return JSON.parse(message.replace('MSG ', ''));
+  const messageRegex = /^(?<type>[A-Z]+) (?<rawData>.+)$/;
+  const { type, rawData } = message.match(messageRegex).groups;
+  const data = JSON.parse(rawData);
+  data.type = type;
+  return data;
 }
 
 const wss = new WebSocket.Server({ port: 8420 });
@@ -21,9 +25,7 @@ wss.on('connection', function connection(ws) {
     for (const socketId in sockets) {
       if (socketId != myId) {
         if (sockets[socketId].readyState === 1) {
-          sockets[socketId].send(
-            formatMessage(parsedMessage.nick, parsedMessage.features, parsedMessage.data),
-          );
+          sockets[socketId].send(formatMessage(parsedMessage));
         }
       }
     }
