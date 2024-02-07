@@ -1,7 +1,7 @@
 const WebSocket = require('ws');
 
-function formatMessage(data) {
-  return `${data.type} ${JSON.stringify(data)}`;
+function formatMessage({ type, ...rest }) {
+  return `${type} ${JSON.stringify(rest)}`;
 }
 
 function parseMessage(message) {
