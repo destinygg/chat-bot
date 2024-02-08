@@ -1,14 +1,14 @@
 const assert = require('assert');
+const sinon = require('sinon');
 const RollingChatCache = require('../../../lib/services/dgg-rolling-chat-cache');
 const SpamDetection = require('../../../lib/services/spam-detection');
-const config = require('../../../lib/configuration/prod.config.json');
-const logger = require('../../../lib/services/logger');
 const messageMatchingService = require('../../../lib/services/message-matching');
+const Logger = require('bunyan');
 
 describe('Spam detection Tests', () => {
   beforeEach(function() {
     this.mockServices = {
-      logger: logger(config.logger),
+      logger: sinon.createStubInstance(Logger),
       messageMatching: messageMatchingService,
     };
     this.spamDetection = new SpamDetection({}, this.mockServices);

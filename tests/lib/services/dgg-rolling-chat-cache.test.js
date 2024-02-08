@@ -1,15 +1,14 @@
 const assert = require('assert');
 const sinon = require('sinon');
 const RollingChatCache = require('../../../lib/services/dgg-rolling-chat-cache');
-const config = require('../../../lib/configuration/prod.config.json');
-const logger = require('../../../lib/services/logger');
 const messageMatchingService = require('../../../lib/services/message-matching');
+const Logger = require('bunyan');
 
 describe('Chat Cache Test suite', () => {
   describe('Chat Cache Viewer Map Tests', () => {
     beforeEach(() => {
       this.mockServices = {
-        logger: logger(config.logger),
+        logger: sinon.createStubInstance(Logger),
         messageMatching: messageMatchingService,
       };
     });
@@ -101,7 +100,7 @@ describe('Chat Cache Test suite', () => {
   describe('Chat Cache Tombstoning Tests', () => {
     beforeEach(function () {
       this.mockServices = {
-        logger: logger(config.logger),
+        logger: sinon.createStubInstance(Logger),
         messageMatching: messageMatchingService,
       };
       this.clock = sinon.useFakeTimers();
@@ -160,7 +159,7 @@ describe('Chat Cache Test suite', () => {
   describe('Chat Cache Rate Limit Tests', () => {
     beforeEach(function () {
       this.mockServices = {
-        logger: logger(config.logger),
+        logger: sinon.createStubInstance(Logger),
         messageMatching: messageMatchingService,
       };
       this.clock = sinon.useFakeTimers();
@@ -204,7 +203,7 @@ describe('Chat Cache Test suite', () => {
   describe('Chat Cache Running List', () => {
     beforeEach(function () {
       this.mockServices = {
-        logger: logger(config.logger),
+        logger: sinon.createStubInstance(Logger),
         messageMatching: messageMatchingService,
       };
       this.clock = sinon.useFakeTimers();
