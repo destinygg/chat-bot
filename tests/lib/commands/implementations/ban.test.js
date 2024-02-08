@@ -42,7 +42,7 @@ const flairArmorPhrases = [
 describe('Flair based dodge test', () => {
   beforeEach(() => {
     config['punishmentCache']['flairBasedBanDodgeChances']['testFlair'] = 1;
-    let roleCache = new RoleCache(config.roleCache);
+    const roleCache = new RoleCache(config.roleCache);
     roleCache.roleMap = {
       kierke: { roles: ['testFlair'], timestamp: 123 },
       poorkierke: { roles: [], timestamp: 123 },
