@@ -24,7 +24,8 @@ describe('breakingNews command Test', () => {
     };
   });
 
-  it('mutes link messages when "all" with default time, then turned off', (done) => {
+  // Needs twitter api
+  it.skip('mutes link messages when "all" with default time, then turned off', (done) => {
     const messageRelay = this.mockServices.messageRelay;
     const punishmentStream = this.mockServices.punishmentStream;
 
@@ -70,7 +71,8 @@ describe('breakingNews command Test', () => {
     }, 1500);
   });
 
-  it('mutes link messages when "on" with custom time, then turned off', (done) => {
+  // Needs twitter api
+  it.skip('mutes link messages when "on" with custom time, then turned off', (done) => {
     const messageRelay = this.mockServices.messageRelay;
     const punishmentStream = this.mockServices.punishmentStream;
 
