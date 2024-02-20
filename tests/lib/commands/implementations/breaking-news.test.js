@@ -41,17 +41,17 @@ describe('breakingNews command Test', () => {
       cachedAt: now,
     };
 
-    messageRelay.relayMessageToListeners({
+    messageRelay.relayMessageToListeners('msg', {
       message: 'trump malding OMEGALUL https://twitter.com/realDonaldTrump/status/1325195021339987969',
       user: 'MrMouton',
     });
 
-    messageRelay.relayMessageToListeners({
+    messageRelay.relayMessageToListeners('msg', {
       message: 'wow this is a cool tweet https://twitter.com/GazeWithin/status/1301160632838959111',
       user: 'Jabelonske',
     });
 
-    messageRelay.relayMessageToListeners({
+    messageRelay.relayMessageToListeners('msg', {
       message: 'did anyone else see this???? https://www.nytimes.com/2020/11/08/us/politics/biden-victory-speech-takeaways.html',
       user: 'dotted',
     });
@@ -59,7 +59,7 @@ describe('breakingNews command Test', () => {
     const output2 = breakingNews.work('off', this.mockServices).output;
     assert.deepStrictEqual(output2, 'Breaking news mode turned off');
 
-    messageRelay.relayMessageToListeners({
+    messageRelay.relayMessageToListeners('msg', {
       message: 'wow this is really cool indeed https://twitter.com/GazeWithin/status/1301160632838959111',
       user: 'Dan',
     });
@@ -82,15 +82,15 @@ describe('breakingNews command Test', () => {
       'Breaking news mode (20m) turned on for mentioning Destiny',
     );
 
-    messageRelay.relayMessageToListeners({
+    messageRelay.relayMessageToListeners('msg', {
       message: 'Destiny click https://twitter.com/realDonaldTrump/status/1325195021339987969',
       user: 'Jabelonske',
     });
-    messageRelay.relayMessageToListeners({
+    messageRelay.relayMessageToListeners('msg', {
       message: 'Destiny MALARKEY https://www.nytimes.com/2020/11/08/us/politics/biden-victory-speech-takeaways.html',
       user: 'dotted',
     });
-    messageRelay.relayMessageToListeners({
+    messageRelay.relayMessageToListeners('msg', {
       message: 'trump OMEGALUL https://twitter.com/realDonaldTrump/status/1325195021339987969',
       user: 'Dan',
     });
@@ -98,7 +98,7 @@ describe('breakingNews command Test', () => {
     const output2 = breakingNews.work('off', this.mockServices).output;
     assert.deepStrictEqual(output2, 'Breaking news mode turned off');
 
-    messageRelay.relayMessageToListeners({
+    messageRelay.relayMessageToListeners('msg', {
       message: 'Destiny click https://twitter.com/realDonaldTrump/status/1325195021339987969',
       user: 'MrMouton',
     });
