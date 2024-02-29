@@ -22,7 +22,9 @@
     "messagesToKeepPerUser": 10,
     "maxMessagesInList": 5000,
     "timeToLiveSeconds": 600,
-    "tomeStoneIntervalMilliseconds": 60000
+    "tomeStoneIntervalMilliseconds": 60000,
+    "messageUrlSpamSeconds": 600,
+    "messageUrlSpamUser": "Destiny"
   },
   "punishmentCache": {
     "baseMuteSeconds": 60,
@@ -74,7 +76,8 @@
     "messagesToSearch": 75,
     "nukeDepth": 900,
     "minimumStringSearchLength": 100,
-    "uniqueWordsThreshold": 0.45
+    "uniqueWordsThreshold": 0.45,
+    "messageUrlSpamCount": 3
   },
   "roleCache": {
     "timeToLiveSeconds": 21600,
