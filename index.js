@@ -45,7 +45,7 @@ services
   .then(() => {
     logger.info(`Configuring for ${chatToConnectTo} chat`);
     const commandRouter = new CommandRouter(services);
-    const messageRouter = new MessageRouter({}, services);
+    const messageRouter = new MessageRouter({ chatConnectedTo: chatToConnectTo }, services);
     let bot = null;
 
     if (chatToConnectTo === 'twitch') {
@@ -70,6 +70,7 @@ services
       services.scheduledCommands,
       services.fakeScheduler,
       services.messageRelay,
+      services.bannedPhrases,
     );
     chatServiceRouter.create();
   })
