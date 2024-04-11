@@ -70,7 +70,6 @@ services
       services.scheduledCommands,
       services.fakeScheduler,
       services.messageRelay,
-      services.bannedPhrases,
     );
     chatServiceRouter.create();
   })
