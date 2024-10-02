@@ -1,6 +1,6 @@
 {
   "name": "destinygg-chat-bot",
-  "version": "0.1.0",
+  "version": "0.6.0",
   "description": "Chat bot for destiny.gg chat",
   "main": "index.js",
   "scripts": {
