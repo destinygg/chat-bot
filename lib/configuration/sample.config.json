@@ -1,5 +1,4 @@
 {
-  "chatToConnectTo": "dgg",
   "timezone": "America/Tijuana",
   "timezoneString": "svensk",
   "dggChat": {
@@ -8,7 +7,10 @@
     "cookieToken": "yourCookieToken",
     "botNick": "yourBotNick"
   },
-  "scheduledCommands": ["!youtube", "!schedule"],
+  "scheduledCommands": [
+    "!youtube",
+    "!schedule"
+  ],
   "logger": {
     "level": "debug"
   },
@@ -85,12 +87,6 @@
   },
   "schedule": {
     "messageIntervalMillis": 900000
-  },
-  "twitch": {
-    "clientId": "yourClientId",
-    "clientSecret": "yourClientSecret",
-    "accessToken": "yourAccesstoken",
-    "channelId": "yourChannel"
   },
   "twitter": {
     "consumerKey": "",

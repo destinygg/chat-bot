@@ -2,7 +2,6 @@
 const { argv } = require('yargs');
 
 const DestinyChat = require('./lib/services/destinychat');
-const TwitchChat = require('./lib/services/twitch-chat');
 const CommandRouter = require('./lib/message-routing/command-router');
 const Services = require('./lib/services/service-index');
 const loadConfig = require('./lib/configuration/config-loader');
@@ -15,22 +14,20 @@ const {
 const { configureReporter } = require('./lib/services/metrics/metrics-reporter');
 
 const config = loadConfig(argv.config);
-const chatToConnectTo = argv.chat || config.chatToConnectTo;
-config.chatToConnectTo = chatToConnectTo;
-
 if (config === null) {
   // eslint-disable-next-line no-console
   console.log('WARNING: Config file not found, no config loaded. Shutting down.');
   process.exit(0);
 }
-const services = new Services(config, chatToConnectTo);
-configureReporter(config.influx, new Map([['chat', config.chatToConnectTo]]));
+
+const services = new Services(config);
+configureReporter(config.influx, new Map([['chat', 'dgg']]));
 const { logger } = services;
 
 services
   .prepareAsyncServices()
   .then(() => {
-    registerCommandsFromFiles(services.commandRegistry, chatToConnectTo, config);
+    registerCommandsFromFiles(services.commandRegistry, config);
     logger.info('Config loaded! Starting bot!');
     return setupCommandsAndCachesFromDb(
       services.sql,
@@ -43,25 +40,18 @@ services
     });
   })
   .then(() => {
-    logger.info(`Configuring for ${chatToConnectTo} chat`);
+    logger.info(`Configuring for dgg chat`);
     const commandRouter = new CommandRouter(services);
-    const messageRouter = new MessageRouter({ chatConnectedTo: chatToConnectTo }, services);
-    let bot = null;
+    const messageRouter = new MessageRouter(services);
+    const bot = new DestinyChat(config.dggChat, services);
 
-    if (chatToConnectTo === 'twitch') {
-      bot = new TwitchChat(config.twitch, services);
-    } else if (chatToConnectTo === 'dgg') {
-      bot = new DestinyChat(config.dggChat, services);
-    } else {
-      logger.error('Config property: "chatToConnectTo" not set to one of "dgg" or "twitch"');
-      process.exit(1);
-    }
-    if(config.hasOwnProperty('scheduledCommands')){
-      config.scheduledCommands.forEach(commandToSchedule => services.fakeScheduler.createMessage(commandToSchedule));
+    if (config.hasOwnProperty('scheduledCommands')) {
+      config.scheduledCommands.forEach((commandToSchedule) =>
+        services.fakeScheduler.createMessage(commandToSchedule),
+      );
     }
 
     const chatServiceRouter = new ChatServiceRouter(
-      config.chatToConnectTo,
       bot,
       messageRouter,
       commandRouter,

@@ -26,5 +26,5 @@ COPY index.js index.js
 
 ENV NODE_ENV=production
 
-ENTRYPOINT ["node", "/usr/src/app/index.js", "--chat=dgg"]
+ENTRYPOINT ["node", "/usr/src/app/index.js"]
 CMD ["node", "/usr/src/app/index.js"]
