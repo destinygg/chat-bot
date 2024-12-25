@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+    <style>
+      .roles {
+        display: inline-flex;
+        gap: 0.5rem;
+      }
+
+      .role {
+        display: flex;
+      }
+
+      .role__input:disabled {
+        cursor: not-allowed;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <button @click="disconnect" v-if="status === 'connected'">Disconnect</button>
+      <button @click="connect" v-if="status === 'disconnected'">Connect</button> {{ status }}
+      <fieldset class="roles">
+        <legend>Roles to Use</legend>
+        <div v-for="role in roles" class="role">
+          <input
+            class="role__input"
+            type="checkbox"
+            :id="'role-' + role.id"
+            name="roles"
+            v-model="role.enabled"
+            :disabled="status === 'connected'"
+          />
+          <label :for="'role-' + role.id">{{ role.name }}</label>
+        </div>
+      </fieldset>
+
+      <br /><br />
+      <div v-if="status === 'connected'">
+        <form @submit.prevent="sendMessage" action="#">
+          <input v-model="message" /><button type="submit">Send Message</button>
+        </form>
+        <ul id="logs">
+          <li v-for="log in logs" class="log">{{ log.event }}: {{ log.data }}</li>
+        </ul>
+      </div>
+    </div>
+
+    <script>
+      const roles = [
+        { name: 'moderator', id: 'moderator', enabled: false },
+        { name: 'admin', id: 'admin', enabled: false },
+        { name: 'protected', id: 'protected', enabled: false },
+        { name: 'community bot', id: 'flair11', enabled: false },
+        { name: 'vip', id: 'vip', enabled: false },
+      ];
+
+      const app = new Vue({
+        el: '#app',
+        data: {
+          message: '',
+          logs: [],
+          status: 'disconnected',
+          roles,
+        },
+        methods: {
+          connect() {
+            this.socket = new WebSocket('ws://localhost:8420');
+            this.socket.onopen = () => {
+              this.status = 'connected';
+              this.logs.push({ event: 'Connected to', data: 'ws://localhost:8420' });
+
+              this.socket.onmessage = ({ data }) => {
+                this.logs.push({ event: 'Recieved message', data });
+              };
+            };
+          },
+          disconnect() {
+            this.socket.close();
+            this.status = 'disconnected';
+            this.logs = [];
+          },
+          sendMessage(e) {
+            const roles = this.roles.filter((r) => r.enabled).map((r) => r.id);
+            this.socket.send(
+              `MSG ${JSON.stringify({ nick: 'test-id-', features: roles, data: this.message })}`,
+            );
+            this.logs.push({ event: 'Sent message', data: this.message });
+            this.message = '';
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

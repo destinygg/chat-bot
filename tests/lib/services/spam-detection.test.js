@@ -1,10 +1,17 @@
 const assert = require('assert');
+const sinon = require('sinon');
 const RollingChatCache = require('../../../lib/services/dgg-rolling-chat-cache');
 const SpamDetection = require('../../../lib/services/spam-detection');
+const messageMatchingService = require('../../../lib/services/message-matching');
+const Logger = require('bunyan');
 
 describe('Spam detection Tests', () => {
   beforeEach(function() {
-    this.spamDetection = new SpamDetection({});
+    this.mockServices = {
+      logger: sinon.createStubInstance(Logger),
+      messageMatching: messageMatchingService,
+    };
+    this.spamDetection = new SpamDetection({}, this.mockServices);
   });
 
   it('detects stupid non-ascii spam', function() {
@@ -29,7 +36,7 @@ describe('Spam detection Tests', () => {
   });
 
   it('does not checks lists for similar messages in the list if the string length is short.', function() {
-    const chatCache = new RollingChatCache({});
+    const chatCache = new RollingChatCache({}, this.mockServices);
     chatCache.addMessageToRunningList('linusred', 'hey nice meme man');
     chatCache.addMessageToRunningList('jimbo', 'hey');
 
@@ -41,7 +48,7 @@ describe('Spam detection Tests', () => {
   });
 
   it('does checks lists for similar messages in the list if the string length is long.', function() {
-    const chatCache = new RollingChatCache({});
+    const chatCache = new RollingChatCache({}, this.mockServices);
     chatCache.addMessageToRunningList(
       'linusred',
       'hey nice meme man hey nice meme man hey nice meme man hey nice meme man hey nice meme man hey nice meme man hey nice meme man hey nice meme man hey nice meme man hey nice meme man',
@@ -64,7 +71,7 @@ describe('Spam detection Tests', () => {
       maxMessagesInList: 2,
       timeToLive: 0,
       tombStoneInterval: 0,
-    });
+    }, this.mockServices);
     const expected = ['linusred'];
     chatCache.addMessageToRunningList('linusred', 'hey nice meme man');
     chatCache.addMessageToRunningList('linusred', 'lol really nice meme man');
@@ -82,7 +89,7 @@ describe('Spam detection Tests', () => {
       maxMessagesInList: 20,
       timeToLive: 0,
       tombStoneInterval: 0,
-    });
+    }, this.mockServices);
     const expected = ['coopy', 'linusred'];
     chatCache.addMessageToRunningList('linusred', 'hey nice meme man');
     chatCache.addMessageToRunningList('coopy', 'hey NiCe MeME    ');
@@ -100,7 +107,7 @@ describe('Spam detection Tests', () => {
       maxMessagesInList: 20,
       timeToLive: 0,
       tombStoneInterval: 0,
-    });
+    }, this.mockServices);
     const expected = ['coopy', 'linusred'];
     chatCache.addMessageToRunningList('linusred', 'hey nice meme man');
     chatCache.addMessageToRunningList('coopy', 'hey NiCe MeME    ');

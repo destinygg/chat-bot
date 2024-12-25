@@ -8,7 +8,7 @@
     "cookieToken": "yourCookieToken",
     "botNick": "yourBotNick"
   },
-  "scheduledCommands":["!youtube", "!schedule"],
+  "scheduledCommands": ["!youtube", "!schedule"],
   "logger": {
     "level": "debug"
   },
@@ -16,13 +16,15 @@
     "url": "https://overrustlelogs.net"
   },
   "sql": {
-    "fileLocation": "/usr/src/app/database/bot.db"
+    "fileLocation": "./bot.db"
   },
   "chatCache": {
     "messagesToKeepPerUser": 10,
     "maxMessagesInList": 5000,
     "timeToLiveSeconds": 600,
-    "tomeStoneIntervalMilliseconds": 60000
+    "tomeStoneIntervalMilliseconds": 60000,
+    "messageUrlSpamSeconds": 600,
+    "messageUrlSpamUser": "Destiny"
   },
   "punishmentCache": {
     "baseMuteSeconds": 60,
@@ -74,7 +76,8 @@
     "messagesToSearch": 75,
     "nukeDepth": 900,
     "minimumStringSearchLength": 100,
-    "uniqueWordsThreshold": 0.45
+    "uniqueWordsThreshold": 0.45,
+    "messageUrlSpamCount": 3
   },
   "roleCache": {
     "timeToLiveSeconds": 21600,
@@ -124,5 +127,11 @@
   },
   "dggApi": {
     "url": "https://www.destiny.gg/api/info/stream"
+  },
+  "redditVote": {
+    "enabled": false,
+    "scriptPath": "",
+    "threadFilePath": "",
+    "stateStoreFilePath": ""
   }
 }
