@@ -1,6 +1,7 @@
 const assert = require('assert');
 const sinon = require('sinon');
 const proxyquire = require('proxyquire').noCallThru();
+const moment = require('moment');
 const mockResponses = require('./mocks/google-calendar-responses.json');
 
 describe('Schedule Tests', () => {
@@ -42,9 +43,9 @@ describe('Schedule Tests', () => {
       .findNextStreamDay()
       .then(function (response) {
         return assert.deepStrictEqual(response, {
-          start: '2018-11-12T17:00:00-06:00',
-          name: 'Stream',
           allDay: false,
+          start: moment.utc('2018-11-12T17:00:00Z'),
+          name: 'Stream',
         });
       });
   });
@@ -54,9 +55,27 @@ describe('Schedule Tests', () => {
       .findNextStreamDay()
       .then(function (response) {
         return assert.deepStrictEqual(response, {
-          start: '2023-03-15',
+          start: moment.utc('2023-03-15'),
           name: 'Stop the Steal Debate with Ali Alexander',
           allDay: true,
+          childEvent: undefined,
+        });
+      });
+  });
+
+  it('Returns the next all-day calendar event with an event on the day', function () {
+    return buildSchedule(mockResponses['getAllDayEventWithSubEvent'])
+      .findNextStreamDay()
+      .then(function (response) {
+        return assert.deepStrictEqual(response, {
+          start: moment.utc('2023-03-15'),
+          name: 'Stop the Steal Debate with Ali Alexander',
+          allDay: true,
+          childEvent: {
+            allDay: false,
+            start: moment.utc('2023-03-15T16:00:00Z'),
+            name: 'Stop the Steal Ping Pong Break',
+          },
         });
       });
   });

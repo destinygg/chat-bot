@@ -29,16 +29,16 @@
           "self": true
         },
         "start": {
-          "dateTime": "2018-11-12T17:00:00-06:00",
+          "dateTime": "2018-11-12T17:00:00Z",
           "timeZone": "America/Chicago"
         },
         "end": {
-          "dateTime": "2018-11-13T00:00:00-06:00",
+          "dateTime": "2018-11-13T00:00:00Z",
           "timeZone": "America/Chicago"
         },
         "recurringEventId": "37gr7bg214nu3avfnso74ofeek",
         "originalStartTime": {
-          "dateTime": "2018-11-12T17:00:00-06:00",
+          "dateTime": "2018-11-12T17:00:00Z",
           "timeZone": "America/Chicago"
         },
         "iCalUID": "37gr7bg214nu3avfnso74ofeek@google.com",
@@ -68,16 +68,16 @@
           "self": true
         },
         "start": {
-          "dateTime": "2018-11-13T17:00:00-06:00",
+          "dateTime": "2018-11-13T17:00:00Z",
           "timeZone": "America/Chicago"
         },
         "end": {
-          "dateTime": "2018-11-14T00:00:00-06:00",
+          "dateTime": "2018-11-14T00:00:00Z",
           "timeZone": "America/Chicago"
         },
         "recurringEventId": "37gr7bg214nu3avfnso74ofeek",
         "originalStartTime": {
-          "dateTime": "2018-11-13T17:00:00-06:00",
+          "dateTime": "2018-11-13T17:00:00Z",
           "timeZone": "America/Chicago"
         },
         "iCalUID": "37gr7bg214nu3avfnso74ofeek@google.com",
@@ -107,16 +107,16 @@
           "self": true
         },
         "start": {
-          "dateTime": "2018-11-14T16:30:00-06:00",
+          "dateTime": "2018-11-14T16:30:00Z",
           "timeZone": "America/Chicago"
         },
         "end": {
-          "dateTime": "2018-11-14T21:00:00-06:00",
+          "dateTime": "2018-11-14T21:00:00Z",
           "timeZone": "America/Chicago"
         },
         "recurringEventId": "70oj8e1i64pjeb9j70o3ib9k6lgm4bb26gqjcbb6cgs6cpb3cdj3cp9m6k_R20181114T223000",
         "originalStartTime": {
-          "dateTime": "2018-11-14T16:30:00-06:00",
+          "dateTime": "2018-11-14T16:30:00Z",
           "timeZone": "America/Chicago"
         },
         "iCalUID": "70oj8e1i64pjeb9j70o3ib9k6lgm4bb26gqjcbb6cgs6cpb3cdj3cp9m6k_R20181114T223000@google.com",
@@ -146,16 +146,16 @@
           "self": true
         },
         "start": {
-          "dateTime": "2018-11-14T21:00:00-06:00",
+          "dateTime": "2018-11-14T21:00:00Z",
           "timeZone": "America/Chicago"
         },
         "end": {
-          "dateTime": "2018-11-15T01:00:00-06:00",
+          "dateTime": "2018-11-15T01:00:00Z",
           "timeZone": "America/Chicago"
         },
         "recurringEventId": "6t3s1oqf861ner26ehhknn2b88",
         "originalStartTime": {
-          "dateTime": "2018-11-14T21:00:00-06:00",
+          "dateTime": "2018-11-14T21:00:00Z",
           "timeZone": "America/Chicago"
         },
         "iCalUID": "6t3s1oqf861ner26ehhknn2b88@google.com",
@@ -286,6 +286,69 @@
         "end": { "date": "2023-04-11" },
         "transparency": "transparent",
         "iCalUID": "5i4vriu8ivcjko1jihfcd9lk4d@google.com",
+        "sequence": 0,
+        "eventType": "default"
+      }
+    ]
+  },
+  "getAllDayEventWithSubEvent": {
+    "kind": "calendar#events",
+    "etag": "\"p33k8jk40kr7vq0g\"",
+    "summary": "Destiny - Stream Schedule",
+    "description": "My public streaming schedule.",
+    "updated": "2023-03-09T16:45:41.921Z",
+    "timeZone": "America/New_York",
+    "accessRole": "reader",
+    "defaultReminders": [],
+    "nextPageToken": "EiUKGjVpNHZyaXU4aXZjamtvMWppaGZjZDlsazRkGIDA3fKAnv4CIgcIBRDmkf8v",
+    "items": [
+      {
+        "kind": "calendar#event",
+        "etag": "\"3353332517346000\"",
+        "id": "4ov5ja6j1otg2afbl91fpnvcj7",
+        "status": "confirmed",
+        "htmlLink": "https://www.google.com/calendar/event?eid=NG92NWphNmoxb3RnMmFmYmw5MWZwbnZjajcgaTU0ajRjdTlwbDQyNzBhc29rM21xZ2RyaGtAZw",
+        "created": "2023-02-17T20:37:38.000Z",
+        "updated": "2023-02-17T20:37:38.673Z",
+        "summary": "Stop the Steal Debate with Ali Alexander",
+        "creator": { "email": "steven.bonnell.ii@gmail.com" },
+        "organizer": {
+          "email": "i54j4cu9pl4270asok3mqgdrhk@group.calendar.google.com",
+          "displayName": "Destiny - Stream Schedule",
+          "self": true
+        },
+        "start": { "date": "2023-03-15" },
+        "end": { "date": "2023-03-16" },
+        "transparency": "transparent",
+        "iCalUID": "4ov5ja6j1otg2afbl91fpnvcj7@google.com",
+        "sequence": 0,
+        "eventType": "default"
+      },
+      {
+        "kind": "calendar#event",
+        "etag": "\"3353332517346000\"",
+        "id": "4ov5ja6j1otg2afbl91fpnvcj7",
+        "status": "confirmed",
+        "htmlLink": "https://www.google.com/calendar/event?eid=NG92NWphNmoxb3RnMmFmYmw5MWZwbnZjajcgaTU0ajRjdTlwbDQyNzBhc29rM21xZ2RyaGtAZw",
+        "created": "2023-02-17T20:37:38.000Z",
+        "updated": "2023-02-17T20:37:38.673Z",
+        "summary": "Stop the Steal Ping Pong Break",
+        "creator": { "email": "steven.bonnell.ii@gmail.com" },
+        "organizer": {
+          "email": "i54j4cu9pl4270asok3mqgdrhk@group.calendar.google.com",
+          "displayName": "Destiny - Stream Schedule",
+          "self": true
+        },
+        "start": {
+          "dateTime": "2023-03-15T16:00:00Z",
+          "timeZone": "America/Chicago"
+        },
+        "end": {
+          "dateTime": "2023-03-15T17:00:00Z",
+          "timeZone": "America/Chicago"
+        },
+        "transparency": "transparent",
+        "iCalUID": "4ov5ja6j1otg2afbl91fpnvcj7@google.com",
         "sequence": 0,
         "eventType": "default"
       }
