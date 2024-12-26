@@ -29,16 +29,16 @@
           "self": true
         },
         "start": {
-          "dateTime": "2018-11-12T17:00:00-06:00",
+          "dateTime": "2018-11-12T17:00:00Z",
           "timeZone": "America/Chicago"
         },
         "end": {
-          "dateTime": "2018-11-13T00:00:00-06:00",
+          "dateTime": "2018-11-13T00:00:00Z",
           "timeZone": "America/Chicago"
         },
         "recurringEventId": "37gr7bg214nu3avfnso74ofeek",
         "originalStartTime": {
-          "dateTime": "2018-11-12T17:00:00-06:00",
+          "dateTime": "2018-11-12T17:00:00Z",
           "timeZone": "America/Chicago"
         },
         "iCalUID": "37gr7bg214nu3avfnso74ofeek@google.com",
@@ -68,16 +68,16 @@
           "self": true
         },
         "start": {
-          "dateTime": "2018-11-13T17:00:00-06:00",
+          "dateTime": "2018-11-13T17:00:00Z",
           "timeZone": "America/Chicago"
         },
         "end": {
-          "dateTime": "2018-11-14T00:00:00-06:00",
+          "dateTime": "2018-11-14T00:00:00Z",
           "timeZone": "America/Chicago"
         },
         "recurringEventId": "37gr7bg214nu3avfnso74ofeek",
         "originalStartTime": {
-          "dateTime": "2018-11-13T17:00:00-06:00",
+          "dateTime": "2018-11-13T17:00:00Z",
           "timeZone": "America/Chicago"
         },
         "iCalUID": "37gr7bg214nu3avfnso74ofeek@google.com",
@@ -107,16 +107,16 @@
           "self": true
         },
         "start": {
-          "dateTime": "2018-11-14T16:30:00-06:00",
+          "dateTime": "2018-11-14T16:30:00Z",
           "timeZone": "America/Chicago"
         },
         "end": {
-          "dateTime": "2018-11-14T21:00:00-06:00",
+          "dateTime": "2018-11-14T21:00:00Z",
           "timeZone": "America/Chicago"
         },
         "recurringEventId": "70oj8e1i64pjeb9j70o3ib9k6lgm4bb26gqjcbb6cgs6cpb3cdj3cp9m6k_R20181114T223000",
         "originalStartTime": {
-          "dateTime": "2018-11-14T16:30:00-06:00",
+          "dateTime": "2018-11-14T16:30:00Z",
           "timeZone": "America/Chicago"
         },
         "iCalUID": "70oj8e1i64pjeb9j70o3ib9k6lgm4bb26gqjcbb6cgs6cpb3cdj3cp9m6k_R20181114T223000@google.com",
@@ -146,16 +146,16 @@
           "self": true
         },
         "start": {
-          "dateTime": "2018-11-14T21:00:00-06:00",
+          "dateTime": "2018-11-14T21:00:00Z",
           "timeZone": "America/Chicago"
         },
         "end": {
-          "dateTime": "2018-11-15T01:00:00-06:00",
+          "dateTime": "2018-11-15T01:00:00Z",
           "timeZone": "America/Chicago"
         },
         "recurringEventId": "6t3s1oqf861ner26ehhknn2b88",
         "originalStartTime": {
-          "dateTime": "2018-11-14T21:00:00-06:00",
+          "dateTime": "2018-11-14T21:00:00Z",
           "timeZone": "America/Chicago"
         },
         "iCalUID": "6t3s1oqf861ner26ehhknn2b88@google.com",
@@ -340,11 +340,11 @@
           "self": true
         },
         "start": {
-          "dateTime": "2023-03-15T16:00:00",
+          "dateTime": "2023-03-15T16:00:00Z",
           "timeZone": "America/Chicago"
         },
         "end": {
-          "dateTime": "2023-03-15T17:00:00",
+          "dateTime": "2023-03-15T17:00:00Z",
           "timeZone": "America/Chicago"
         },
         "transparency": "transparent",
