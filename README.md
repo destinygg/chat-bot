@@ -5,7 +5,7 @@
 You'll need a configuration file, there's a sample configuration under ./configuration, rename this to prod.config.json
 and enter in your own keys to hit the APIs. Documentation on configuration coming eventually.
 
-You shouldn't need api keys for most commands, but you will definitely need them to run the bot against twitch.
+You shouldn't need api keys for most commands.
 
 See below for local development of the bot.
 
@@ -54,11 +54,11 @@ Durations are in the format of the number, followed by h,m,s or d.
 
 500d
 
-(Note on adding commands/scheduled commands for admins, when you add the commands to twitch/dgg, you need to !restart the bot in the other chat to pick these changes up. This will change with a future update.)
+(Note on adding commands/scheduled commands for admins, when you add the commands to dgg, you need to !restart the bot in the other chat to pick these changes up. This will change with a future update.)
 
 | Command                                        | Input                        | What it does                                                                                      | Requires Admin | Example                                                   |
 |------------------------------------------------|------------------------------|---------------------------------------------------------------------------------------------------|----------------|-----------------------------------------------------------|
-| !restart                                       | None                         | Restarts the dgg or Twitch.tv bot. Don't overuse the command, it resets caches.                   | Yes            | !restart                                                  |
+| !restart                                       | None                         | Restarts the dgg bot. Don't overuse the command, it resets caches.                   | Yes            | !restart                                                  |
 | !stalk                                         | {user} (postnumber)          | Overrustle logs posts                                                                             | Yes            | !stalk Destiny 5                                          |
 | !time                                          | None                         | Current Steven Time                                                                               | No             | !time                                                     |
 | !schedule !sch                                 | None                         | Show next upcoming scheduled event, and a link to the schedule calendar.                          | No             | !schedule                                                 |
