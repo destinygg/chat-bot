@@ -8,7 +8,7 @@ const messageMatching = require('../../../../lib/services/message-matching');
 const { makeMute } = require('../../../../lib/chat-utils/punishment-helpers');
 
 describe('Mutelinks Test', () => {
-  beforeEach(function() {
+  beforeEach(function () {
     this.mockServices = {
       messageRelay: new MessageRelay(),
       messageMatching,
@@ -18,14 +18,14 @@ describe('Mutelinks Test', () => {
     };
   });
 
-  it('mutes link messages when "all" with default time, then turned off', function() {
+  it('mutes link messages when "all" with default time, then turned off', function () {
     const messageRelay = this.mockServices.messageRelay;
     const punishmentStream = this.mockServices.punishmentStream;
 
     const output1 = mutelinks.work('all', this.mockServices);
     assert.deepStrictEqual(
       output1,
-      new CommandOutput(null, 'Link muting (10m) turned on for all links'),
+      new CommandOutput(null, 'Link muting (1m) turned on for all links'),
     );
 
     messageRelay.relayMessageToListeners('msg', {
@@ -51,15 +51,15 @@ describe('Mutelinks Test', () => {
     assert.deepStrictEqual(punishmentStream.write.callCount, 2);
     assert.deepStrictEqual(
       punishmentStream.write.getCall(0).args[0],
-      makeMute('test2', 600, 'test2 muted for 10m for posting a link while link muting is on.'),
+      makeMute('test2', 60, 'test2 muted for 1m for posting a link while link muting is on.'),
     );
     assert.deepStrictEqual(
       punishmentStream.write.getCall(1).args[0],
-      makeMute('test1', 600, 'test1 muted for 10m for posting a link while link muting is on.'),
+      makeMute('test1', 60, 'test1 muted for 1m for posting a link while link muting is on.'),
     );
   });
 
-  it('mutes link messages when "on" with custom time, then turned off', function() {
+  it('mutes link messages when "on" with custom time, then turned off', function () {
     const messageRelay = this.mockServices.messageRelay;
     const punishmentStream = this.mockServices.punishmentStream;
 
@@ -117,30 +117,30 @@ describe('Mutelinks Test', () => {
     assert.deepStrictEqual(punishmentStream.write.callCount, 3);
     assert.deepStrictEqual(
       punishmentStream.write.getCall(0).args[0],
-      makeMute('test4', 1200, 'test4 muted for 20m for posting a link while link muting is on.'),
+      makeMute('test4', 1200, 'test4 muted for 20m for tagging deStInY with a link.'),
     );
     assert.deepStrictEqual(
       punishmentStream.write.getCall(1).args[0],
-      makeMute('test5', 1200, 'test5 muted for 20m for posting a link while link muting is on.'),
+      makeMute('test5', 1200, 'test5 muted for 20m for tagging deStInY with a link.'),
     );
     assert.deepStrictEqual(
       punishmentStream.write.getCall(2).args[0],
-      makeMute('test8', 1200, 'test8 muted for 20m for posting a link while link muting is on.'),
+      makeMute('test8', 1200, 'test8 muted for 20m for tagging deStInY with a link.'),
     );
   });
-  it('message formats correctly and alerts of duplicate commands', function() {
+  it('message formats correctly and alerts of duplicate commands', function () {
     const messageRelay = this.mockServices.messageRelay;
     const punishmentStream = this.mockServices.punishmentStream;
 
     const output1 = mutelinks.work('on', this.mockServices, { user: 'deStInY' });
     assert.deepStrictEqual(
       output1,
-      new CommandOutput(null, 'Link muting (10m) turned on for mentioning deStInY'),
+      new CommandOutput(null, 'Link muting (1m) turned on for mentioning deStInY'),
     );
-    const output2 = mutelinks.work('on 10m', this.mockServices, { user: 'deStInY' });
+    const output2 = mutelinks.work('on 1m', this.mockServices, { user: 'deStInY' });
     assert.deepStrictEqual(
       output2,
-      new CommandOutput(null, 'Link muting (10m) is already on for mentioning deStInY'),
+      new CommandOutput(null, 'Link muting (1m) is already on for mentioning deStInY'),
     );
     const output3 = mutelinks.work('on 20m', this.mockServices, { user: 'deStInY' });
     assert.deepStrictEqual(
