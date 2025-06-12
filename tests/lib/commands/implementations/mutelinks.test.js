@@ -153,4 +153,52 @@ describe('Mutelinks Test', () => {
       new CommandOutput(null, 'Link muting (20m) turned on for all links'),
     );
   });
+
+  it('mutes messages with repeated links when in repeat state', function () {
+    const messageRelay = this.mockServices.messageRelay;
+    const punishmentStream = this.mockServices.punishmentStream;
+
+    // Mock the chat cache service
+    this.mockServices.chatCache = {
+      getRecentUrls: sinon.stub().returns(['twitch.tv/', 'youtube.com/']),
+      normalizeUrl: (url) => (url.hostname + url.pathname).toLowerCase(),
+    };
+
+    const output1 = mutelinks.work('repeat 15m', this.mockServices);
+    assert.deepStrictEqual(output1, new CommandOutput(null, 'Link muting (15m) turned repeat'));
+
+    // First message with a new link - should not be muted
+    messageRelay.relayMessageToListeners('msg', {
+      message: 'check out this new site https://reddit.com',
+      user: 'test1',
+    });
+
+    // Message with a repeated link - should be muted
+    messageRelay.relayMessageToListeners('msg', {
+      message: 'hey check this out https://twitch.tv',
+      user: 'test2',
+    });
+
+    // Message with another repeated link - should be muted
+    messageRelay.relayMessageToListeners('msg', {
+      message: 'cool video https://youtube.com',
+      user: 'test3',
+    });
+
+    // Message with a new link - should not be muted
+    messageRelay.relayMessageToListeners('msg', {
+      message: 'new site https://github.com',
+      user: 'test4',
+    });
+
+    assert.deepStrictEqual(punishmentStream.write.callCount, 2);
+    assert.deepStrictEqual(
+      punishmentStream.write.getCall(0).args[0],
+      makeMute('test2', 900, 'test2 muted for 15m for posting a repeated link.'),
+    );
+    assert.deepStrictEqual(
+      punishmentStream.write.getCall(1).args[0],
+      makeMute('test3', 900, 'test3 muted for 15m for posting a repeated link.'),
+    );
+  });
 });
