@@ -15,6 +15,11 @@ describe('Mutelinks Test', () => {
       punishmentStream: {
         write: sinon.spy(),
       },
+      logger: {
+        info: () => {},
+        warn: () => {},
+        error: () => {},
+      },
     };
   });
 
