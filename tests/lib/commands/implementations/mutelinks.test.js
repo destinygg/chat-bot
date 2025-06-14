@@ -8,24 +8,29 @@ const messageMatching = require('../../../../lib/services/message-matching');
 const { makeMute } = require('../../../../lib/chat-utils/punishment-helpers');
 
 describe('Mutelinks Test', () => {
-  beforeEach(function() {
+  beforeEach(function () {
     this.mockServices = {
       messageRelay: new MessageRelay(),
       messageMatching,
       punishmentStream: {
         write: sinon.spy(),
       },
+      logger: {
+        info: () => {},
+        warn: () => {},
+        error: () => {},
+      },
     };
   });
 
-  it('mutes link messages when "all" with default time, then turned off', function() {
+  it('mutes link messages when "all" with default time, then turned off', function () {
     const messageRelay = this.mockServices.messageRelay;
     const punishmentStream = this.mockServices.punishmentStream;
 
     const output1 = mutelinks.work('all', this.mockServices);
     assert.deepStrictEqual(
       output1,
-      new CommandOutput(null, 'Link muting (10m) turned on for all links'),
+      new CommandOutput(null, 'Link muting (1m) turned on for all links'),
     );
 
     messageRelay.relayMessageToListeners('msg', {
@@ -51,15 +56,15 @@ describe('Mutelinks Test', () => {
     assert.deepStrictEqual(punishmentStream.write.callCount, 2);
     assert.deepStrictEqual(
       punishmentStream.write.getCall(0).args[0],
-      makeMute('test2', 600, 'test2 muted for 10m for posting a link while link muting is on.'),
+      makeMute('test2', 60, 'test2 muted for 1m for posting a link while link muting is on.'),
     );
     assert.deepStrictEqual(
       punishmentStream.write.getCall(1).args[0],
-      makeMute('test1', 600, 'test1 muted for 10m for posting a link while link muting is on.'),
+      makeMute('test1', 60, 'test1 muted for 1m for posting a link while link muting is on.'),
     );
   });
 
-  it('mutes link messages when "on" with custom time, then turned off', function() {
+  it('mutes link messages when "on" with custom time, then turned off', function () {
     const messageRelay = this.mockServices.messageRelay;
     const punishmentStream = this.mockServices.punishmentStream;
 
@@ -117,30 +122,30 @@ describe('Mutelinks Test', () => {
     assert.deepStrictEqual(punishmentStream.write.callCount, 3);
     assert.deepStrictEqual(
       punishmentStream.write.getCall(0).args[0],
-      makeMute('test4', 1200, 'test4 muted for 20m for posting a link while link muting is on.'),
+      makeMute('test4', 1200, 'test4 muted for 20m for tagging deStInY with a link.'),
     );
     assert.deepStrictEqual(
       punishmentStream.write.getCall(1).args[0],
-      makeMute('test5', 1200, 'test5 muted for 20m for posting a link while link muting is on.'),
+      makeMute('test5', 1200, 'test5 muted for 20m for tagging deStInY with a link.'),
     );
     assert.deepStrictEqual(
       punishmentStream.write.getCall(2).args[0],
-      makeMute('test8', 1200, 'test8 muted for 20m for posting a link while link muting is on.'),
+      makeMute('test8', 1200, 'test8 muted for 20m for tagging deStInY with a link.'),
     );
   });
-  it('message formats correctly and alerts of duplicate commands', function() {
+  it('message formats correctly and alerts of duplicate commands', function () {
     const messageRelay = this.mockServices.messageRelay;
     const punishmentStream = this.mockServices.punishmentStream;
 
     const output1 = mutelinks.work('on', this.mockServices, { user: 'deStInY' });
     assert.deepStrictEqual(
       output1,
-      new CommandOutput(null, 'Link muting (10m) turned on for mentioning deStInY'),
+      new CommandOutput(null, 'Link muting (1m) turned on for mentioning deStInY'),
     );
-    const output2 = mutelinks.work('on 10m', this.mockServices, { user: 'deStInY' });
+    const output2 = mutelinks.work('on 1m', this.mockServices, { user: 'deStInY' });
     assert.deepStrictEqual(
       output2,
-      new CommandOutput(null, 'Link muting (10m) is already on for mentioning deStInY'),
+      new CommandOutput(null, 'Link muting (1m) is already on for mentioning deStInY'),
     );
     const output3 = mutelinks.work('on 20m', this.mockServices, { user: 'deStInY' });
     assert.deepStrictEqual(
@@ -151,6 +156,54 @@ describe('Mutelinks Test', () => {
     assert.deepStrictEqual(
       output4,
       new CommandOutput(null, 'Link muting (20m) turned on for all links'),
+    );
+  });
+
+  it('mutes messages with repeated links when in repeat state', function () {
+    const messageRelay = this.mockServices.messageRelay;
+    const punishmentStream = this.mockServices.punishmentStream;
+
+    // Mock the chat cache service
+    this.mockServices.chatCache = {
+      getRecentUrls: sinon.stub().returns(['twitch.tv/', 'youtube.com/']),
+      normalizeUrl: (url) => (url.hostname + url.pathname).toLowerCase(),
+    };
+
+    const output1 = mutelinks.work('repeat 15m', this.mockServices);
+    assert.deepStrictEqual(output1, new CommandOutput(null, 'Link muting (15m) turned repeat'));
+
+    // First message with a new link - should not be muted
+    messageRelay.relayMessageToListeners('msg', {
+      message: 'check out this new site https://reddit.com',
+      user: 'test1',
+    });
+
+    // Message with a repeated link - should be muted
+    messageRelay.relayMessageToListeners('msg', {
+      message: 'hey check this out https://twitch.tv',
+      user: 'test2',
+    });
+
+    // Message with another repeated link - should be muted
+    messageRelay.relayMessageToListeners('msg', {
+      message: 'cool video https://youtube.com',
+      user: 'test3',
+    });
+
+    // Message with a new link - should not be muted
+    messageRelay.relayMessageToListeners('msg', {
+      message: 'new site https://github.com',
+      user: 'test4',
+    });
+
+    assert.deepStrictEqual(punishmentStream.write.callCount, 2);
+    assert.deepStrictEqual(
+      punishmentStream.write.getCall(0).args[0],
+      makeMute('test2', 900, 'test2 muted for 15m for posting a repeated link.'),
+    );
+    assert.deepStrictEqual(
+      punishmentStream.write.getCall(1).args[0],
+      makeMute('test3', 900, 'test3 muted for 15m for posting a repeated link.'),
     );
   });
 });

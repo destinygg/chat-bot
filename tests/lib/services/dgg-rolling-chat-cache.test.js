@@ -252,5 +252,79 @@ describe('Chat Cache Test suite', () => {
       assert.deepStrictEqual(chatCache.runningMessageList, expected);
     });
   });
-});
 
+  describe('Chat Cache Recent URLs Tests', () => {
+    beforeEach(function () {
+      this.mockServices = {
+        logger: sinon.createStubInstance(Logger),
+        messageMatching: messageMatchingService,
+      };
+      this.clock = sinon.useFakeTimers();
+    });
+
+    afterEach(function () {
+      this.clock.restore();
+    });
+
+    it('adds URLs from messages to recentUrls list', function () {
+      const chatCache = new RollingChatCache({}, this.mockServices);
+      chatCache.addMessageToCache('user1', 'Check out https://example.com/path');
+      chatCache.addMessageToCache('user2', 'Also see https://test.com/other');
+
+      const recentUrls = chatCache.getRecentUrls();
+      assert.deepStrictEqual(recentUrls, ['example.com/path', 'test.com/other']);
+    });
+
+    it('normalizes URLs by removing query parameters and protocol', function () {
+      const chatCache = new RollingChatCache({}, this.mockServices);
+      chatCache.addMessageToCache('user1', 'https://example.com/path?param=value');
+      chatCache.addMessageToCache('user2', 'http://test.com/other#fragment');
+
+      const recentUrls = chatCache.getRecentUrls();
+      assert.deepStrictEqual(recentUrls, ['example.com/path', 'test.com/other']);
+    });
+
+    it('expires URLs after the configured TTL', function () {
+      const chatCache = new RollingChatCache({ urlTtlSeconds: 300 }, this.mockServices);
+      chatCache.addMessageToCache('user1', 'https://example.com/path');
+
+      // URLs should be present initially
+      assert.deepStrictEqual(chatCache.getRecentUrls(), ['example.com/path']);
+
+      // Advance time past TTL
+      this.clock.tick(301000); // 301 seconds
+
+      // URLs should be expired
+      assert.deepStrictEqual(chatCache.getRecentUrls(), []);
+    });
+
+    it('handles multiple URLs in a single message', function () {
+      const chatCache = new RollingChatCache({}, this.mockServices);
+      chatCache.addMessageToCache(
+        'user1',
+        'Check https://example.com/path and https://test.com/other',
+      );
+
+      const recentUrls = chatCache.getRecentUrls();
+      assert.deepStrictEqual(recentUrls, ['example.com/path', 'test.com/other']);
+    });
+
+    it('maintains URLs within TTL period', function () {
+      const chatCache = new RollingChatCache({ urlTtlSeconds: 300 }, this.mockServices);
+      chatCache.addMessageToCache('user1', 'https://example.com/path');
+
+      // Advance time but stay within TTL
+      this.clock.tick(200000); // 200 seconds
+
+      // URLs should still be present
+      assert.deepStrictEqual(chatCache.getRecentUrls(), ['example.com/path']);
+    });
+
+    it('handles messages with no URLs', function () {
+      const chatCache = new RollingChatCache({}, this.mockServices);
+      chatCache.addMessageToCache('user1', 'This message has no URLs');
+
+      assert.deepStrictEqual(chatCache.getRecentUrls(), []);
+    });
+  });
+});

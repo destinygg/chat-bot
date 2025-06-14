@@ -50,6 +50,14 @@ describe('Message matching tests ', () => {
         assert.deepStrictEqual(foundLinks[i].href, link);
       });
     });
+
+    it('getLinks handles URLs without schemes correctly', () => {
+      const message = 'Check out destiny.gg and twitter.com';
+      const foundLinks = getLinks(message);
+      assert.deepStrictEqual(foundLinks.length, 2);
+      assert.deepStrictEqual(foundLinks[0].hostname, 'destiny.gg');
+      assert.deepStrictEqual(foundLinks[1].hostname, 'twitter.com');
+    });
   });
 
   describe('mentionUser matches actual mentions of a user', function () {

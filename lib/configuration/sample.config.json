@@ -24,7 +24,8 @@
     "timeToLiveSeconds": 600,
     "tomeStoneIntervalMilliseconds": 60000,
     "messageUrlSpamSeconds": 600,
-    "messageUrlSpamUser": "Destiny"
+    "messageUrlSpamUser": "Destiny",
+    "urlTtlSeconds": 600
   },
   "punishmentCache": {
     "baseMuteSeconds": 60,
