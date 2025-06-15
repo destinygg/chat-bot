@@ -31,4 +31,26 @@ describe('normalizeUrl', () => {
     const url = new URL('https://example.com:8080/path');
     assert.strictEqual(normalizeUrl(url), 'example.com/path');
   });
+
+  describe('YouTube URL normalization', () => {
+    it('should normalize www.youtube.com URLs preserving video ID', () => {
+      const url = new URL('https://www.youtube.com/watch?v=llZdkIMQdbM');
+      assert.strictEqual(normalizeUrl(url), 'youtube.com/watch?v=llZdkIMQdbM');
+    });
+
+    it('should normalize youtube.com URLs preserving video ID', () => {
+      const url = new URL('https://youtube.com/watch?v=llZdkIMQdbM');
+      assert.strictEqual(normalizeUrl(url), 'youtube.com/watch?v=llZdkIMQdbM');
+    });
+
+    it('should normalize YouTube URLs with additional parameters', () => {
+      const url = new URL('https://www.youtube.com/watch?v=llZdkIMQdbM&t=123&feature=share');
+      assert.strictEqual(normalizeUrl(url), 'youtube.com/watch?v=llZdkIMQdbM');
+    });
+
+    it('should handle YouTube URLs without video ID', () => {
+      const url = new URL('https://www.youtube.com/channel/UC123456');
+      assert.strictEqual(normalizeUrl(url), 'www.youtube.com/channel/UC123456');
+    });
+  });
 });
