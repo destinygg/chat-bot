@@ -8,7 +8,14 @@
     "cookieToken": "yourCookieToken",
     "botNick": "yourBotNick"
   },
-  "scheduledCommands": ["!youtube", "!schedule"],
+  "destinyLive": {
+    "url": "ws://localhost:6969",
+    "origin": "www.obamna.gg"
+  },
+  "scheduledCommands": [
+    "!youtube",
+    "!schedule"
+  ],
   "logger": {
     "level": "debug"
   },
