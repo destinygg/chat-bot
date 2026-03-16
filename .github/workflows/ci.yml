@@ -29,4 +29,5 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - run: cp lib/configuration/sample.config.json lib/configuration/prod.config.json
       - run: npm test
