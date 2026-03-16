@@ -1,4 +1,4 @@
-/* eslint-disable no-process-exit */
+ 
 const { argv } = require('yargs');
 
 const DestinyChat = require('./lib/services/destinychat');
@@ -19,7 +19,7 @@ const chatToConnectTo = argv.chat || config.chatToConnectTo;
 config.chatToConnectTo = chatToConnectTo;
 
 if (config === null) {
-  // eslint-disable-next-line no-console
+   
   console.log('WARNING: Config file not found, no config loaded. Shutting down.');
   process.exit(0);
 }
@@ -56,7 +56,7 @@ services
       logger.error('Config property: "chatToConnectTo" not set to one of "dgg" or "twitch"');
       process.exit(1);
     }
-    if(config.hasOwnProperty('scheduledCommands')){
+    if(Object.hasOwn(config, 'scheduledCommands')){
       config.scheduledCommands.forEach(commandToSchedule => services.fakeScheduler.createMessage(commandToSchedule));
     }
 
