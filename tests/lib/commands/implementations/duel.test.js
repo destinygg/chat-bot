@@ -5,6 +5,20 @@ const MessageRelay = require('../../../../lib/services/message-relay');
 
 const duelModulePath = require.resolve('../../../../lib/commands/implementations/duel');
 
+const REVERSE_HOMOGLYPHS = {
+  '\u0430': 'a',
+  '\u0441': 'c',
+  '\u0435': 'e',
+  '\u043E': 'o',
+  '\u0440': 'p',
+  '\u0455': 's',
+  '\u0456': 'i',
+};
+
+function stripHomoglyphs(str) {
+  return str.replace(/./gu, (ch) => REVERSE_HOMOGLYPHS[ch] || ch);
+}
+
 function freshDuel() {
   delete require.cache[duelModulePath];
   return require(duelModulePath).duel;
@@ -45,7 +59,7 @@ describe('duel command', () => {
 
   it('detects winner and mutes loser', function () {
     const output = this.duel.work('Alice Bob', this.mockServices, this.rawMessage);
-    const phrase = /"([^"]+)"/.exec(output.output)[1];
+    const phrase = stripHomoglyphs(/"([^"]+)"/.exec(output.output)[1]);
 
     this.mockServices.messageRelay.relayMessageToListeners('msg', {
       message: phrase,
@@ -61,7 +75,7 @@ describe('duel command', () => {
 
   it('ignores messages from non-duelists', function () {
     const output = this.duel.work('Alice Bob', this.mockServices, this.rawMessage);
-    const phrase = /"([^"]+)"/.exec(output.output)[1];
+    const phrase = stripHomoglyphs(/"([^"]+)"/.exec(output.output)[1]);
 
     this.mockServices.messageRelay.relayMessageToListeners('msg', {
       message: phrase,
@@ -73,7 +87,7 @@ describe('duel command', () => {
 
   it('matches phrase case-insensitively', function () {
     const output = this.duel.work('Alice Bob', this.mockServices, this.rawMessage);
-    const phrase = /"([^"]+)"/.exec(output.output)[1];
+    const phrase = stripHomoglyphs(/"([^"]+)"/.exec(output.output)[1]);
 
     this.mockServices.messageRelay.relayMessageToListeners('msg', {
       message: phrase.toUpperCase(),
@@ -100,7 +114,7 @@ describe('duel command', () => {
 
   it('uses custom duration when specified', function () {
     const output = this.duel.work('5m Alice Bob', this.mockServices, this.rawMessage);
-    const phrase = /"([^"]+)"/.exec(output.output)[1];
+    const phrase = stripHomoglyphs(/"([^"]+)"/.exec(output.output)[1]);
     assert.ok(output.output.includes('5m'));
 
     this.mockServices.messageRelay.relayMessageToListeners('msg', {
@@ -147,7 +161,7 @@ describe('duel command', () => {
 
   it('allows new duel after previous one completes', function () {
     const output1 = this.duel.work('Alice Bob', this.mockServices, this.rawMessage);
-    const phrase1 = /"([^"]+)"/.exec(output1.output)[1];
+    const phrase1 = stripHomoglyphs(/"([^"]+)"/.exec(output1.output)[1]);
 
     this.mockServices.messageRelay.relayMessageToListeners('msg', {
       message: phrase1,
@@ -171,5 +185,23 @@ describe('duel command', () => {
     } finally {
       clock.restore();
     }
+  });
+
+  it('displayed phrase contains at least one non-ASCII character', function () {
+    const output = this.duel.work('Alice Bob', this.mockServices, this.rawMessage);
+    const displayPhrase = /"([^"]+)"/.exec(output.output)[1];
+    assert.ok(/[^\x00-\x7F]/.test(displayPhrase), 'display phrase should contain a non-ASCII homoglyph');
+  });
+
+  it('rejects copy-pasted phrase containing homoglyph', function () {
+    const output = this.duel.work('Alice Bob', this.mockServices, this.rawMessage);
+    const displayPhrase = /"([^"]+)"/.exec(output.output)[1];
+
+    this.mockServices.messageRelay.relayMessageToListeners('msg', {
+      message: displayPhrase,
+      user: 'Alice',
+    });
+
+    assert.strictEqual(this.mockServices.punishmentStream.write.callCount, 0);
   });
 });
