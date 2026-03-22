@@ -96,6 +96,7 @@ Durations are in the format of the number, followed by h,m,s or d.
 | !incdeaths !ideaths !incd !id                  | None                                    | Adds 1 to the current death counter. Can only be updated once every 15 seconds to prevent 2 people updating                                           | Yes            | !id !ideaths !incd                                                      |
 | !setdeaths !setd !sdeaths                      | (number to set deaths to)               | Sets the death counter to the value specified                                                                                                         | Yes            | !setd 50 !sdeaths 100                                                   |
 | !gulag                                         | (duration) {user1} (user2) ... (user n) | Voteban between all included users. `random` as a username will select a recent random chatter.                                                       | Yes            | !gulag 30m derDeidra Dan                                                |
+| !duel                                          | (duration) {user1} {user2}              | Starts a typing race duel. A random 5-word phrase is shown and the first user to type it wins. The loser gets muted for the specified duration (default 10m). Times out after 30 seconds. | Yes            | !duel 5m Alice Bob                                                      |
 
 ## Todo
 
