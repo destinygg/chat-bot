@@ -41,14 +41,27 @@ describe('duel command', () => {
   });
 
   it('announces duel with correct format', function () {
-    const output = this.duel.work('Alice Bob', this.mockServices, this.rawMessage);
-    assert.strictEqual(output.err, null);
-    assert.ok(output.output.includes('Alice'));
-    assert.ok(output.output.includes('Bob'));
-    assert.ok(output.output.includes('DUEL!'));
-    assert.ok(output.output.includes('10m'));
-    assert.ok(output.output.includes('30 seconds'));
-    assert.ok(/"[^"]+"/.test(output.output));
+    const clock = sinon.useFakeTimers();
+    try {
+      const sendSpy = sinon.spy(this.mockServices.messageRelay, 'sendOutputMessage');
+      const output = this.duel.work('Alice Bob', this.mockServices, this.rawMessage);
+      assert.strictEqual(output.err, null);
+      assert.ok(output.output.includes('Alice'));
+      assert.ok(output.output.includes('Bob'));
+      assert.ok(output.output.includes('DUEL!'));
+      assert.ok(output.output.includes('10m'));
+      assert.ok(output.output.includes('10 seconds'));
+
+      clock.tick(10000);
+
+      assert.strictEqual(sendSpy.callCount, 1);
+      const challengeMsg = sendSpy.getCall(0).args[0];
+      assert.ok(challengeMsg.includes('DUEL!'));
+      assert.ok(challengeMsg.includes('30 seconds'));
+      assert.ok(/"[^"]+"/.test(challengeMsg));
+    } finally {
+      clock.restore();
+    }
   });
 
   it('rejects concurrent duels', function () {
@@ -58,74 +71,113 @@ describe('duel command', () => {
   });
 
   it('detects winner and mutes loser', function () {
-    const output = this.duel.work('Alice Bob', this.mockServices, this.rawMessage);
-    const phrase = stripHomoglyphs(/"([^"]+)"/.exec(output.output)[1]);
+    const clock = sinon.useFakeTimers();
+    try {
+      const sendSpy = sinon.spy(this.mockServices.messageRelay, 'sendOutputMessage');
+      this.duel.work('Alice Bob', this.mockServices, this.rawMessage);
+      clock.tick(10000);
 
-    this.mockServices.messageRelay.relayMessageToListeners('msg', {
-      message: phrase,
-      user: 'Alice',
-    });
+      const phrase = stripHomoglyphs(/"([^"]+)"/.exec(sendSpy.getCall(0).args[0])[1]);
 
-    assert.strictEqual(this.mockServices.punishmentStream.write.callCount, 1);
-    assert.deepStrictEqual(
-      this.mockServices.punishmentStream.write.getCall(0).args[0],
-      makeMute('Bob', 600, 'Bob lost a duel to Alice, started by ModUser.'),
-    );
+      this.mockServices.messageRelay.relayMessageToListeners('msg', {
+        message: phrase,
+        user: 'Alice',
+      });
+
+      assert.strictEqual(this.mockServices.punishmentStream.write.callCount, 1);
+      assert.deepStrictEqual(
+        this.mockServices.punishmentStream.write.getCall(0).args[0],
+        makeMute('Bob', 600),
+      );
+    } finally {
+      clock.restore();
+    }
   });
 
   it('ignores messages from non-duelists', function () {
-    const output = this.duel.work('Alice Bob', this.mockServices, this.rawMessage);
-    const phrase = stripHomoglyphs(/"([^"]+)"/.exec(output.output)[1]);
+    const clock = sinon.useFakeTimers();
+    try {
+      const sendSpy = sinon.spy(this.mockServices.messageRelay, 'sendOutputMessage');
+      this.duel.work('Alice Bob', this.mockServices, this.rawMessage);
+      clock.tick(10000);
 
-    this.mockServices.messageRelay.relayMessageToListeners('msg', {
-      message: phrase,
-      user: 'Charlie',
-    });
+      const phrase = stripHomoglyphs(/"([^"]+)"/.exec(sendSpy.getCall(0).args[0])[1]);
 
-    assert.strictEqual(this.mockServices.punishmentStream.write.callCount, 0);
+      this.mockServices.messageRelay.relayMessageToListeners('msg', {
+        message: phrase,
+        user: 'Charlie',
+      });
+
+      assert.strictEqual(this.mockServices.punishmentStream.write.callCount, 0);
+    } finally {
+      clock.restore();
+    }
   });
 
   it('matches phrase case-insensitively', function () {
-    const output = this.duel.work('Alice Bob', this.mockServices, this.rawMessage);
-    const phrase = stripHomoglyphs(/"([^"]+)"/.exec(output.output)[1]);
+    const clock = sinon.useFakeTimers();
+    try {
+      const sendSpy = sinon.spy(this.mockServices.messageRelay, 'sendOutputMessage');
+      this.duel.work('Alice Bob', this.mockServices, this.rawMessage);
+      clock.tick(10000);
 
-    this.mockServices.messageRelay.relayMessageToListeners('msg', {
-      message: phrase.toUpperCase(),
-      user: 'Bob',
-    });
+      const phrase = stripHomoglyphs(/"([^"]+)"/.exec(sendSpy.getCall(0).args[0])[1]);
 
-    assert.strictEqual(this.mockServices.punishmentStream.write.callCount, 1);
-    assert.deepStrictEqual(
-      this.mockServices.punishmentStream.write.getCall(0).args[0],
-      makeMute('Alice', 600, 'Alice lost a duel to Bob, started by ModUser.'),
-    );
+      this.mockServices.messageRelay.relayMessageToListeners('msg', {
+        message: phrase.toUpperCase(),
+        user: 'Bob',
+      });
+
+      assert.strictEqual(this.mockServices.punishmentStream.write.callCount, 1);
+      assert.deepStrictEqual(
+        this.mockServices.punishmentStream.write.getCall(0).args[0],
+        makeMute('Alice', 600),
+      );
+    } finally {
+      clock.restore();
+    }
   });
 
   it('ignores incorrect messages from duelists', function () {
-    this.duel.work('Alice Bob', this.mockServices, this.rawMessage);
+    const clock = sinon.useFakeTimers();
+    try {
+      this.duel.work('Alice Bob', this.mockServices, this.rawMessage);
+      clock.tick(10000);
 
-    this.mockServices.messageRelay.relayMessageToListeners('msg', {
-      message: 'wrong phrase entirely',
-      user: 'Alice',
-    });
+      this.mockServices.messageRelay.relayMessageToListeners('msg', {
+        message: 'wrong phrase entirely',
+        user: 'Alice',
+      });
 
-    assert.strictEqual(this.mockServices.punishmentStream.write.callCount, 0);
+      assert.strictEqual(this.mockServices.punishmentStream.write.callCount, 0);
+    } finally {
+      clock.restore();
+    }
   });
 
   it('uses custom duration when specified', function () {
-    const output = this.duel.work('5m Alice Bob', this.mockServices, this.rawMessage);
-    const phrase = stripHomoglyphs(/"([^"]+)"/.exec(output.output)[1]);
-    assert.ok(output.output.includes('5m'));
+    const clock = sinon.useFakeTimers();
+    try {
+      const sendSpy = sinon.spy(this.mockServices.messageRelay, 'sendOutputMessage');
+      const output = this.duel.work('5m Alice Bob', this.mockServices, this.rawMessage);
+      assert.ok(output.output.includes('5m'));
 
-    this.mockServices.messageRelay.relayMessageToListeners('msg', {
-      message: phrase,
-      user: 'Alice',
-    });
+      clock.tick(10000);
 
-    assert.deepStrictEqual(
-      this.mockServices.punishmentStream.write.getCall(0).args[0],
-      makeMute('Bob', 300, 'Bob lost a duel to Alice, started by ModUser.'),
-    );
+      const phrase = stripHomoglyphs(/"([^"]+)"/.exec(sendSpy.getCall(0).args[0])[1]);
+
+      this.mockServices.messageRelay.relayMessageToListeners('msg', {
+        message: phrase,
+        user: 'Alice',
+      });
+
+      assert.deepStrictEqual(
+        this.mockServices.punishmentStream.write.getCall(0).args[0],
+        makeMute('Bob', 300),
+      );
+    } finally {
+      clock.restore();
+    }
   });
 
   it('uses default duration when none specified', function () {
@@ -139,11 +191,12 @@ describe('duel command', () => {
       const sendSpy = sinon.spy(this.mockServices.messageRelay, 'sendOutputMessage');
       this.duel.work('Alice Bob', this.mockServices, this.rawMessage);
 
-      clock.tick(30000);
+      // 10s prep + 30s typing window
+      clock.tick(10000 + 30000);
 
       assert.strictEqual(this.mockServices.punishmentStream.write.callCount, 0);
-      assert.strictEqual(sendSpy.callCount, 1);
-      assert.ok(sendSpy.getCall(0).args[0].includes('timed out'));
+      assert.strictEqual(sendSpy.callCount, 2); // challenge msg + timeout msg
+      assert.ok(sendSpy.getCall(1).args[0].includes('timed out'));
     } finally {
       clock.restore();
     }
@@ -160,25 +213,33 @@ describe('duel command', () => {
   });
 
   it('allows new duel after previous one completes', function () {
-    const output1 = this.duel.work('Alice Bob', this.mockServices, this.rawMessage);
-    const phrase1 = stripHomoglyphs(/"([^"]+)"/.exec(output1.output)[1]);
+    const clock = sinon.useFakeTimers();
+    try {
+      const sendSpy = sinon.spy(this.mockServices.messageRelay, 'sendOutputMessage');
+      this.duel.work('Alice Bob', this.mockServices, this.rawMessage);
+      clock.tick(10000);
 
-    this.mockServices.messageRelay.relayMessageToListeners('msg', {
-      message: phrase1,
-      user: 'Alice',
-    });
+      const phrase1 = stripHomoglyphs(/"([^"]+)"/.exec(sendSpy.getCall(0).args[0])[1]);
 
-    const output2 = this.duel.work('Charlie Dave', this.mockServices, this.rawMessage);
-    assert.ok(output2.output.includes('DUEL!'));
-    assert.ok(output2.output.includes('Charlie'));
-    assert.ok(output2.output.includes('Dave'));
+      this.mockServices.messageRelay.relayMessageToListeners('msg', {
+        message: phrase1,
+        user: 'Alice',
+      });
+
+      const output2 = this.duel.work('Charlie Dave', this.mockServices, this.rawMessage);
+      assert.ok(output2.output.includes('DUEL!'));
+      assert.ok(output2.output.includes('Charlie'));
+      assert.ok(output2.output.includes('Dave'));
+    } finally {
+      clock.restore();
+    }
   });
 
   it('allows new duel after timeout', function () {
     const clock = sinon.useFakeTimers();
     try {
       this.duel.work('Alice Bob', this.mockServices, this.rawMessage);
-      clock.tick(30000);
+      clock.tick(10000 + 30000);
 
       const output2 = this.duel.work('Charlie Dave', this.mockServices, this.rawMessage);
       assert.ok(output2.output.includes('DUEL!'));
@@ -188,20 +249,36 @@ describe('duel command', () => {
   });
 
   it('displayed phrase contains at least one non-ASCII character', function () {
-    const output = this.duel.work('Alice Bob', this.mockServices, this.rawMessage);
-    const displayPhrase = /"([^"]+)"/.exec(output.output)[1];
-    assert.ok(/[^\x00-\x7F]/.test(displayPhrase), 'display phrase should contain a non-ASCII homoglyph');
+    const clock = sinon.useFakeTimers();
+    try {
+      const sendSpy = sinon.spy(this.mockServices.messageRelay, 'sendOutputMessage');
+      this.duel.work('Alice Bob', this.mockServices, this.rawMessage);
+      clock.tick(10000);
+
+      const displayPhrase = /"([^"]+)"/.exec(sendSpy.getCall(0).args[0])[1];
+      assert.ok(/[^\x00-\x7F]/.test(displayPhrase), 'display phrase should contain a non-ASCII homoglyph');
+    } finally {
+      clock.restore();
+    }
   });
 
   it('rejects copy-pasted phrase containing homoglyph', function () {
-    const output = this.duel.work('Alice Bob', this.mockServices, this.rawMessage);
-    const displayPhrase = /"([^"]+)"/.exec(output.output)[1];
+    const clock = sinon.useFakeTimers();
+    try {
+      const sendSpy = sinon.spy(this.mockServices.messageRelay, 'sendOutputMessage');
+      this.duel.work('Alice Bob', this.mockServices, this.rawMessage);
+      clock.tick(10000);
 
-    this.mockServices.messageRelay.relayMessageToListeners('msg', {
-      message: displayPhrase,
-      user: 'Alice',
-    });
+      const displayPhrase = /"([^"]+)"/.exec(sendSpy.getCall(0).args[0])[1];
 
-    assert.strictEqual(this.mockServices.punishmentStream.write.callCount, 0);
+      this.mockServices.messageRelay.relayMessageToListeners('msg', {
+        message: displayPhrase,
+        user: 'Alice',
+      });
+
+      assert.strictEqual(this.mockServices.punishmentStream.write.callCount, 0);
+    } finally {
+      clock.restore();
+    }
   });
 });
