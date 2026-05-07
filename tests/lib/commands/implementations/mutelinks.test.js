@@ -21,13 +21,14 @@ describe('Mutelinks Test', () => {
         error: () => {},
       },
     };
+    this.mutelinks = mutelinks(60, []);
   });
 
   it('mutes link messages when "all" with default time, then turned off', function () {
     const messageRelay = this.mockServices.messageRelay;
     const punishmentStream = this.mockServices.punishmentStream;
 
-    const output1 = mutelinks.work('all', this.mockServices);
+    const output1 = this.mutelinks.work('all', this.mockServices);
     assert.deepStrictEqual(
       output1,
       new CommandOutput(null, 'Link muting (1m) turned on for all links'),
@@ -46,7 +47,7 @@ describe('Mutelinks Test', () => {
       user: 'test1',
     });
 
-    const output2 = mutelinks.work('off', this.mockServices);
+    const output2 = this.mutelinks.work('off', this.mockServices);
     assert.deepStrictEqual(output2, new CommandOutput(null, 'Link muting turned off'));
 
     messageRelay.relayMessageToListeners('msg', {
@@ -68,7 +69,7 @@ describe('Mutelinks Test', () => {
     const messageRelay = this.mockServices.messageRelay;
     const punishmentStream = this.mockServices.punishmentStream;
 
-    const output1 = mutelinks.work('on 20m', this.mockServices, { user: 'deStInY' });
+    const output1 = this.mutelinks.work('on 20m', this.mockServices, { user: 'deStInY' });
     assert.deepStrictEqual(
       output1,
       new CommandOutput(null, 'Link muting (20m) turned on for mentioning deStInY'),
@@ -111,7 +112,7 @@ describe('Mutelinks Test', () => {
       user: 'test8',
     });
 
-    const output2 = mutelinks.work('off', this.mockServices);
+    const output2 = this.mutelinks.work('off', this.mockServices);
     assert.deepStrictEqual(output2, new CommandOutput(null, 'Link muting turned off'));
 
     messageRelay.relayMessageToListeners('msg', {
@@ -137,22 +138,22 @@ describe('Mutelinks Test', () => {
     const messageRelay = this.mockServices.messageRelay;
     const punishmentStream = this.mockServices.punishmentStream;
 
-    const output1 = mutelinks.work('on', this.mockServices, { user: 'deStInY' });
+    const output1 = this.mutelinks.work('on', this.mockServices, { user: 'deStInY' });
     assert.deepStrictEqual(
       output1,
       new CommandOutput(null, 'Link muting (1m) turned on for mentioning deStInY'),
     );
-    const output2 = mutelinks.work('on 1m', this.mockServices, { user: 'deStInY' });
+    const output2 = this.mutelinks.work('on 1m', this.mockServices, { user: 'deStInY' });
     assert.deepStrictEqual(
       output2,
       new CommandOutput(null, 'Link muting (1m) is already on for mentioning deStInY'),
     );
-    const output3 = mutelinks.work('on 20m', this.mockServices, { user: 'deStInY' });
+    const output3 = this.mutelinks.work('on 20m', this.mockServices, { user: 'deStInY' });
     assert.deepStrictEqual(
       output3,
       new CommandOutput(null, 'Link muting (20m) turned on for mentioning deStInY'),
     );
-    const output4 = mutelinks.work('all 20m', this.mockServices, { user: 'deStInY' });
+    const output4 = this.mutelinks.work('all 20m', this.mockServices, { user: 'deStInY' });
     assert.deepStrictEqual(
       output4,
       new CommandOutput(null, 'Link muting (20m) turned on for all links'),
@@ -169,7 +170,7 @@ describe('Mutelinks Test', () => {
       normalizeUrl: (url) => (url.hostname + url.pathname).toLowerCase(),
     };
 
-    const output1 = mutelinks.work('repeat 15m', this.mockServices);
+    const output1 = this.mutelinks.work('repeat 15m', this.mockServices);
     assert.deepStrictEqual(output1, new CommandOutput(null, 'Link muting (15m) turned repeat'));
 
     // First message with a new link - should not be muted
@@ -204,6 +205,178 @@ describe('Mutelinks Test', () => {
     assert.deepStrictEqual(
       punishmentStream.write.getCall(1).args[0],
       makeMute('test3', 900, 'test3 muted for 15m for posting a repeated link.'),
+    );
+  });
+
+  it('does not mute trusted-flair users in "all" mode but still mutes others', function () {
+    const messageRelay = this.mockServices.messageRelay;
+    const punishmentStream = this.mockServices.punishmentStream;
+    const trusted = mutelinks(60, ['flair4']);
+
+    trusted.work('all', this.mockServices);
+
+    messageRelay.relayMessageToListeners('msg', {
+      message: 'check this out https://twitch.tv',
+      user: 'trustedUser',
+      roles: ['flair4'],
+    });
+    messageRelay.relayMessageToListeners('msg', {
+      message: 'click https://youtube.com',
+      user: 'untrustedUser',
+      roles: ['flair9'],
+    });
+    messageRelay.relayMessageToListeners('msg', {
+      message: 'no roles at all https://reddit.com',
+      user: 'noRolesUser',
+    });
+
+    assert.deepStrictEqual(punishmentStream.write.callCount, 2);
+    assert.deepStrictEqual(
+      punishmentStream.write.getCall(0).args[0],
+      makeMute(
+        'untrustedUser',
+        60,
+        'untrustedUser muted for 1m for posting a link while link muting is on.',
+      ),
+    );
+    assert.deepStrictEqual(
+      punishmentStream.write.getCall(1).args[0],
+      makeMute(
+        'noRolesUser',
+        60,
+        'noRolesUser muted for 1m for posting a link while link muting is on.',
+      ),
+    );
+  });
+
+  it('does not mute trusted-flair users in "on" (mention) mode', function () {
+    const messageRelay = this.mockServices.messageRelay;
+    const punishmentStream = this.mockServices.punishmentStream;
+    const trusted = mutelinks(60, ['flair4']);
+
+    trusted.work('on', this.mockServices, { user: 'deStInY' });
+
+    messageRelay.relayMessageToListeners('msg', {
+      message: 'destiny click https://twitch.tv',
+      user: 'trustedUser',
+      roles: ['flair4'],
+    });
+    messageRelay.relayMessageToListeners('msg', {
+      message: 'destiny click https://youtube.com',
+      user: 'untrustedUser',
+      roles: ['flair9'],
+    });
+
+    assert.deepStrictEqual(punishmentStream.write.callCount, 1);
+    assert.deepStrictEqual(
+      punishmentStream.write.getCall(0).args[0],
+      makeMute('untrustedUser', 60, 'untrustedUser muted for 1m for tagging deStInY with a link.'),
+    );
+  });
+
+  it('does not mute trusted-flair users in "repeat" mode', function () {
+    const messageRelay = this.mockServices.messageRelay;
+    const punishmentStream = this.mockServices.punishmentStream;
+    this.mockServices.chatCache = {
+      getRecentUrls: sinon.stub().returns(['twitch.tv/', 'youtube.com/']),
+    };
+    const trusted = mutelinks(60, ['flair4']);
+
+    trusted.work('repeat 15m', this.mockServices);
+
+    messageRelay.relayMessageToListeners('msg', {
+      message: 'hey check this out https://twitch.tv',
+      user: 'trustedUser',
+      roles: ['flair4'],
+    });
+    messageRelay.relayMessageToListeners('msg', {
+      message: 'cool video https://youtube.com',
+      user: 'untrustedUser',
+      roles: ['flair9'],
+    });
+
+    assert.deepStrictEqual(punishmentStream.write.callCount, 1);
+    assert.deepStrictEqual(
+      punishmentStream.write.getCall(0).args[0],
+      makeMute('untrustedUser', 900, 'untrustedUser muted for 15m for posting a repeated link.'),
+    );
+  });
+
+  it('uses the configured trusted flair identifier (not hardcoded to flair4)', function () {
+    const messageRelay = this.mockServices.messageRelay;
+    const punishmentStream = this.mockServices.punishmentStream;
+    const trusted = mutelinks(60, ['flair9']);
+
+    trusted.work('all', this.mockServices);
+
+    messageRelay.relayMessageToListeners('msg', {
+      message: 'click https://twitch.tv',
+      user: 'oldTrusted',
+      roles: ['flair4'],
+    });
+    messageRelay.relayMessageToListeners('msg', {
+      message: 'click https://youtube.com',
+      user: 'newTrusted',
+      roles: ['flair9'],
+    });
+
+    assert.deepStrictEqual(punishmentStream.write.callCount, 1);
+    assert.deepStrictEqual(
+      punishmentStream.write.getCall(0).args[0],
+      makeMute('oldTrusted', 60, 'oldTrusted muted for 1m for posting a link while link muting is on.'),
+    );
+  });
+
+  it('mutes everyone when trusted flair list is empty (default behavior)', function () {
+    const messageRelay = this.mockServices.messageRelay;
+    const punishmentStream = this.mockServices.punishmentStream;
+
+    this.mutelinks.work('all', this.mockServices);
+
+    messageRelay.relayMessageToListeners('msg', {
+      message: 'click https://twitch.tv',
+      user: 'wouldBeTrusted',
+      roles: ['flair4'],
+    });
+
+    assert.deepStrictEqual(punishmentStream.write.callCount, 1);
+    assert.deepStrictEqual(
+      punishmentStream.write.getCall(0).args[0],
+      makeMute(
+        'wouldBeTrusted',
+        60,
+        'wouldBeTrusted muted for 1m for posting a link while link muting is on.',
+      ),
+    );
+  });
+
+  it('accepts multiple trusted flair identifiers', function () {
+    const messageRelay = this.mockServices.messageRelay;
+    const punishmentStream = this.mockServices.punishmentStream;
+    const trusted = mutelinks(60, ['flair4', 'flair9']);
+
+    trusted.work('all', this.mockServices);
+
+    messageRelay.relayMessageToListeners('msg', {
+      message: 'click https://twitch.tv',
+      user: 'trustedA',
+      roles: ['flair4'],
+    });
+    messageRelay.relayMessageToListeners('msg', {
+      message: 'click https://youtube.com',
+      user: 'trustedB',
+      roles: ['flair9'],
+    });
+    messageRelay.relayMessageToListeners('msg', {
+      message: 'click https://reddit.com',
+      user: 'untrusted',
+      roles: ['flair3'],
+    });
+
+    assert.deepStrictEqual(punishmentStream.write.callCount, 1);
+    assert.deepStrictEqual(
+      punishmentStream.write.getCall(0).args[0],
+      makeMute('untrusted', 60, 'untrusted muted for 1m for posting a link while link muting is on.'),
     );
   });
 });

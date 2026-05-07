@@ -27,6 +27,9 @@
     "messageUrlSpamUser": "Destiny",
     "urlTtlSeconds": 600
   },
+  "mutelinks": {
+    "trustedFlairs": ["flair4"]
+  },
   "punishmentCache": {
     "baseMuteSeconds": 60,
     "muteGrowthMultiplier": 2,
