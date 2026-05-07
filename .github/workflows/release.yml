@@ -23,6 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      actions: write
     steps:
       - uses: actions/checkout@v4
         with:
@@ -64,3 +65,9 @@ jobs:
           gh release create "${{ steps.bump.outputs.new_version }}" \
             --title "${{ steps.bump.outputs.new_version }}" \
             --generate-notes
+
+      - name: Trigger ECR build
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh workflow run ecr-chatbot-prod.yml --ref "${{ steps.bump.outputs.new_version }}"
