@@ -119,18 +119,13 @@
     "username": "yourUsername",
     "password": "yourPassword"
   },
-  "youtube": {
-    "YOUTUBE_API_KEY": "",
-    "YOUTUBE_CHANNEL": "",
-    "liveViewerCountTimeToLiveSeconds": 300
-  },
   "googleCalendar": {
     "GOOGLE_CALENDAR_API_KEY": "xxxxxxxxxxxx",
     "GOOGLE_CALENDAR_ID": "xxxxxxxxxxxxx",
     "SCHEDULE_LINK": "https://destiny.gg/schedule"
   },
   "dggApi": {
-    "url": "https://www.destiny.gg/api/info/stream"
+    "baseUrl": "https://www.destiny.gg"
   },
   "redditVote": {
     "enabled": false,
