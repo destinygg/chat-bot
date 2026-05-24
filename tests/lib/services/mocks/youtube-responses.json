@@ -29,53 +29,5 @@
         "embedUrl": "/bigscreen?vid=abcdef12345"
       }
     ]
-  },
-  "streamLive": {
-    "status": "success",
-    "data": {
-      "streams": {
-        "youtube": {
-          "live": true,
-          "game": null,
-          "preview": "https://i.ytimg.com/vi/qif_XUayrWY/hqdefault.jpg",
-          "status_text": "Live stream title",
-          "started_at": "2020-10-10T19:04:28Z",
-          "ended_at": null,
-          "duration": 0,
-          "viewers": 1785,
-          "id": "qif_XUayrWY",
-          "chat_url": "https://www.youtube.com/live_chat?v=qif_XUayrWY",
-          "platform": "youtube",
-          "type": "livestream"
-        }
-      }
-    }
-  },
-  "streamOffline": {
-    "status": "success",
-    "data": {
-      "streams": {
-        "youtube": {
-          "live": false,
-          "game": null,
-          "preview": null,
-          "status_text": null,
-          "started_at": "2020-10-09T19:04:28Z",
-          "ended_at": "2020-10-09T22:04:28Z",
-          "duration": 10800,
-          "viewers": null,
-          "id": null,
-          "chat_url": null,
-          "platform": "youtube",
-          "type": null
-        }
-      }
-    }
-  },
-  "streamNoYoutube": {
-    "status": "success",
-    "data": {
-      "streams": {}
-    }
   }
 }
