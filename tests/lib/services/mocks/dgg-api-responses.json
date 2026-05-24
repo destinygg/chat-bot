@@ -1,0 +1,33 @@
+{
+  "videos": {
+    "status": "success",
+    "data": [
+      {
+        "id": "uenf3uYDKBE",
+        "title": "POLITICON - DESTINY REACTS",
+        "mediumThumbnailUrl": "https://i.ytimg.com/vi/uenf3uYDKBE/mqdefault.jpg",
+        "highThumbnailUrl": "https://i.ytimg.com/vi/uenf3uYDKBE/hqdefault.jpg",
+        "streamViewers": null,
+        "streamStartTime": null,
+        "streamEndTime": null,
+        "url": "https://www.youtube.com/watch?v=uenf3uYDKBE",
+        "thumbnailHref": "https://i.ytimg.com/vi/uenf3uYDKBE/hqdefault.jpg",
+        "publishDate": "2018-10-22T11:10:49+00:00",
+        "embedUrl": "/bigscreen?vid=uenf3uYDKBE"
+      },
+      {
+        "id": "abcdef12345",
+        "title": "Second video",
+        "mediumThumbnailUrl": "",
+        "highThumbnailUrl": "",
+        "streamViewers": null,
+        "streamStartTime": null,
+        "streamEndTime": null,
+        "url": "https://www.youtube.com/watch?v=abcdef12345",
+        "thumbnailHref": "",
+        "publishDate": "2018-10-21T11:10:49+00:00",
+        "embedUrl": "/bigscreen?vid=abcdef12345"
+      }
+    ]
+  }
+}
