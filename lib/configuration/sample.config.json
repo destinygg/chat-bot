@@ -28,7 +28,7 @@
     "urlTtlSeconds": 600
   },
   "mutelinks": {
-    "trustedFlairs": ["flair4"]
+    "trustedRoles": ["TRUSTED"]
   },
   "punishmentCache": {
     "baseMuteSeconds": 60,
