@@ -13,7 +13,7 @@ describe('CommandRouter.checkPermission', () => {
   });
 
   it('blocks everyone else from privileged commands', function () {
-    assert.strictEqual(CommandRouter.checkPermission(true, ['VIP', 'PROTECTED']), true);
+    assert.strictEqual(CommandRouter.checkPermission(true, ['PROTECTED']), true);
     assert.strictEqual(CommandRouter.checkPermission(true, []), true);
   });
 });

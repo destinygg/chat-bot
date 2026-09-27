@@ -223,7 +223,7 @@ describe('Mutelinks Test', () => {
     messageRelay.relayMessageToListeners('msg', {
       message: 'click https://youtube.com',
       user: 'untrustedUser',
-      roles: ['VIP'],
+      roles: ['PROTECTED'],
     });
     messageRelay.relayMessageToListeners('msg', {
       message: 'no roles at all https://reddit.com',
@@ -264,7 +264,7 @@ describe('Mutelinks Test', () => {
     messageRelay.relayMessageToListeners('msg', {
       message: 'destiny click https://youtube.com',
       user: 'untrustedUser',
-      roles: ['VIP'],
+      roles: ['PROTECTED'],
     });
 
     assert.deepStrictEqual(punishmentStream.write.callCount, 1);
@@ -292,7 +292,7 @@ describe('Mutelinks Test', () => {
     messageRelay.relayMessageToListeners('msg', {
       message: 'cool video https://youtube.com',
       user: 'untrustedUser',
-      roles: ['VIP'],
+      roles: ['PROTECTED'],
     });
 
     assert.deepStrictEqual(punishmentStream.write.callCount, 1);
@@ -305,7 +305,7 @@ describe('Mutelinks Test', () => {
   it('uses the configured trusted role identifier (not hardcoded to TRUSTED)', function () {
     const messageRelay = this.mockServices.messageRelay;
     const punishmentStream = this.mockServices.punishmentStream;
-    const trusted = mutelinks(60, ['VIP']);
+    const trusted = mutelinks(60, ['PROTECTED']);
 
     trusted.work('all', this.mockServices);
 
@@ -317,7 +317,7 @@ describe('Mutelinks Test', () => {
     messageRelay.relayMessageToListeners('msg', {
       message: 'click https://youtube.com',
       user: 'newTrusted',
-      roles: ['VIP'],
+      roles: ['PROTECTED'],
     });
 
     assert.deepStrictEqual(punishmentStream.write.callCount, 1);
@@ -353,7 +353,7 @@ describe('Mutelinks Test', () => {
   it('accepts multiple trusted role identifiers', function () {
     const messageRelay = this.mockServices.messageRelay;
     const punishmentStream = this.mockServices.punishmentStream;
-    const trusted = mutelinks(60, ['TRUSTED', 'VIP']);
+    const trusted = mutelinks(60, ['TRUSTED', 'PROTECTED']);
 
     trusted.work('all', this.mockServices);
 
@@ -365,7 +365,7 @@ describe('Mutelinks Test', () => {
     messageRelay.relayMessageToListeners('msg', {
       message: 'click https://youtube.com',
       user: 'trustedB',
-      roles: ['VIP'],
+      roles: ['PROTECTED'],
     });
     messageRelay.relayMessageToListeners('msg', {
       message: 'click https://reddit.com',
