@@ -27,9 +27,6 @@
     "messageUrlSpamUser": "Destiny",
     "urlTtlSeconds": 600
   },
-  "mutelinks": {
-    "trustedRoles": ["TRUSTED"]
-  },
   "punishmentCache": {
     "baseMuteSeconds": 60,
     "muteGrowthMultiplier": 2,
