@@ -21,7 +21,7 @@ describe('Mutelinks Test', () => {
         error: () => {},
       },
     };
-    this.mutelinks = mutelinks(60, []);
+    this.mutelinks = mutelinks(60);
   });
 
   it('mutes link messages when "all" with default time, then turned off', function () {
@@ -208,22 +208,20 @@ describe('Mutelinks Test', () => {
     );
   });
 
-  it('does not mute trusted-flair users in "all" mode but still mutes others', function () {
+  it('does not mute trusted-role users in "all" mode but still mutes others', function () {
     const messageRelay = this.mockServices.messageRelay;
     const punishmentStream = this.mockServices.punishmentStream;
-    const trusted = mutelinks(60, ['flair4']);
-
-    trusted.work('all', this.mockServices);
+    this.mutelinks.work('all', this.mockServices);
 
     messageRelay.relayMessageToListeners('msg', {
       message: 'check this out https://twitch.tv',
       user: 'trustedUser',
-      roles: ['flair4'],
+      roles: ['TRUSTED'],
     });
     messageRelay.relayMessageToListeners('msg', {
       message: 'click https://youtube.com',
       user: 'untrustedUser',
-      roles: ['flair9'],
+      roles: ['PROTECTED'],
     });
     messageRelay.relayMessageToListeners('msg', {
       message: 'no roles at all https://reddit.com',
@@ -249,22 +247,20 @@ describe('Mutelinks Test', () => {
     );
   });
 
-  it('does not mute trusted-flair users in "on" (mention) mode', function () {
+  it('does not mute trusted-role users in "on" (mention) mode', function () {
     const messageRelay = this.mockServices.messageRelay;
     const punishmentStream = this.mockServices.punishmentStream;
-    const trusted = mutelinks(60, ['flair4']);
-
-    trusted.work('on', this.mockServices, { user: 'deStInY' });
+    this.mutelinks.work('on', this.mockServices, { user: 'deStInY' });
 
     messageRelay.relayMessageToListeners('msg', {
       message: 'destiny click https://twitch.tv',
       user: 'trustedUser',
-      roles: ['flair4'],
+      roles: ['TRUSTED'],
     });
     messageRelay.relayMessageToListeners('msg', {
       message: 'destiny click https://youtube.com',
       user: 'untrustedUser',
-      roles: ['flair9'],
+      roles: ['PROTECTED'],
     });
 
     assert.deepStrictEqual(punishmentStream.write.callCount, 1);
@@ -274,25 +270,23 @@ describe('Mutelinks Test', () => {
     );
   });
 
-  it('does not mute trusted-flair users in "repeat" mode', function () {
+  it('does not mute trusted-role users in "repeat" mode', function () {
     const messageRelay = this.mockServices.messageRelay;
     const punishmentStream = this.mockServices.punishmentStream;
     this.mockServices.chatCache = {
       getRecentUrls: sinon.stub().returns(['twitch.tv/', 'youtube.com/']),
     };
-    const trusted = mutelinks(60, ['flair4']);
-
-    trusted.work('repeat 15m', this.mockServices);
+    this.mutelinks.work('repeat 15m', this.mockServices);
 
     messageRelay.relayMessageToListeners('msg', {
       message: 'hey check this out https://twitch.tv',
       user: 'trustedUser',
-      roles: ['flair4'],
+      roles: ['TRUSTED'],
     });
     messageRelay.relayMessageToListeners('msg', {
       message: 'cool video https://youtube.com',
       user: 'untrustedUser',
-      roles: ['flair9'],
+      roles: ['PROTECTED'],
     });
 
     assert.deepStrictEqual(punishmentStream.write.callCount, 1);
@@ -302,32 +296,7 @@ describe('Mutelinks Test', () => {
     );
   });
 
-  it('uses the configured trusted flair identifier (not hardcoded to flair4)', function () {
-    const messageRelay = this.mockServices.messageRelay;
-    const punishmentStream = this.mockServices.punishmentStream;
-    const trusted = mutelinks(60, ['flair9']);
-
-    trusted.work('all', this.mockServices);
-
-    messageRelay.relayMessageToListeners('msg', {
-      message: 'click https://twitch.tv',
-      user: 'oldTrusted',
-      roles: ['flair4'],
-    });
-    messageRelay.relayMessageToListeners('msg', {
-      message: 'click https://youtube.com',
-      user: 'newTrusted',
-      roles: ['flair9'],
-    });
-
-    assert.deepStrictEqual(punishmentStream.write.callCount, 1);
-    assert.deepStrictEqual(
-      punishmentStream.write.getCall(0).args[0],
-      makeMute('oldTrusted', 60, 'oldTrusted muted for 1m for posting a link while link muting is on.'),
-    );
-  });
-
-  it('mutes everyone when trusted flair list is empty (default behavior)', function () {
+  it('trusts only the TRUSTED role', function () {
     const messageRelay = this.mockServices.messageRelay;
     const punishmentStream = this.mockServices.punishmentStream;
 
@@ -335,48 +304,36 @@ describe('Mutelinks Test', () => {
 
     messageRelay.relayMessageToListeners('msg', {
       message: 'click https://twitch.tv',
-      user: 'wouldBeTrusted',
-      roles: ['flair4'],
-    });
-
-    assert.deepStrictEqual(punishmentStream.write.callCount, 1);
-    assert.deepStrictEqual(
-      punishmentStream.write.getCall(0).args[0],
-      makeMute(
-        'wouldBeTrusted',
-        60,
-        'wouldBeTrusted muted for 1m for posting a link while link muting is on.',
-      ),
-    );
-  });
-
-  it('accepts multiple trusted flair identifiers', function () {
-    const messageRelay = this.mockServices.messageRelay;
-    const punishmentStream = this.mockServices.punishmentStream;
-    const trusted = mutelinks(60, ['flair4', 'flair9']);
-
-    trusted.work('all', this.mockServices);
-
-    messageRelay.relayMessageToListeners('msg', {
-      message: 'click https://twitch.tv',
-      user: 'trustedA',
-      roles: ['flair4'],
+      user: 'trustedPollster',
+      roles: ['POLLS', 'TRUSTED'],
     });
     messageRelay.relayMessageToListeners('msg', {
       message: 'click https://youtube.com',
-      user: 'trustedB',
-      roles: ['flair9'],
+      user: 'lowercase',
+      roles: ['trusted'],
     });
     messageRelay.relayMessageToListeners('msg', {
       message: 'click https://reddit.com',
-      user: 'untrusted',
-      roles: ['flair3'],
+      user: 'trustedFlair',
+      roles: ['flair4'],
     });
 
-    assert.deepStrictEqual(punishmentStream.write.callCount, 1);
+    assert.deepStrictEqual(punishmentStream.write.callCount, 2);
     assert.deepStrictEqual(
       punishmentStream.write.getCall(0).args[0],
-      makeMute('untrusted', 60, 'untrusted muted for 1m for posting a link while link muting is on.'),
+      makeMute(
+        'lowercase',
+        60,
+        'lowercase muted for 1m for posting a link while link muting is on.',
+      ),
+    );
+    assert.deepStrictEqual(
+      punishmentStream.write.getCall(1).args[0],
+      makeMute(
+        'trustedFlair',
+        60,
+        'trustedFlair muted for 1m for posting a link while link muting is on.',
+      ),
     );
   });
 });
