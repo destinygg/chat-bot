@@ -155,6 +155,24 @@ describe('Aegis commands', () => {
     assert.deepStrictEqual(services.moderationState.getNukes(), []);
   });
 
+  it('does not clear nukes when aegissingle has no phrase', function () {
+    const services = this.services;
+    services.moderationState.addNuke({
+      phrase: 'one',
+      duration: 600,
+      victims: [{ id: 1, nick: 'First' }],
+    });
+
+    const output = aegisSingle.work('', services);
+
+    assert.strictEqual(output.output, 'Removed phrase (unless it didnt exist, then I did nothing');
+    assert.deepStrictEqual(
+      services.moderationState.getNukes().map((storedNuke) => storedNuke.phrase),
+      ['one'],
+    );
+    assert.strictEqual(services.punishmentStream.write.callCount, 0);
+  });
+
   it('lists active nukes', function () {
     const services = this.services;
     services.moderationState.addNuke({ phrase: 'one', duration: 600 });
