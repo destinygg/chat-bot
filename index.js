@@ -56,6 +56,10 @@ services
       logger.error('Config property: "chatToConnectTo" not set to one of "dgg" or "twitch"');
       process.exit(1);
     }
+
+    if (chatToConnectTo === 'dgg') {
+      services.moderationState.setPublisher((event, payload) => bot.sendEvent(event, payload));
+    }
     if(Object.hasOwn(config, 'scheduledCommands')){
       config.scheduledCommands.forEach(commandToSchedule => services.fakeScheduler.createMessage(commandToSchedule));
     }
@@ -70,6 +74,7 @@ services
       services.scheduledCommands,
       services.fakeScheduler,
       services.messageRelay,
+      services.moderationState,
     );
     chatServiceRouter.create();
   })
