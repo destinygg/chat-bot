@@ -1,131 +1,76 @@
 const assert = require('assert');
-const sinon = require('sinon');
-const moment = require('moment');
 
 const { breakingNews } = require('../../../../lib/commands/implementations/breaking-news');
 const CommandOutput = require('../../../../lib/commands/command-output');
-const config = require('../../../../lib/configuration/prod.config.json');
-const MessageRelay = require('../../../../lib/services/message-relay');
-const TwitterApi = require('../../../../lib/services/twitter-api');
-const HTMLMetadata = require('../../../../lib/services/html-metadata');
-const messageMatching = require('../../../../lib/services/message-matching');
-const { makeMute } = require('../../../../lib/chat-utils/punishment-helpers');
+const ModerationState = require('../../../../lib/services/moderation-state');
 
-describe('breakingNews command Test', () => {
-  beforeEach(() => {
+describe('Breaking news command', () => {
+  beforeEach(function () {
+    this.published = [];
+    this.moderationState = new ModerationState();
+    this.moderationState.setPublisher((event, payload) => {
+      this.published.push({ event, payload });
+    });
     this.mockServices = {
-      messageRelay: new MessageRelay(),
-      messageMatching,
-      twitterApi: new TwitterApi(config.twitter),
-      punishmentStream: {
-        write: sinon.spy(),
-      },
-      htmlMetadata: new HTMLMetadata(),
+      moderationState: this.moderationState,
     };
   });
 
-  // Needs twitter api
-  it.skip('mutes link messages when "all" with default time, then turned off', (done) => {
-    const messageRelay = this.mockServices.messageRelay;
-    const punishmentStream = this.mockServices.punishmentStream;
-
-    const output1 = breakingNews.work('all', this.mockServices).output;
+  it('formats mode changes and alerts of duplicate commands', function () {
+    const output1 = breakingNews.work('on', this.mockServices, { user: 'deStInY' });
     assert.deepStrictEqual(
       output1,
-      'Breaking news mode (5m) turned on for all links',
+      new CommandOutput(null, 'Breaking news mode (5m) turned on for mentioning deStInY'),
     );
-    
-    const now = moment();
-    this.mockServices.twitterApi.tweetsCache['1325195021339987969'] = {
-      createdAt: now,
-      cachedAt: now,
-    };
-
-    messageRelay.relayMessageToListeners('msg', {
-      message: 'trump malding OMEGALUL https://twitter.com/realDonaldTrump/status/1325195021339987969',
-      user: 'MrMouton',
-    });
-
-    messageRelay.relayMessageToListeners('msg', {
-      message: 'wow this is a cool tweet https://twitter.com/GazeWithin/status/1301160632838959111',
-      user: 'Jabelonske',
-    });
-
-    messageRelay.relayMessageToListeners('msg', {
-      message: 'did anyone else see this???? https://www.nytimes.com/2020/11/08/us/politics/biden-victory-speech-takeaways.html',
-      user: 'dotted',
-    });
-
-    const output2 = breakingNews.work('off', this.mockServices).output;
-    assert.deepStrictEqual(output2, 'Breaking news mode turned off');
-
-    messageRelay.relayMessageToListeners('msg', {
-      message: 'wow this is really cool indeed https://twitter.com/GazeWithin/status/1301160632838959111',
-      user: 'Dan',
-    });
-
-    // wait for links to be parsed
-    setTimeout(() => {
-      assert.deepStrictEqual(punishmentStream.write.callCount, 2);
-      done();
-    }, 1500);
+    const output2 = breakingNews.work('on 5m', this.mockServices, { user: 'deStInY' });
+    assert.deepStrictEqual(
+      output2,
+      new CommandOutput(null, 'Breaking news mode (5m) is already on for mentioning deStInY'),
+    );
+    const output3 = breakingNews.work('on 20m', this.mockServices, { user: 'deStInY' });
+    assert.deepStrictEqual(
+      output3,
+      new CommandOutput(null, 'Breaking news mode (20m) turned on for mentioning deStInY'),
+    );
+    const output4 = breakingNews.work('all 20m', this.mockServices);
+    assert.deepStrictEqual(
+      output4,
+      new CommandOutput(null, 'Breaking news mode (20m) turned on for all links'),
+    );
   });
 
-  // Needs twitter api
-  it.skip('mutes link messages when "on" with custom time, then turned off', (done) => {
-    const messageRelay = this.mockServices.messageRelay;
-    const punishmentStream = this.mockServices.punishmentStream;
+  it('publishes breaking news state and clears the mention outside "on" mode', function () {
+    breakingNews.work('on 10m', this.mockServices, { user: 'deStInY' });
+    assert.deepStrictEqual(this.moderationState.breakingnews, {
+      mode: 'on',
+      maxAge: 600,
+      changedBy: 'deStInY',
+      mention: 'deStInY',
+      timestamp: this.moderationState.breakingnews.timestamp,
+    });
 
-    const output1 = breakingNews.work('on 20m', this.mockServices, { user: 'Destiny' }).output;
+    const output = breakingNews.work('off', this.mockServices);
+    assert.deepStrictEqual(output, new CommandOutput(null, 'Breaking news mode turned off'));
+    assert.strictEqual(this.moderationState.breakingnews.mode, 'off');
+    assert.strictEqual(this.moderationState.breakingnews.mention, undefined);
     assert.deepStrictEqual(
-      output1,
-      'Breaking news mode (20m) turned on for mentioning Destiny',
+      this.published.map((event) => event.event),
+      ['BREAKINGNEWS', 'BREAKINGNEWS'],
     );
-
-    messageRelay.relayMessageToListeners('msg', {
-      message: 'Destiny click https://twitter.com/realDonaldTrump/status/1325195021339987969',
-      user: 'Jabelonske',
+    assert.deepStrictEqual(this.published[0].payload, {
+      mode: 'on',
+      maxAge: 600,
+      by: 'deStInY',
     });
-    messageRelay.relayMessageToListeners('msg', {
-      message: 'Destiny MALARKEY https://www.nytimes.com/2020/11/08/us/politics/biden-victory-speech-takeaways.html',
-      user: 'dotted',
-    });
-    messageRelay.relayMessageToListeners('msg', {
-      message: 'trump OMEGALUL https://twitter.com/realDonaldTrump/status/1325195021339987969',
-      user: 'Dan',
-    });
-
-    const output2 = breakingNews.work('off', this.mockServices).output;
-    assert.deepStrictEqual(output2, 'Breaking news mode turned off');
-
-    messageRelay.relayMessageToListeners('msg', {
-      message: 'Destiny click https://twitter.com/realDonaldTrump/status/1325195021339987969',
-      user: 'MrMouton',
-    });
-
-    // wait for links to be parsed
-    setTimeout(() => {
-      assert.deepStrictEqual(punishmentStream.write.callCount, 2);
-      done();
-    }, 1500);
   });
 
-  it('message formats correctly and alerts of duplicate commands', () => {
-    const output1 = breakingNews.work('on', this.mockServices, { user: 'deStInY' }).output;
+  it('alerts when breaking news mode is already off', function () {
+    breakingNews.work('off', this.mockServices);
+    const output = breakingNews.work('off', this.mockServices);
+
     assert.deepStrictEqual(
-      output1, 'Breaking news mode (5m) turned on for mentioning deStInY',
-    );
-    const output2 = breakingNews.work('on 5m', this.mockServices, { user: 'deStInY' }).output;
-    assert.deepStrictEqual(
-      output2, 'Breaking news mode (5m) is already on for mentioning deStInY',
-    );
-    const output3 = breakingNews.work('on 20m', this.mockServices, { user: 'deStInY' }).output;
-    assert.deepStrictEqual(
-      output3, 'Breaking news mode (20m) turned on for mentioning deStInY',
-    );
-    const output4 = breakingNews.work('all 20m', this.mockServices).output;
-    assert.deepStrictEqual(
-      output4, 'Breaking news mode (20m) turned on for all links',
+      output,
+      new CommandOutput(null, 'Breaking news mode (5m) is already off'),
     );
   });
 });
