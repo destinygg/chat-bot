@@ -58,7 +58,9 @@ describe('MessageRouter moderation', () => {
 
   it('mutes matching nuke messages and records the victim id', function () {
     const { router, services } = createRouter();
+    const published = [];
     services.moderationState.addNuke({ phrase: 'test phrase', duration: 600 });
+    services.moderationState.setPublisher((event, payload) => published.push({ event, payload }));
 
     router.routeIncomingMessages({
       user: 'Chatter',
@@ -66,6 +68,17 @@ describe('MessageRouter moderation', () => {
       roles: [],
       message: 'a TEST PHRASE appears',
     });
+
+    assert.deepStrictEqual(published, [
+      {
+        event: 'NUKEVICTIM',
+        payload: {
+          phrase: 'test phrase',
+          regex: false,
+          victims: [{ id: 123, nick: 'Chatter' }],
+        },
+      },
+    ]);
 
     assert.deepStrictEqual(
       services.moderationState.getNukedUsers().map((victim) => [victim.id, victim.nick]),

@@ -34,6 +34,8 @@ describe('Nuke command', () => {
 
   it('nukes recent matching messages and stores victims with ids', function () {
     const services = this.services;
+    const published = [];
+    services.moderationState.setPublisher((event, payload) => published.push({ event, payload }));
     services.chatCache.addMessageToRunningList('Old', 3, 'KING MOUTON');
 
     this.clock.tick(61000);
@@ -44,6 +46,22 @@ describe('Nuke command', () => {
     const output = nuke.work('KING MOUTON', services, { user: 'Mod', id: 99 });
 
     assert.strictEqual(output.output, 'Dropping the NUKE on 2 victims');
+    assert.deepStrictEqual(published, [
+      {
+        event: 'NUKE',
+        payload: {
+          phrase: 'KING MOUTON',
+          regex: false,
+          duration: 600,
+          mega: false,
+          by: 'Mod',
+          victims: [
+            { id: 2, nick: 'Other' },
+            { id: 1, nick: 'Chatter' },
+          ],
+        },
+      },
+    ]);
     assert.deepStrictEqual(
       services.moderationState.getNukes().map((storedNuke) => ({
         key: storedNuke.key,

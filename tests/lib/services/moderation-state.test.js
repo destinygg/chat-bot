@@ -56,6 +56,24 @@ describe('Moderation state', () => {
           addedAt: 1769999000000,
           expiresAt: 1769999999000,
         },
+        {
+          key: 'regex:(',
+          phrase: '(',
+          regex: true,
+          duration: 600,
+          mega: false,
+          addedAt: 1769999999000,
+          expiresAt: 1770000100000,
+        },
+        {
+          key: 'plain:too-long',
+          phrase: 'TooLong',
+          regex: false,
+          duration: 99999999,
+          mega: false,
+          addedAt: 1769999999000,
+          expiresAt: 1770000100000,
+        },
       ],
       mutelinks: { mode: 'all', duration: 120, changedBy: 'Mod' },
       breakingnews: { mode: 'on', maxAge: 300, mention: 'Mod' },
@@ -68,8 +86,14 @@ describe('Moderation state', () => {
 
     const snapshot = state.getSnapshot();
     assert.deepStrictEqual(snapshot.subonly, { tier: 2 });
-    assert.deepStrictEqual(snapshot.nukes.map((nuke) => nuke.phrase), ['Active']);
-    assert.deepStrictEqual(snapshot.nukedUsers.map((victim) => victim.nick), ['ActiveUser']);
+    assert.deepStrictEqual(
+      snapshot.nukes.map((nuke) => nuke.phrase),
+      ['Active'],
+    );
+    assert.deepStrictEqual(
+      snapshot.nukedUsers.map((victim) => victim.nick),
+      ['ActiveUser'],
+    );
     assert.deepStrictEqual(snapshot.mutelinks, {
       mode: 'all',
       duration: 120,
@@ -210,7 +234,10 @@ describe('Moderation state', () => {
     state.addNuke({ phrase: 'two', duration: 600 });
     state.removeNuke({ phrase: 'one', clearVictims: false });
 
-    assert.deepStrictEqual(state.getNukes().map((nuke) => nuke.phrase), ['two']);
+    assert.deepStrictEqual(
+      state.getNukes().map((nuke) => nuke.phrase),
+      ['two'],
+    );
     assert.strictEqual(state.getNukedUsers().length, 1);
     assert.deepStrictEqual(published[published.length - 1], {
       event: 'REMOVENUKE',
@@ -263,15 +290,9 @@ describe('Moderation state', () => {
     const { state } = createState();
 
     assert.throws(() => state.setMuteLinks({ mode: 'invalid' }), /Invalid mutelinks mode/);
-    assert.throws(
-      () => state.setMuteLinks({ mode: 'all', duration: 86401 }),
-      /out of range/,
-    );
+    assert.throws(() => state.setMuteLinks({ mode: 'all', duration: 86401 }), /out of range/);
     assert.throws(() => state.setBreakingNews({ mode: 'repeat' }), /Invalid breaking news mode/);
-    assert.throws(
-      () => state.setBreakingNews({ mode: 'all', maxAge: 604801 }),
-      /out of range/,
-    );
+    assert.throws(() => state.setBreakingNews({ mode: 'all', maxAge: 604801 }), /out of range/);
   });
 
   it('stores breaking news mode and derives the mention from the moderator', function () {

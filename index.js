@@ -1,4 +1,3 @@
- 
 const { argv } = require('yargs');
 
 const DestinyChat = require('./lib/services/destinychat');
@@ -19,7 +18,6 @@ const chatToConnectTo = argv.chat || config.chatToConnectTo;
 config.chatToConnectTo = chatToConnectTo;
 
 if (config === null) {
-   
   console.log('WARNING: Config file not found, no config loaded. Shutting down.');
   process.exit(0);
 }
@@ -60,8 +58,10 @@ services
     if (chatToConnectTo === 'dgg') {
       services.moderationState.setPublisher((event, payload) => bot.sendEvent(event, payload));
     }
-    if(Object.hasOwn(config, 'scheduledCommands')){
-      config.scheduledCommands.forEach(commandToSchedule => services.fakeScheduler.createMessage(commandToSchedule));
+    if (Object.hasOwn(config, 'scheduledCommands')) {
+      config.scheduledCommands.forEach((commandToSchedule) =>
+        services.fakeScheduler.createMessage(commandToSchedule),
+      );
     }
 
     const chatServiceRouter = new ChatServiceRouter(

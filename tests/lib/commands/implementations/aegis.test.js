@@ -53,6 +53,47 @@ describe('Aegis commands', () => {
     assert.deepStrictEqual(services.moderationState.getNukedUsers(), []);
   });
 
+  it('unmutes victims hydrated from a STATES snapshot and publishes the removal', function () {
+    const services = this.services;
+    const published = [];
+    services.moderationState.setPublisher((event, payload) => published.push({ event, payload }));
+    services.moderationState.applySnapshot({
+      nukes: [
+        {
+          key: 'plain:test',
+          phrase: 'test',
+          regex: false,
+          duration: 600,
+          mega: false,
+          addedBy: 'Mod',
+          addedAt: 1770000000000,
+          expiresAt: 1770000300000,
+        },
+      ],
+      nukedUsers: [
+        {
+          id: 1,
+          nick: 'HydratedUser',
+          nukeKey: 'plain:test',
+          mega: false,
+          expiresAt: 1770000600000,
+        },
+      ],
+    });
+
+    const output = aegis.work('', services);
+
+    assert.strictEqual(output.output, 'Removing nuked phrases! Unmuting 1 users AngelThump');
+    assert.deepStrictEqual(
+      services.punishmentStream.write.getCalls().map((call) => call.args[0]),
+      [makeUnban('HydratedUser', false)],
+    );
+    assert.deepStrictEqual(published[published.length - 1], {
+      event: 'REMOVENUKE',
+      payload: { phrase: '', regex: false, clearVictims: true },
+    });
+  });
+
   it('removes a single nuke and unmutes only its victims', function () {
     const services = this.services;
     services.moderationState.addNuke({
