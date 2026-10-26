@@ -198,6 +198,7 @@ describe('Moderation state', () => {
     state.addNukeVictims(nuke, [{ id: 1, nick: 'Renamed' }]);
     state.addNukeVictims(nuke, [{ id: 0, nick: 'NickOnly' }]);
     state.addNukeVictims(nuke, [{ id: 0, nick: 'nickonly' }]);
+    state.addNukeVictims(nuke, [{ id: 7, nick: 'NickOnly' }]);
 
     const victims = state.getNukedUsers({ phrase: 'one' });
     assert.strictEqual(victims.length, 2);
@@ -208,7 +209,8 @@ describe('Moderation state', () => {
       mega: false,
       expiresAt: 1770000600000,
     });
-    assert.strictEqual(victims[1].nick, 'nickonly');
+    assert.strictEqual(victims[1].id, 7);
+    assert.strictEqual(victims[1].nick, 'NickOnly');
     assert.deepStrictEqual(published[1], {
       event: 'NUKEVICTIM',
       payload: {
