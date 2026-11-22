@@ -139,6 +139,7 @@ describe('Moderation state', () => {
         phrase: 'KING MOUTON',
         regex: false,
         duration: 600,
+        linger: 300,
         mega: false,
         by: 'Mod',
         victims: [],
@@ -177,8 +178,9 @@ describe('Moderation state', () => {
   });
 
   it('ignores expired nukes and victims independently', function () {
-    const { state } = createState({ nukeLingerSeconds: 5 });
+    const { state, published } = createState({ nukeLingerSeconds: 5 });
     state.addNuke({ phrase: 'one', duration: 600, victims: [{ id: 1, nick: 'User' }] });
+    assert.strictEqual(published[0].payload.linger, 5);
 
     this.clock.tick(5001);
 

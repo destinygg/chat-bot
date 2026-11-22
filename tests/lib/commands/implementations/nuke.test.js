@@ -53,6 +53,7 @@ describe('Nuke command', () => {
           phrase: 'KING MOUTON',
           regex: false,
           duration: 600,
+          linger: 300,
           mega: false,
           by: 'Mod',
           victims: [
