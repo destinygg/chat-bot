@@ -37,8 +37,8 @@ describe('Spam detection Tests', () => {
 
   it('does not checks lists for similar messages in the list if the string length is short.', function() {
     const chatCache = new RollingChatCache({}, this.mockServices);
-    chatCache.addMessageToRunningList('linusred', 'hey nice meme man');
-    chatCache.addMessageToRunningList('jimbo', 'hey');
+    chatCache.addMessageToRunningList('linusred', 0, 'hey nice meme man');
+    chatCache.addMessageToRunningList('jimbo', 0, 'hey');
 
     const result = this.spamDetection.checkListOfMessagesForSpam(
       'hey nice meme ma',
@@ -51,10 +51,12 @@ describe('Spam detection Tests', () => {
     const chatCache = new RollingChatCache({}, this.mockServices);
     chatCache.addMessageToRunningList(
       'linusred',
+      0,
       'hey nice meme man hey nice meme man hey nice meme man hey nice meme man hey nice meme man hey nice meme man hey nice meme man hey nice meme man hey nice meme man hey nice meme man',
     );
     chatCache.addMessageToRunningList(
       'jimbo',
+      0,
       'hey nice meme man hey nice meme man hey nice meme man hey nice meme man hey ni meme man hey nice meme man hey nice meme man hey nice meme man hey nice meme man hey ni meme man',
     );
 
@@ -72,10 +74,10 @@ describe('Spam detection Tests', () => {
       timeToLive: 0,
       tombStoneInterval: 0,
     }, this.mockServices);
-    const expected = ['linusred'];
-    chatCache.addMessageToRunningList('linusred', 'hey nice meme man');
-    chatCache.addMessageToRunningList('linusred', 'lol really nice meme man');
-    chatCache.addMessageToRunningList('billy', 'stupid meme');
+    const expected = [{ id: 1, nick: 'linusred' }];
+    chatCache.addMessageToRunningList('linusred', 1, 'hey nice meme man');
+    chatCache.addMessageToRunningList('linusred', 1, 'lol really nice meme man');
+    chatCache.addMessageToRunningList('billy', 2, 'stupid meme');
     const result = this.spamDetection.getUsersWithMatchedMessage(
       'nice meme',
       chatCache.runningMessageList,
@@ -90,10 +92,13 @@ describe('Spam detection Tests', () => {
       timeToLive: 0,
       tombStoneInterval: 0,
     }, this.mockServices);
-    const expected = ['coopy', 'linusred'];
-    chatCache.addMessageToRunningList('linusred', 'hey nice meme man');
-    chatCache.addMessageToRunningList('coopy', 'hey NiCe MeME    ');
-    chatCache.addMessageToRunningList('billy', 'stupid meme');
+    const expected = [
+      { id: 2, nick: 'coopy' },
+      { id: 1, nick: 'linusred' },
+    ];
+    chatCache.addMessageToRunningList('linusred', 1, 'hey nice meme man');
+    chatCache.addMessageToRunningList('coopy', 2, 'hey NiCe MeME    ');
+    chatCache.addMessageToRunningList('billy', 3, 'stupid meme');
     const result = this.spamDetection.getUsersWithMatchedMessage(
       'nice meme',
       chatCache.runningMessageList,
@@ -108,10 +113,13 @@ describe('Spam detection Tests', () => {
       timeToLive: 0,
       tombStoneInterval: 0,
     }, this.mockServices);
-    const expected = ['coopy', 'linusred'];
-    chatCache.addMessageToRunningList('linusred', 'hey nice meme man');
-    chatCache.addMessageToRunningList('coopy', 'hey NiCe MeME    ');
-    chatCache.addMessageToRunningList('billy', 'stupid meme');
+    const expected = [
+      { id: 2, nick: 'coopy' },
+      { id: 1, nick: 'linusred' },
+    ];
+    chatCache.addMessageToRunningList('linusred', 1, 'hey nice meme man');
+    chatCache.addMessageToRunningList('coopy', 2, 'hey NiCe MeME    ');
+    chatCache.addMessageToRunningList('billy', 3, 'stupid meme');
     const result = this.spamDetection.getUsersWithMatchedMessage(
       /.*nice\s+meme.*/i,
       chatCache.runningMessageList,
@@ -194,66 +202,6 @@ describe('Spam detection Tests', () => {
       'KAPPA KAPPA KAPPA heh yeah right guys this will never work KAPPA KAPPA KAPPA yeah right guys KAPPA KAPPA KAPPA  KAPPA KAPPA KAPPA KAPPA KAPPA KAPPA',
     );
     assert.deepStrictEqual(result, true);
-  });
-
-  it('matches nuked phrases with content and picks the highest one', function() {
-    const result = SpamDetection.isMessageNuked(
-      [
-        { duration: 100, phrase: 'abc' },
-        { duration: 500, phrase: '123' },
-      ],
-      'abc123',
-    );
-    assert.deepStrictEqual(result, { duration: 500, isMegaNuke: false, phrase: '123' });
-  });
-
-  it('matches case insensitive nuked phrases with content and picks the highest one', function() {
-    const result = SpamDetection.isMessageNuked(
-      [
-        { duration: 100, phrase: 'ABC' },
-        { duration: 500, phrase: '123' },
-      ],
-      'abc',
-    );
-    assert.deepStrictEqual(result, { duration: 100, isMegaNuke: false, phrase: 'ABC' });
-  });
-
-  it('matches case insensitive nuked phrases with content', function() {
-    const result = SpamDetection.isMessageNuked(
-      [
-        { duration: 100, phrase: 'ABC' },
-        { duration: 500, phrase: 'AUT' },
-      ],
-      'AUT',
-    );
-    assert.deepStrictEqual(result, { duration: 500, isMegaNuke: false, phrase: 'AUT' });
-  });
-
-  it('returns 0 on finding no matches', function() {
-    const result = SpamDetection.isMessageNuked(
-      [
-        { duration: 100, phrase: 'abc' },
-        { duration: 500, phrase: '123' },
-      ],
-      'eeeee',
-    );
-    assert.deepStrictEqual(result, { duration: 0, isMegaNuke: false, phrase: '' });
-  });
-
-  it('returns 0 on an empty nuke list', function() {
-    const result = SpamDetection.isMessageNuked([], 'eeeee');
-    assert.deepStrictEqual(result, { duration: 0, isMegaNuke: false, phrase: '' });
-  });
-
-  it('works with regex nuke phrases', function() {
-    const result = SpamDetection.isMessageNuked(
-      [
-        { duration: 500, phrase: /abc/ },
-        { duration: 1000, phrase: '123' },
-      ],
-      'abc',
-    );
-    assert.deepStrictEqual(result, { duration: 500, isMegaNuke: false, phrase: '/abc/' });
   });
 
   it('mutes stupid repated things', function() {

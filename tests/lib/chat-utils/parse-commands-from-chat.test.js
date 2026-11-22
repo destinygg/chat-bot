@@ -6,12 +6,18 @@ describe('parseMessage', () => {
     const parsed = parseMessage(
       `MSG ${JSON.stringify({
         nick: 'someone',
+        id: 123,
         features: ['moderator', 'protected'],
         roles: ['MODERATOR'],
         data: 'hello',
       })}`,
     );
 
-    assert.deepStrictEqual(parsed, { user: 'someone', roles: ['MODERATOR'], message: 'hello' });
+    assert.deepStrictEqual(parsed, {
+      user: 'someone',
+      id: 123,
+      roles: ['MODERATOR'],
+      message: 'hello',
+    });
   });
 });
